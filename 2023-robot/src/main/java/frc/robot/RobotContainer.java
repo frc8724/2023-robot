@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.limelight;
+import frc.robot.util.DriverPad;
+import frc.robot.util.DriverStick;
+import frc.robot.util.OperatorPad;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.UpdateSDLimelight;
 
@@ -23,6 +26,11 @@ import frc.robot.commands.UpdateSDLimelight;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  public static final DriverStick DRIVER_STICK = new DriverStick();
+  public static final DriverPad DRIVER_PAD = new DriverPad();
+  public static final OperatorPad OPERATOR_PAD = new OperatorPad();
+  @SuppressWarnings("PMD.UnusedPrivateField") // TODO dont know if i need this
+
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   public static final limelight limelight = new limelight();
@@ -46,6 +54,22 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    configureDriverPadButtons();
+    configureOperatorPadButtons();
+    configureDriverStick();
+
+  }
+
+  private void configureDriverStick() {
+
+  }
+
+  private void configureOperatorPadButtons() {
+
+  }
+
+  private void configureDriverPadButtons() {
+
   }
 
   /**
