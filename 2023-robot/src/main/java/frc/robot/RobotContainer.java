@@ -8,10 +8,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.limelight;
 import frc.robot.util.DriverPad;
 import frc.robot.util.DriverStick;
 import frc.robot.util.OperatorPad;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.UpdateSDLimelight;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -31,6 +33,7 @@ public class RobotContainer {
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
+  public static final limelight limelight = new limelight();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   /**
@@ -39,6 +42,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    limelight.setDefaultCommand(new UpdateSDLimelight());
   }
 
   /**
