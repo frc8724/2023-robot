@@ -6,7 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.DrivebaseTeleop;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.limelight;
 import frc.robot.util.DriverPad;
@@ -31,6 +33,8 @@ public class RobotContainer {
   public static final DriverPad DRIVER_PAD = new DriverPad();
   public static final OperatorPad OPERATOR_PAD = new OperatorPad();
   @SuppressWarnings("PMD.UnusedPrivateField") // TODO dont know if i need this
+
+  public static final Drivebase drive = new Drivebase();
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -81,5 +85,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
+  }
+
+  public Command getTeleopCommand() {
+    return new DrivebaseTeleop(RobotContainer.drive, DRIVER_PAD);
   }
 }

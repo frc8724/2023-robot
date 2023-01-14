@@ -17,5 +17,39 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
     public static int currentPipeline = 0;
+
+    public final class Talon {
+        public static final int DRIVE_LEFT_TOP = 1; // falcons FX
+        public static final int DRIVE_LEFT_BOTTOM = 2; // falcons FX
+        public static final int DRIVE_RIGHT_TOP = 3; // falcons FX
+        public static final int DRIVE_RIGHT_BOTTOM = 4; // falcons FX
+
+        public static final int INTAKE_ROLLERS = 5; // Victor
+
+        public static final int MAGAZINE_ROLLERS = 6; // Victor
+        public static final int LOADER_ROLLER = 7; // Victor
+
+        public static final int ACCELERATOR_WHEEL_L = 8; // Talon SRX
+        public static final int ACCELERATOR_WHEEL_R = 9; // Talon SRX
+
+        public static final int SHOOTER_WHEEL_L = 10; // Falcon
+        public static final int SHOOTER_WHEEL_R = 11; // Falcon
+
+        public static final int CLIMBER_L = 12; // Falcon
+        public static final int CLIMBER_R = 13; // Flacon
+
+        public static final int HOOD = 14; // Talon SRX
+        public static final int INTAKE_ROLLERS_2 = 15; // Talon SRX
+
+    }
+
+    public final class PDP {
+        public static final int DRIVE_LEFT_FRONT = 1;
+        public static final int DRIVE_LEFT_REAR = 1;
+        public static final int DRIVE_RIGHT_FRONT = 1;
+        public static final int DRIVE_RIGHT_REAR = 1;
+    }
+
 }

@@ -98,6 +98,42 @@ public class DriverPad {
         return (throttleVal);
     }
 
+    private static final double STEERING_DEAD_ZONE_PERCENT = 0.05;
+    private static final double MIN_STEERING_FOR_MOVEMENT = 0.02;
+    private static final double NORMAL_MAX_STEERING = 1.00;
+    private static final double SLOW_MODE_MAX_STEERING = 0.80; // maximum steering in "slow mode" is 50%
+
+    public double steeringX() {
+        // SteeringX is the "X" axis of the right stick on the Driver Gamepad.
+        double steeringVal = DRIVER_PAD.getRawAxis(GAMEPAD_AXIS.GAMEPAD_F310_RIGHT_X_AXIS);
+        double steeringAbs = Math.abs(steeringVal);
+        double maxPercentSteering = NORMAL_MAX_STEERING;
+
+        if (DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.get()) {
+            // check for "slow mode" and if so, constrain maxPercentSteering to
+            // "SLOW_MODE_MAX_PERCENT"
+            maxPercentSteering = SLOW_MODE_MAX_STEERING;
+        }
+
+        // compute a scaled steering magnitude, which will always be positive
+        double steeringMag = MIN_STEERING_FOR_MOVEMENT
+                + (maxPercentSteering - MIN_STEERING_FOR_MOVEMENT) * steeringAbs;
+
+        if (Math.abs(steeringVal) < STEERING_DEAD_ZONE_PERCENT) {
+            // check for steering being in "dead zone" and if so, set steering to zero
+            steeringVal = 0.0;
+        } else {
+            // make sure to preserve sign of steering
+            if (steeringVal >= 0.0) {
+                steeringVal = steeringMag;
+            } else {
+                steeringVal = -steeringMag;
+            }
+        }
+
+        return (steeringVal);
+    }
+
     public boolean quickTurn() {
         return (DRIVER_PAD.getRawButton(GAMEPAD_BUTTON.GAMEPAD_F310_RIGHT_BUTTON));
     }
