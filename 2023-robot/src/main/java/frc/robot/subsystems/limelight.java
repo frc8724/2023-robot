@@ -66,6 +66,10 @@ public class limelight extends SubsystemBase {
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(mode);
     }
 
+    public static void pipelineMode(int pipeLmode) {
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipeLmode);
+    }
+
     public enum VisionModes {
         LOW(0),
         LEFT(1),
