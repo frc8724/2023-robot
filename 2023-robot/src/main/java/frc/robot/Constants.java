@@ -17,6 +17,9 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    public static int currentPipeline = 0;
+
     public final class Talon {
         public static final int DRIVE_LEFT_TOP = 1; // falcons FX
         public static final int DRIVE_LEFT_BOTTOM = 2; // falcons FX
@@ -48,4 +51,5 @@ public final class Constants {
         public static final int DRIVE_RIGHT_FRONT = 1;
         public static final int DRIVE_RIGHT_REAR = 1;
     }
+
 }

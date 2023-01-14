@@ -16,6 +16,7 @@ import frc.robot.util.DriverStick;
 import frc.robot.util.OperatorPad;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.UpdateSDLimelight;
+import frc.robot.commands.pipelinechange;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -69,7 +70,7 @@ public class RobotContainer {
   }
 
   private void configureOperatorPadButtons() {
-
+    OPERATOR_PAD.OPERATOR_PAD_BUTTON_ONE.whenPressed(new pipelinechange());
   }
 
   private void configureDriverPadButtons() {
