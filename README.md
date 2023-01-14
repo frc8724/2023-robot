@@ -36,3 +36,35 @@ SystemGetConeFromLoadingZone - with robot bumpers touching loading zone, back up
 
 
 ### AutoRoutines
+`Auto_[Alliance]_[StartingLocation]_[StartingGamePiece]_[ScoringLocation]_[NextPiece]_[ScoringLocation]_[AutoLevel]`
+
+#### Alliance
+Red
+Blue
+
+#### Starting Location
+Grid 1 
+Grid 2
+Grid 3
+
+#### Scoring Location
+Cone L2/3 Pos 1/2/3/4/5/6
+Cube L2/3 Pos 1/2/3
+
+#### Next Piece
+Cone 1,2,3,4
+Cube 1,2,3,4
+
+#### Scoring Location
+Cone L2/3 Pos 1/2/3/4/5/6
+Cube L2/3 Pos 1/2/3
+
+#### Auto Level
+Auto
+
+
+AutoPlaceConeOn3AndAutoLevel
+AutoPlaceConeOn2AndAutoLevel
+AutoPlaceConeOn3
+AutoPlaceConeOn2
+AutoPlaceConeOn3Grab
