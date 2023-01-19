@@ -8,18 +8,8 @@ import edu.wpi.first.wpilibj2.command.button.*;
  *
  * @author Team1519
  */
-public class DisabledOnlyJoystickButton extends Button {
-
-    private GenericHID joystick;
-    private int buttonNumber;
-
+public class DisabledOnlyJoystickButton extends Trigger {
     public DisabledOnlyJoystickButton(GenericHID joystick, int buttonNumber) {
-        this.joystick = joystick;
-        this.buttonNumber = buttonNumber;
-    }
-
-    // @Override
-    public boolean get() {
-        return joystick.getRawButton(buttonNumber) && DriverStation.isDisabled();
+        super(() -> joystick.getRawButton(buttonNumber) && DriverStation.isDisabled());
     }
 }
