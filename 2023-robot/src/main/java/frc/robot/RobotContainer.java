@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DrivebaseTeleop;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.LevelChargingStation;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.limelight;
+import frc.robot.subsystems.navx;
 import frc.robot.util.DriverPad;
 import frc.robot.util.DriverStick;
 import frc.robot.util.OperatorPad;
@@ -35,7 +37,7 @@ public class RobotContainer {
   @SuppressWarnings("PMD.UnusedPrivateField") // TODO dont know if i need this
 
   public static final Drivebase drive = new Drivebase();
-
+  public static final navx navx = new navx();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   public static final limelight limelight = new limelight();
@@ -74,6 +76,7 @@ public class RobotContainer {
   }
 
   private void configureDriverPadButtons() {
+    DRIVER_PAD.DRIVER_PAD_YELLOW_BUTTON.whileHeld(new LevelChargingStation());
 
   }
 
