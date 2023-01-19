@@ -75,6 +75,8 @@ public class RobotContainer {
         () -> driverPad.driveThrottle(),
         () -> driverPad.steeringX(),
         () -> driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.getAsBoolean()));
+
+    driverPad.DRIVER_PAD_GREEN_BUTTON.whileTrue(new DriveGetLevel());
   }
 
   /**

@@ -18,28 +18,15 @@ public class DriveDefaultCommand extends CommandBase {
   public DriveDefaultCommand(Supplier<Double> throttle, Supplier<Double> steering, Supplier<Boolean> slow) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.drive);
+
     this.throttle = throttle;
     this.steering = steering;
     this.slow = slow;
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     RobotContainer.drive.speedRacerDrive(this.throttle.get(), this.steering.get(), this.slow.get());
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
   }
 }
