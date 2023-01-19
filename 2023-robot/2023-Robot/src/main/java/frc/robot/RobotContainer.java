@@ -41,10 +41,6 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    drive.setDefaultCommand(new DriveDefaultCommand(
-        () -> driverPad.driveThrottle(),
-        () -> driverPad.steeringX(),
-        () -> driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.getAsBoolean()));
   }
 
   /**
@@ -75,8 +71,10 @@ public class RobotContainer {
   }
 
   private void configureDriverPad() {
-    driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.onTrue(new DriveSlow());
-    driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.onFalse(new DriveFast());
+    drive.setDefaultCommand(new DriveDefaultCommand(
+        () -> driverPad.driveThrottle(),
+        () -> driverPad.steeringX(),
+        () -> driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.getAsBoolean()));
   }
 
   /**
