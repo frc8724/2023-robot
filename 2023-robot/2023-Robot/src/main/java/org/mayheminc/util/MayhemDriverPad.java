@@ -58,8 +58,8 @@ public class MayhemDriverPad {
         public final Trigger TOGGLE_CLOSED_LOOP_MODE_BUTTON = new DisabledOnlyJoystickButton(DRIVER_PAD, 7);
         public final Trigger TOGGLE_FOD_BUTTON = new DisabledOnlyJoystickButton(DRIVER_PAD, 8);
 
-        // NOTE: DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON is "QUICKTURN" in Drive.java - DO
-        // NOT USE HERE!!!
+        public final Trigger DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON = new EnabledOnlyJoystickButton(DRIVER_PAD,
+                        GAMEPAD_BUTTON.GAMEPAD_F310_RIGHT_BUTTON);        
         public final Trigger DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON = new EnabledOnlyJoystickButton(DRIVER_PAD,
                         GAMEPAD_BUTTON.GAMEPAD_F310_LEFT_BUTTON);
         public final JoystickAxisButton DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON = new JoystickAxisButton(DRIVER_PAD,
