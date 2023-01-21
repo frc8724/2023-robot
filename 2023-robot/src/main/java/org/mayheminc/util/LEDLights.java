@@ -1,8 +1,5 @@
 package org.mayheminc.util;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import frc.robot.Constants;
-
 public class LEDLights {
 
     public enum PatternID {
@@ -69,7 +66,7 @@ public class LEDLights {
             m_patternName = patternName;
         }
 
-        private double getVal() {
+        public double getVal() {
             return m_pwmVal;
         }
 

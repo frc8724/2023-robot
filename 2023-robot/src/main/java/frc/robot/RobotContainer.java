@@ -14,13 +14,8 @@ import frc.robot.subsystems.Shoulder;
 
 import org.mayheminc.util.MayhemDriverPad;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 //import frc.robot.commands.DrivebaseTeleop;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.LevelChargingStation;
 //import frc.robot.subsystems.Drivebase;
-import frc.robot.subsystems.ExampleSubsystem;
 // import frc.robot.subsystems.limelight;
 import frc.robot.subsystems.navx;
 // import frc.robot.util.DriverPad;
@@ -53,10 +48,8 @@ public class RobotContainer {
   // private final CommandXboxController m_driverController =
   // new CommandXboxController(OperatorConstants.kDriverControllerPort);
   public static final navx navx = new navx();
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   // public static final limelight limelight = new limelight();
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -92,6 +85,8 @@ public class RobotContainer {
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
     configureDriverPad();
+    configureDriverStick();
+    configureOperatorPadButtons();
   }
 
   private void configureDriverPad() {
@@ -108,11 +103,6 @@ public class RobotContainer {
 
   private void configureOperatorPadButtons() {
     // OPERATOR_PAD.OPERATOR_PAD_BUTTON_ONE.whenPressed(new pipelinechange());
-  }
-
-  private void configureDriverPadButtons() {
-    // DRIVER_PAD.DRIVER_PAD_YELLOW_BUTTON.whileHeld(new LevelChargingStation());
-
   }
 
   /**

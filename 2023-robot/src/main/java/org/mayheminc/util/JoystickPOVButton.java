@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.*;
 /**
  * @author Team1519
  */
-public class JoystickPOVButton extends Button {
+public class JoystickPOVButton extends Trigger {
     public static final int NORTH = 0;
     public static final int NORTHEAST = 45;
     public static final int EAST = 90;
@@ -20,16 +20,7 @@ public class JoystickPOVButton extends Button {
     public static final int WEST = 270;
     public static final int NORTHWEST = 315;
 
-    private Joystick joystick;
-    private int desiredPOV;
-
     public JoystickPOVButton(Joystick stick, int newDesiredPOV) {
-        joystick = stick;
-        desiredPOV = newDesiredPOV;
-    }
-
-    // @Override
-    public boolean get() {
-        return (joystick.getPOV() == desiredPOV);
+        super(() -> stick.getPOV() == newDesiredPOV);
     }
 }
