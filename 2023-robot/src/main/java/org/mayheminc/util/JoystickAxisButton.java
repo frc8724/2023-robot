@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.*;
  *
  * @author Team1519
  */
-public class JoystickAxisButton extends Button {
+public class JoystickAxisButton extends Trigger {
     enum Direction {
         BOTH_WAYS,
         POSITIVE_ONLY,
@@ -20,23 +20,23 @@ public class JoystickAxisButton extends Button {
 
     private static final double AXIS_THRESHOLD = 0.2;
 
-    private Joystick joystick;
-    private Joystick.AxisType axis;
-    private int axisInt;
-    private Direction direction;
+    // private Joystick joystick;
+    // private Joystick.AxisType axis;
+    // private int axisInt;
+    // private Direction direction;
 
-    private double getAxis(Joystick.AxisType axis) {
+    static double getAxis(Joystick stick, Joystick.AxisType axis) {
         switch (axis) {
         case kX:
-            return joystick.getX();
+            return stick.getX();
         case kY:
-            return joystick.getY();
+            return stick.getY();
         case kZ:
-            return joystick.getZ();
+            return stick.getZ();
         case kThrottle:
-            return joystick.getThrottle();
+            return stick.getThrottle();
         case kTwist:
-            return joystick.getTwist();
+            return stick.getTwist();
         default:
             // Unreachable
             return 0.0;
@@ -48,44 +48,49 @@ public class JoystickAxisButton extends Button {
     }
 
     public JoystickAxisButton(Joystick stick, Joystick.AxisType axis, Direction direction) {
-        joystick = stick;
-        this.axis = axis;
-        this.direction = direction;
+        super(() -> get(stick, axis, direction));
+        // joystick = stick;
+        // this.axis = axis;
+        // this.direction = direction;
     }
 
-    public JoystickAxisButton(Joystick stick, int axis) {
-        this(stick, axis, Direction.BOTH_WAYS);
-    }
+    // public JoystickAxisButton(Joystick stick, int axis) {
+    //     this(stick, axis, Direction.BOTH_WAYS);
+    // }
 
     public JoystickAxisButton(Joystick stick, int axis, Direction direction) {
-        joystick = stick;
-        axisInt = axis;
-        this.direction = direction;
+        super( () -> getInt(stick, axis, direction));
+        // joystick = stick;
+        // axisInt = axis;
+        // this.direction = direction;
     }
 
-    @Override
-    public boolean get() {
+    static boolean getInt(Joystick stick, int axis, Direction direction) {
         switch (direction) {
         case BOTH_WAYS:
-            if (axis != null) {
-                return Math.abs(getAxis(axis)) > AXIS_THRESHOLD;
-            } else {
-                return Math.abs(joystick.getRawAxis(axisInt)) > AXIS_THRESHOLD;
-            }
+                return Math.abs(stick.getRawAxis(axis)) > AXIS_THRESHOLD;
 
         case POSITIVE_ONLY:
-            if (axis != null) {
-                return getAxis(axis) > AXIS_THRESHOLD;
-            } else {
-                return joystick.getRawAxis(axisInt) > AXIS_THRESHOLD;
-            }
+                return stick.getRawAxis(axis) > AXIS_THRESHOLD;
+           
+        case NEGATIVE_ONLY:
+                return stick.getRawAxis(axis) < -AXIS_THRESHOLD;
+        }
+
+        return false;
+    }
+
+    // @Override
+    static boolean get(Joystick stick, Joystick.AxisType axis, Direction direction) {
+        switch (direction) {
+        case BOTH_WAYS:
+                return Math.abs(getAxis(stick, axis)) > AXIS_THRESHOLD;
+
+        case POSITIVE_ONLY:
+                return getAxis(stick, axis) > AXIS_THRESHOLD;
 
         case NEGATIVE_ONLY:
-            if (axis != null) {
-                return getAxis(axis) < -AXIS_THRESHOLD;
-            } else {
-                return joystick.getRawAxis(axisInt) < -AXIS_THRESHOLD;
-            }
+                return getAxis(stick, axis) < -AXIS_THRESHOLD;
         }
 
         return false;

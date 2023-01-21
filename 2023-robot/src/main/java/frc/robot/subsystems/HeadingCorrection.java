@@ -48,6 +48,7 @@ public class HeadingCorrection {
      */
     public void periodic() {
         m_correction = m_HeadingPid.calculate(getHeading());
+        updateSmartDashboard();
     }
 
     private double m_headingOffset = 0.0;
@@ -132,5 +133,9 @@ public class HeadingCorrection {
         SmartDashboard.putNumber("Heading: desired", m_HeadingPid.getSetpoint());
         SmartDashboard.putNumber("Heading: actual", this.getHeading());
         SmartDashboard.putBoolean("Heading: correcting", m_useHeadingCorrection);
+
+        SmartDashboard.putNumber("NavX Heading", getHeading());
+        SmartDashboard.putNumber("NavX Pitch", getPitch());
+        SmartDashboard.putNumber("NavX Roll", getRoll());
     }
 }

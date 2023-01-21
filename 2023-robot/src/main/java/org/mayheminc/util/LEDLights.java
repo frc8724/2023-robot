@@ -78,9 +78,9 @@ public class LEDLights {
         }
     }
 
-    private final Spark m_blinkin = new Spark(Constants.Lights.LIGHTS_PORT);
+    // private final Spark m_blinkin = new Spark(Constants.Lights.LIGHTS_PORT);
 
     public void set(PatternID pattern) {
-        m_blinkin.set(pattern.getVal());
+        // m_blinkin.set(pattern.getVal());
     }
 }
