@@ -7,6 +7,7 @@ package frc.robot;
 // import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.DriveBaseSubsystem;
+import frc.robot.subsystems.Shoulder;
 
 import org.mayheminc.util.MayhemDriverPad;
 
@@ -27,6 +28,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static final DriveBaseSubsystem drive = new DriveBaseSubsystem();
+  public static final Shoulder shoulder = new Shoulder();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
 
