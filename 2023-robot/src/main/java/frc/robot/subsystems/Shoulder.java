@@ -78,4 +78,11 @@ public class Shoulder extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  public void set(double degree) {
+  }
+
+  public double get() {
+    return 0.0;
+  }
 }
