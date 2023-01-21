@@ -33,9 +33,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
     private final MayhemTalonSRX rightRearTalon = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_BOTTOM,
             CurrentLimit.HIGH_CURRENT);
 
-    // Driving mode
-    private  final boolean m_speedRacerDriveMode = true; // set by default
-
     // Drive parameters
     // pi * diameter * (pulley ratios) / (counts per rev * gearbox reduction)
     public static final double DISTANCE_PER_PULSE_IN_INCHES = 3.14 * 5.75 * 36.0 / 42.0 / (2048.0 * 7.56); // corrected
@@ -230,6 +227,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
         setMotorPower(leftSideThrottle, rightSideThrottle);
     }
 
+    public double getPitch() {
+        return headingCorrection.getPitch();
+    }
+
     double m_lastThrottle;
     double m_lastSteering;
 
@@ -379,7 +380,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("RR Falcon Supply Current", rightRearTalon.getSupplyCurrent());
 
         SmartDashboard.putBoolean("Closed Loop Mode", m_closedLoopMode);
-        SmartDashboard.putBoolean("Speed Racer Drive Mode", m_speedRacerDriveMode);
     }
 
     private static final double CAMERA_LAG = 0.150; // was .200; changing to .150 at CMP
