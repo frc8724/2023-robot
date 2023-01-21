@@ -23,10 +23,10 @@ public final class Constants {
         public static final int DRIVE_RIGHT_TOP = 3; // falcons FX
         public static final int DRIVE_RIGHT_BOTTOM = 4; // falcons FX
 
-        public static final int INTAKE_ROLLERS = 5; // Victor
+        public static final int ARM_FALCON = 5; // falcons FX
 
-        public static final int LEFT_SHOULDER_FALCON = 6; // Victor
-        public static final int RIGHT_SHOULDER_FALCON = 7; // Victor
+        public static final int LEFT_SHOULDER_FALCON = 6; // falcons FX
+        public static final int RIGHT_SHOULDER_FALCON = 7; // falcons FX
 
         public static final int ACCELERATOR_WHEEL_L = 8; // Talon SRX
         public static final int ACCELERATOR_WHEEL_R = 9; // Talon SRX

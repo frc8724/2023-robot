@@ -41,6 +41,7 @@ SystemGetConeFromLoadingZone - with robot bumpers touching loading zone, back up
 #### Alliance
 Red
 Blue
+Read this from the Driver Station
 
 #### Starting Location
 Grid 1 
