@@ -28,7 +28,7 @@ public final class Constants {
         public static final int LEFT_SHOULDER_FALCON = 6; // falcons FX
         public static final int RIGHT_SHOULDER_FALCON = 7; // falcons FX
 
-        public static final int ACCELERATOR_WHEEL_L = 8; // Talon SRX
+        public static final int ROLLER_TALON = 8; // Talon SRX
         public static final int ACCELERATOR_WHEEL_R = 9; // Talon SRX
 
         public static final int SHOOTER_WHEEL_L = 10; // Falcon
@@ -43,7 +43,7 @@ public final class Constants {
     }
 
     public final class Solenoid {
-        public static final int INTAKE = 0;
+        public static final int ClawPiston = 0;
         public static final int CLIMBER = 1;
         public static final int CAMERA_LIGHTS = 2;
     }

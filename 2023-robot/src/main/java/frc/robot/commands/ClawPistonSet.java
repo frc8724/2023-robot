@@ -10,22 +10,19 @@ import frc.robot.RobotContainer;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ArmOffset extends InstantCommand {
-  double offset;
+public class ClawPistonSet extends InstantCommand {
+  boolean position;
 
-  public ArmOffset(double offset) {
+  public ClawPistonSet(boolean position) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.clawRollers);
+    addRequirements(RobotContainer.clawPiston);
 
-    this.offset = offset;
+    this.position = position;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double pos;
-    pos = RobotContainer.clawRollers.get();
-    pos += this.offset;
-    RobotContainer.clawRollers.set(pos);
+    RobotContainer.clawPiston.set(position);
   }
 }
