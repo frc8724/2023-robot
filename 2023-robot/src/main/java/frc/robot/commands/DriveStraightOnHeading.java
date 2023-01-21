@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Drivebase;
+import frc.robot.subsystems.DriveBaseSubsystem;
 
 public class DriveStraightOnHeading extends CommandBase {
 
@@ -47,7 +47,7 @@ public class DriveStraightOnHeading extends CommandBase {
         addRequirements(RobotContainer.drive);
 
         if (units == DistanceUnits.INCHES) {
-            arg_distance = arg_distance / Drivebase.DISTANCE_PER_PULSE_IN_INCHES;
+            arg_distance = arg_distance / DriveBaseSubsystem.DISTANCE_PER_PULSE_IN_INCHES;
         }
         m_startingPower = arg_startingPower;
         m_finalPower = arg_finalPower;

@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Drivebase;
+import frc.robot.subsystems.DriveBaseSubsystem;
 
 public class DriveStraight extends CommandBase {
     double m_targetPower;
@@ -26,7 +26,7 @@ public class DriveStraight extends CommandBase {
 
         this.m_targetPower = arg_targetSpeed;
         if (arg_distance != null) {
-            this.m_distance = arg_distance / Drivebase.DISTANCE_PER_PULSE_IN_INCHES;
+            this.m_distance = arg_distance / DriveBaseSubsystem.DISTANCE_PER_PULSE_IN_INCHES;
         }
     }
 
