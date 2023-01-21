@@ -7,6 +7,8 @@ package frc.robot;
 // import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ClawPiston;
+import frc.robot.subsystems.ClawRollers;
 import frc.robot.subsystems.DriveBaseSubsystem;
 import frc.robot.subsystems.Shoulder;
 
@@ -43,7 +45,8 @@ public class RobotContainer {
   public static final DriveBaseSubsystem drive = new DriveBaseSubsystem();
   public static final Shoulder shoulder = new Shoulder();
   public static final Arm arm = new Arm();
-
+  public static final ClawRollers clawRollers = new ClawRollers();
+  public static final ClawPiston clawPiston = new ClawPiston();
   MayhemDriverPad driverPad = new MayhemDriverPad();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
