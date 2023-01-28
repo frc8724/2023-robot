@@ -5,14 +5,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
 public class Targeting extends SubsystemBase {
-  // NetworkTable limelight;
   PIDController pid;
 
   final double kP = 0.03;
@@ -26,7 +23,6 @@ public class Targeting extends SubsystemBase {
 
   /** Creates a new Targeting. */
   public Targeting() {
-    // limelight = NetworkTableInstance.getDefault().getTable("limelight");
     pid = new PIDController(kP, kI, kD);
   }
 
@@ -56,13 +52,10 @@ public class Targeting extends SubsystemBase {
     }
 
     SmartDashboard.putNumber("Targeting Correction", correction);
-
   }
 
   public boolean hasTarget() {
-    // double d = limelight.getEntry("tv").getDouble(0.0);
     return RobotContainer.limeLight.isTargetAvalible();
-    // return d > 0.5; // convert 0|1 to false|true
   }
 
   double getHorizontalOffset() {

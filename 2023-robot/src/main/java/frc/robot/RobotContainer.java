@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-//import frc.robot.commands.DrivebaseTeleop;
-// import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ClawPiston;
@@ -13,21 +11,10 @@ import frc.robot.subsystems.ClawRollers;
 import frc.robot.subsystems.DriveBaseSubsystem;
 import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.Targeting;
-
 import org.mayheminc.util.MayhemDriverPad;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-//import frc.robot.subsystems.Drivebase;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LimeLight;
-// import frc.robot.subsystems.limelight;
-import frc.robot.subsystems.navx;
-// import frc.robot.util.DriverPad;
-// import frc.robot.util.DriverStick;
-// import frc.robot.util.OperatorPad;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -41,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static final DriveBaseSubsystem drive = new DriveBaseSubsystem();
   public static final Shoulder shoulder = new Shoulder();
   public static final Arm arm = new Arm();
@@ -52,20 +38,12 @@ public class RobotContainer {
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  // private final CommandXboxController m_driverController =
-  // new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  public static final navx navx = new navx();
-
-  // public static final limelight limelight = new limelight();
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-
   }
 
   /**
@@ -75,21 +53,14 @@ public class RobotContainer {
    * an arbitrary
    * predicate, or via the named factories in {@link
    * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link
-   * CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
    */
   private void configureBindings() {
-
-    configureDriverPad();
+    configureDriverPadButtons();
     configureOperatorPadButtons();
     configureDriverStick();
   }
 
-  private void configureDriverPad() {
+  private void configureDriverPadButtons() {
     drive.setDefaultCommand(new DriveDefaultCommand(
         () -> driverPad.driveThrottle(),
         () -> driverPad.steeringX(),
@@ -101,20 +72,12 @@ public class RobotContainer {
     // Test Buttons.
     driverPad.DRIVER_PAD_YELLOW_BUTTON.whileTrue(new DriveRotate(0.2));
     driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveRotate(-0.2));
-
   }
 
   private void configureDriverStick() {
-
   }
 
   private void configureOperatorPadButtons() {
-    // OPERATOR_PAD.OPERATOR_PAD_BUTTON_ONE.whenPressed(new pipelinechange());
-  }
-
-  private void configureDriverPadButtons() {
-    // DRIVER_PAD.DRIVER_PAD_YELLOW_BUTTON.whileHeld(new LevelChargingStation());
-
   }
 
   /**
