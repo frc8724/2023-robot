@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+//import frc.robot.commands.DrivebaseTeleop;
 // import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Arm;
@@ -11,14 +12,12 @@ import frc.robot.subsystems.ClawPiston;
 import frc.robot.subsystems.ClawRollers;
 import frc.robot.subsystems.DriveBaseSubsystem;
 import frc.robot.subsystems.Shoulder;
+import frc.robot.subsystems.Targeting;
 
 import org.mayheminc.util.MayhemDriverPad;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-//import frc.robot.commands.DrivebaseTeleop;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.LevelChargingStation;
 //import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.ExampleSubsystem;
 // import frc.robot.subsystems.limelight;
@@ -47,16 +46,16 @@ public class RobotContainer {
   public static final Arm arm = new Arm();
   public static final ClawRollers clawRollers = new ClawRollers();
   public static final ClawPiston clawPiston = new ClawPiston();
+  public static final Targeting targeting = new Targeting();
+
   MayhemDriverPad driverPad = new MayhemDriverPad();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   // private final CommandXboxController m_driverController =
   // new CommandXboxController(OperatorConstants.kDriverControllerPort);
   public static final navx navx = new navx();
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   // public static final limelight limelight = new limelight();
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -82,16 +81,10 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    // new Trigger(m_exampleSubsystem::exampleCondition)
-    // .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-    // pressed,
-    // cancelling on release.
-    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
     configureDriverPad();
+    configureOperatorPadButtons();
+    configureDriverStick();
   }
 
   private void configureDriverPad() {
@@ -100,6 +93,13 @@ public class RobotContainer {
         () -> driverPad.steeringX(),
         () -> driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.getAsBoolean()));
     driverPad.DRIVER_PAD_GREEN_BUTTON.whileTrue(new DriveGetLevel());
+
+    driverPad.DRIVER_PAD_RED_BUTTON.whileTrue(new DriveCenterTarget());
+
+    // Test Buttons.
+    driverPad.DRIVER_PAD_YELLOW_BUTTON.whileTrue(new DriveRotate(0.2));
+    driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveRotate(-0.2));
+
   }
 
   private void configureDriverStick() {
