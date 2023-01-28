@@ -14,7 +14,6 @@ import frc.robot.subsystems.Targeting;
 import org.mayheminc.util.MayhemDriverPad;
 
 import frc.robot.subsystems.LimeLight;
-import frc.robot.subsystems.navx;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -38,8 +37,6 @@ public class RobotContainer {
   public static final LimeLight limeLight = new LimeLight();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
-
-  public static final navx navx = new navx();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

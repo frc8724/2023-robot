@@ -5,12 +5,12 @@ import frc.robot.RobotContainer;
 
 public class LevelChargingStation extends CommandBase {
     public LevelChargingStation() {
-        addRequirements(RobotContainer.navx);
+        addRequirements(RobotContainer.drive);
     }
 
     @Override
     public void execute() {
-        double x = RobotContainer.navx.getPitch();
+        double x = RobotContainer.drive.getPitch();
         if (x > 100 || x < -100) {
             new DriveStraight(0.2);
         }
