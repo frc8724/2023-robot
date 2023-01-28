@@ -22,7 +22,7 @@ public class ClawPiston extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
 
-        SmartDashboard.putBoolean("Claw Piston", piston.get());
+        // SmartDashboard.putBoolean("Claw Piston", piston.get());
 
     }
 
