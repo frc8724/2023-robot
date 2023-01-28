@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import org.mayheminc.util.MayhemTalonSRX;
 import org.mayheminc.util.MayhemTalonSRX.CurrentLimit;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -21,6 +22,7 @@ public class Shoulder extends SubsystemBase {
   final double kWheelI = 0.000;
   final double kWheelD = 0.200;
   final double kWheelF = 0.060;
+  final int TICKS_PER_DEGREE = 100; // TODO: set this to the correct value.
 
   double wheelP = kWheelP;
   double wheelI = kWheelP;
@@ -74,7 +76,6 @@ public class Shoulder extends SubsystemBase {
 
     final int slot = 0;
     final int timeout = 0;
-    final int TICKS_PER_DEGREE = 100; // TODO: set this to the correct value.
 
     talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
 
@@ -109,10 +110,11 @@ public class Shoulder extends SubsystemBase {
   }
 
   public void set(double degree) {
+    rightTalon.set(ControlMode.Position, degree * TICKS_PER_DEGREE);
   }
 
   public double get() {
-    return 0.0;
+    return rightTalon.getSelectedSensorPosition();
   }
 
   // Set the arm to horizontal and then call zero().

@@ -38,8 +38,8 @@ public class DriveGetLevel extends CommandBase {
       if (pitch < STOP_DRIVING_PITCH) {
         RobotContainer.drive.speedRacerDrive(0, 0, true);
       }
-    } else {
-      if (pitch < START_DRIVING_PITCH) {
+    } else { // else we are pitched down...
+      if (pitch < -START_DRIVING_PITCH) {
         RobotContainer.drive.speedRacerDrive(-DRIVE_POWER, 0, true);
       }
       if (pitch > -STOP_DRIVING_PITCH) {
