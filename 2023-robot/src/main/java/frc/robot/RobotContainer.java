@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 //import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.LimeLight;
 // import frc.robot.subsystems.limelight;
 import frc.robot.subsystems.navx;
 // import frc.robot.util.DriverPad;
@@ -47,6 +48,7 @@ public class RobotContainer {
   public static final ClawRollers clawRollers = new ClawRollers();
   public static final ClawPiston clawPiston = new ClawPiston();
   public static final Targeting targeting = new Targeting();
+  public static final LimeLight limeLight = new LimeLight();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
 
