@@ -91,6 +91,20 @@ public class LimeLight extends SubsystemBase {
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("getpipe").getString("0");
     }
 
+    double[] getTargetPose() {
+        return NetworkTableInstance.getDefault()
+                .getTable("limelight")
+                .getEntry("botpose_targetspace")
+                .getDoubleArray(new double[6]);
+    }
+
+    double getTargetPoseId() {
+        return NetworkTableInstance.getDefault()
+                .getTable("limelight")
+                .getEntry("tid")
+                .getDouble(-1.0);
+    }
+
     int count = 0;
 
     public void update() {
@@ -101,6 +115,16 @@ public class LimeLight extends SubsystemBase {
         SmartDashboard.putBoolean("limelight has target2", isTargetAvalible());
         SmartDashboard.putString("limelight mode", getVisionMode());
         SmartDashboard.putNumber("limelight count", count++);
+
+        double[] d = getTargetPose();
+        SmartDashboard.putNumber("LimeLight Pose 0", d[0]);
+        SmartDashboard.putNumber("LimeLight Pose 1", d[1]);
+        SmartDashboard.putNumber("LimeLight Pose 2", d[2]); // distance from target
+        SmartDashboard.putNumber("LimeLight Pose 3", d[3]);
+        SmartDashboard.putNumber("LimeLight Pose 4", d[4]);
+        SmartDashboard.putNumber("LimeLight Pose 5", d[5]);
+
+        SmartDashboard.putNumber("LimeLight Pose Id", getTargetPoseId());
     }
 
 }
