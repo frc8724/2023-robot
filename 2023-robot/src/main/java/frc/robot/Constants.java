@@ -19,26 +19,20 @@ package frc.robot;
 public final class Constants {
     public final class Talon {
         public static final int DRIVE_LEFT_TOP = 1; // falcons FX
-        public static final int DRIVE_LEFT_BOTTOM = 2; // falcons FX
-        public static final int DRIVE_RIGHT_TOP = 3; // falcons FX
-        public static final int DRIVE_RIGHT_BOTTOM = 4; // falcons FX
+        public static final int DRIVE_LEFT_FRONT = 2; // falcons FX
+        public static final int DRIVE_LEFT_BACK = 3; // falcons FX
+        public static final int DRIVE_RIGHT_TOP = 4; // falcons FX
+        public static final int DRIVE_RIGHT_FRONT = 5; // falcons FX
+        public static final int DRIVE_RIGHT_BACK = 6; // falcons FX
 
-        public static final int ARM_FALCON = 5; // falcons FX
+        public static final int ARM_FALCON = 7; // falcons FX
 
-        public static final int LEFT_SHOULDER_FALCON = 6; // falcons FX
-        public static final int RIGHT_SHOULDER_FALCON = 7; // falcons FX
+        public static final int LEFT_SHOULDER_FALCON = 8; // falcons FX
+        public static final int RIGHT_SHOULDER_FALCON = 9; // falcons FX
 
-        public static final int ROLLER_TALON = 8; // Talon SRX
-        public static final int ACCELERATOR_WHEEL_R = 9; // Talon SRX
+        public static final int ROLLER_TALON = 10; // Talon SRX
 
-        public static final int SHOOTER_WHEEL_L = 10; // Falcon
-        public static final int SHOOTER_WHEEL_R = 11; // Falcon
-
-        public static final int CLIMBER_L = 12; // Falcon
-        public static final int CLIMBER_R = 13; // Flacon
-
-        public static final int HOOD = 14; // Talon SRX
-        public static final int INTAKE_ROLLERS_2 = 15; // Talon SRX
+        public static final int INTAKE_ROLLERS_2 = 11; // Talon SRX
 
     }
 

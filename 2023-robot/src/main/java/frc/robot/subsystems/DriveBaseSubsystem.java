@@ -5,6 +5,10 @@ import org.mayheminc.util.History;
 import org.mayheminc.util.MayhemTalonSRX;
 import org.mayheminc.util.MayhemTalonSRX.CurrentLimit;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.*;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -24,14 +28,22 @@ public class DriveBaseSubsystem extends SubsystemBase {
     HeadingCorrection headingCorrection = new HeadingCorrection();
 
     // Talons
-    private final MayhemTalonSRX leftFrontTalon = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_TOP,
+    private final MayhemTalonSRX leftTalon1 = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_TOP,
             CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX leftRearTalon = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_BOTTOM,
+    private final MayhemTalonSRX leftTalon2 = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_FRONT,
             CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX rightFrontTalon = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_TOP,
+    private final MayhemTalonSRX leftTalon3 = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_BACK,
             CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX rightRearTalon = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_BOTTOM,
+    private final MayhemTalonSRX rightTalon1 = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_TOP,
             CurrentLimit.HIGH_CURRENT);
+    private final MayhemTalonSRX rightTalon2 = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_FRONT,
+            CurrentLimit.HIGH_CURRENT);
+    private final MayhemTalonSRX rightTalon3 = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_BACK,
+            CurrentLimit.HIGH_CURRENT);
+
+    // Odometry class for tracking robot pose
+    private final DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0.0), 0.0,
+            0.0);
 
     // Drive parameters
     // pi * diameter * (pulley ratios) / (counts per rev * gearbox reduction)
@@ -54,25 +66,31 @@ public class DriveBaseSubsystem extends SubsystemBase {
     public DriveBaseSubsystem() {
         // confirm all four drive talons are in coast mode
 
-        this.configTalon(leftFrontTalon);
-        this.configTalon(leftRearTalon);
-        this.configTalon(rightFrontTalon);
-        this.configTalon(rightRearTalon);
+        this.configTalon(leftTalon1);
+        this.configTalon(leftTalon2);
+        this.configTalon(leftTalon3);
+        this.configTalon(rightTalon1);
+        this.configTalon(rightTalon2);
+        this.configTalon(rightTalon3);
 
         // set rear talons to follow their respective front talons
-        leftRearTalon.follow(leftFrontTalon);
-        rightRearTalon.follow(rightFrontTalon);
+        leftTalon2.follow(leftTalon1);
+        leftTalon3.follow(leftTalon1);
+        rightTalon2.follow(rightTalon1);
+        rightTalon3.follow(rightTalon1);
 
         // the left motors move the robot forwards with positive power
         // but the right motors are backwards.
-        leftFrontTalon.setInverted(false);
-        leftRearTalon.setInverted(false);
-        rightFrontTalon.setInverted(true);
-        rightRearTalon.setInverted(true);
+        leftTalon1.setInverted(false);
+        leftTalon2.setInverted(false);
+        leftTalon3.setInverted(false);
+        rightTalon1.setInverted(true);
+        rightTalon2.setInverted(true);
+        rightTalon3.setInverted(true);
 
         // talon closed loop config
-        configureDriveTalon(leftFrontTalon);
-        configureDriveTalon(rightFrontTalon);
+        configureDriveTalon(leftTalon1);
+        configureDriveTalon(rightTalon1);
 
         headingCorrection.zeroHeadingGyro(0.0);
     }
@@ -143,11 +161,11 @@ public class DriveBaseSubsystem extends SubsystemBase {
     // ********************* ENCODER-GETTERS ************************************
 
     private double getRightEncoder() {
-        return rightFrontTalon.getSelectedSensorPosition(0);
+        return rightTalon1.getSelectedSensorPosition(0);
     }
 
     private double getLeftEncoder() {
-        return leftFrontTalon.getSelectedSensorPosition(0);
+        return leftTalon1.getSelectedSensorPosition(0);
     }
 
     static private final double STATIONARY = 0.1;
@@ -188,11 +206,11 @@ public class DriveBaseSubsystem extends SubsystemBase {
         // System.out.printf("Left: %f Right: %f\n", leftPower, rightPower);
 
         if (m_closedLoopMode) {
-            rightFrontTalon.set(ControlMode.Velocity, rightPower * m_maxWheelSpeed);
-            leftFrontTalon.set(ControlMode.Velocity, leftPower * m_maxWheelSpeed);
+            rightTalon1.set(ControlMode.Velocity, rightPower * m_maxWheelSpeed);
+            leftTalon1.set(ControlMode.Velocity, leftPower * m_maxWheelSpeed);
         } else {
-            rightFrontTalon.set(ControlMode.PercentOutput, rightPower);
-            leftFrontTalon.set(ControlMode.PercentOutput, leftPower);
+            rightTalon1.set(ControlMode.PercentOutput, rightPower);
+            leftTalon1.set(ControlMode.PercentOutput, leftPower);
         }
     }
 
@@ -335,6 +353,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
         headingCorrection.periodic();
         updateHistory();
         updateSmartDashboard();
+        m_odometry.update(
+                Rotation2d.fromDegrees(headingCorrection.getHeading()),
+                leftTalon1.getSelectedSensorPosition(),
+                rightTalon1.getSelectedSensorPosition());
     }
 
     private void updateSmartDashboard() {
@@ -353,31 +375,35 @@ public class DriveBaseSubsystem extends SubsystemBase {
         DriverStation.MatchType MatchType = DriverStation.getMatchType();
         SmartDashboard.putString("matchInfo", "" + MatchType + '_' + matchnumber);
 
-        SmartDashboard.putNumber("Left Front Encoder Counts", leftFrontTalon.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Right Front Encoder Counts", rightFrontTalon.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Left Rear Encoder Counts", leftRearTalon.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Right Rear Encoder Counts", rightRearTalon.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("Left 1 Encoder Counts", leftTalon1.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("Right 1 Encoder Counts", rightTalon1.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("Left 2 Encoder Counts", leftTalon2.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("Right 2 Encoder Counts", rightTalon2.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("Left 3 Encoder Counts", leftTalon3.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("Right 3 Encoder Counts", rightTalon3.getSelectedSensorPosition(0));
 
         // Note: getSpeed() returns ticks per 0.1 seconds
-        SmartDashboard.putNumber("Left Encoder Speed", leftFrontTalon.getSelectedSensorVelocity(0));
-        SmartDashboard.putNumber("Right Encoder Speed", rightFrontTalon.getSelectedSensorVelocity(0));
+        SmartDashboard.putNumber("Left Encoder Speed", leftTalon1.getSelectedSensorVelocity(0));
+        SmartDashboard.putNumber("Right Encoder Speed", rightTalon1.getSelectedSensorVelocity(0));
 
         // To convert ticks per 0.1 seconds into feet per second
         // a - multiply be 10 (tenths of second per second)
         // b - divide by 12 (1 foot per 12 inches)
         // c - multiply by distance (in inches) per pulse
         SmartDashboard.putNumber("Left Speed (fps)",
-                leftFrontTalon.getSelectedSensorVelocity(0) * 10 / 12 * DISTANCE_PER_PULSE_IN_INCHES);
+                leftTalon1.getSelectedSensorVelocity(0) * 10 / 12 * DISTANCE_PER_PULSE_IN_INCHES);
         SmartDashboard.putNumber("Right Speed (fps)",
-                rightFrontTalon.getSelectedSensorVelocity(0) * 10 / 12 * DISTANCE_PER_PULSE_IN_INCHES);
+                rightTalon1.getSelectedSensorVelocity(0) * 10 / 12 * DISTANCE_PER_PULSE_IN_INCHES);
 
-        SmartDashboard.putNumber("Left Talon Output Voltage", leftFrontTalon.getMotorOutputVoltage());
-        SmartDashboard.putNumber("Right Talon Output Voltage", rightFrontTalon.getMotorOutputVoltage());
+        SmartDashboard.putNumber("Left Talon Output Voltage", leftTalon1.getMotorOutputVoltage());
+        SmartDashboard.putNumber("Right Talon Output Voltage", rightTalon1.getMotorOutputVoltage());
 
-        SmartDashboard.putNumber("LF Falcon Supply Current", leftFrontTalon.getSupplyCurrent());
-        SmartDashboard.putNumber("LR Falcon Supply Current", leftRearTalon.getSupplyCurrent());
-        SmartDashboard.putNumber("RF Falcon Supply Current", rightFrontTalon.getSupplyCurrent());
-        SmartDashboard.putNumber("RR Falcon Supply Current", rightRearTalon.getSupplyCurrent());
+        SmartDashboard.putNumber("LT Falcon Supply Current", leftTalon1.getSupplyCurrent());
+        SmartDashboard.putNumber("LF Falcon Supply Current", leftTalon2.getSupplyCurrent());
+        SmartDashboard.putNumber("LB Falcon Supply Current", leftTalon3.getSupplyCurrent());
+        SmartDashboard.putNumber("RT Falcon Supply Current", rightTalon1.getSupplyCurrent());
+        SmartDashboard.putNumber("RF Falcon Supply Current", rightTalon2.getSupplyCurrent());
+        SmartDashboard.putNumber("RB Falcon Supply Current", rightTalon3.getSupplyCurrent());
 
         SmartDashboard.putBoolean("Closed Loop Mode", m_closedLoopMode);
     }
@@ -435,39 +461,71 @@ public class DriveBaseSubsystem extends SubsystemBase {
     ////////////////////////////////////////////////////
     // PidTunerObject
     public double getP() {
-        return leftFrontTalon.getP();
+        return leftTalon1.getP();
     }
 
     public double getI() {
-        return leftFrontTalon.getI();
+        return leftTalon1.getI();
     }
 
     public double getD() {
-        return leftFrontTalon.getD();
+        return leftTalon1.getD();
     }
 
     public double getF() {
-        return leftFrontTalon.getF();
+        return leftTalon1.getF();
 
     }
 
     public void setP(double d) {
-        leftFrontTalon.config_kP(0, d, 0);
-        rightFrontTalon.config_kP(0, d, 0);
+        leftTalon1.config_kP(0, d, 0);
+        rightTalon1.config_kP(0, d, 0);
     }
 
     public void setI(double d) {
-        leftFrontTalon.config_kI(0, d, 0);
-        rightFrontTalon.config_kI(0, d, 0);
+        leftTalon1.config_kI(0, d, 0);
+        rightTalon1.config_kI(0, d, 0);
     }
 
     public void setD(double d) {
-        leftFrontTalon.config_kD(0, d, 0);
-        rightFrontTalon.config_kD(0, d, 0);
+        leftTalon1.config_kD(0, d, 0);
+        rightTalon1.config_kD(0, d, 0);
     }
 
     public void setF(double d) {
-        leftFrontTalon.config_kF(0, d, 0);
-        rightFrontTalon.config_kF(0, d, 0);
+        leftTalon1.config_kF(0, d, 0);
+        rightTalon1.config_kF(0, d, 0);
     }
+
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+        leftTalon1.set(TalonSRXControlMode.PercentOutput, leftVolts / 12.0);
+        rightTalon1.set(TalonSRXControlMode.PercentOutput, rightVolts / 12.0);
+    }
+
+    // @Override
+    // public void periodic() {
+    // // Update the odometry in the periodic block
+    // m_odometry.update(
+    // m_gyro.getRotation2d(), getDistance(leftMotor), getDistance(rightMotor));
+    // }
+    /**
+     * Returns the currently-estimated pose of the robot.
+     * 
+     * @return The pose
+     */
+    public Pose2d getPose() {
+        return m_odometry.getPoseMeters();
+    }
+
+    /**
+     * Returns the current wheel speeds of the robot.
+     * 
+     * @return The current wheel speeds.
+     */
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+        return new DifferentialDriveWheelSpeeds(
+                leftTalon1.getSelectedSensorVelocity(),
+                rightTalon1.getSelectedSensorVelocity());
+    }
+
 }
