@@ -1,7 +1,13 @@
-public package frc.robot.subsystems;
+package frc.robot.subsystems;
 
 import java.beans.Encoder;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -10,38 +16,28 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
-class PathPlanner {
+class PathPlanner extends SubsystemBase {
 
-    public class DriveSubsystem extends SubsystemBase {
+        WPI_TalonFX leftMotor = new WPI_TalonFX(Constants.Talon.DRIVE_LEFT_1);
+        WPI_TalonFX rightMotor = new WPI_TalonFX(Constants.Talon.DRIVE_RIGHT_1),
     // The motors on the left side of the drive.
-    private final MotorControllerGroup m_leftMotors = 
+    private final MotorControllerGroup leftMotors = 
         new MotorControllerGroup(
-            new PWMSparkMax(DriveConstants.kLeftMotor1Port),
-            new PWMSparkMax(DriveConstants.kLeftMotor2Port));
+            leftMotor,
+            new WPI_TalonFX(Constants.Talon.DRIVE_LEFT_2),
+            new WPI_TalonFX(Constants.Talon.DRIVE_LEFT_3));
 
     //The motors on the right side of the drive. 
-    private final MotorControllerGroup m_rightMotors = 
+    private final MotorControllerGroup rightMotors = 
         new MotorControllerGroup(
-            new PWMSparkMax(DriveConstants.kRightMotor1Port),
-            new PWMSparkMax(DriveConstants.kRightMotor2Port));
+            rightMotor,
+            new WPI_TalonFX(Constants.Talon.DRIVE_RIGHT_2),
+            new WPI_TalonFX(Constants.Talon.DRIVE_RIGHT_3));
 
         //The robot's drive
-        private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
-
-    //The left-side drive encoder
-    private final Encoder m_leftEncoder = 
-        new Encoder(
-            DriveConstants.kLeftEncoderPorts[0],
-            DriveConstants.kLeftEncoderPorts[1],
-            DriverConstants.kLeftEncoderReversed);
-    
-    //The right-side drive encoder
-    private final Encoder m_rightEncoder = 
-        new Encoder(
-            DriveConstants.kRightEncoderPort[0],
-            DriveConstants.kRightEncoderPort[1],
-            DriveConstants.kRightEncoderReversed);
+        private final DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
 
     //The gyro sensor
     private final Gyro m_gyro = new ADXRS450_Gyro();
@@ -50,27 +46,30 @@ class PathPlanner {
     private final DifferentialDriveOdometry m_odometry;
 
     /** Creates a new DriveSubsystem. */
-    public DriveSubsystem() {
+    public PathPlanner() {
         //We need to invert one side of the drivetrain so that positive voltages
         //result in both sides moving forward. Depending on how your robot's
         //gearbox is constructed, you might have to invert the left side instead.
-        m_rightMotors.setInverted(true);
+        rightMotors.setInverted(true);
 
-        //Sets the distance per pulse for the encoders
-        m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
-        m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
 
         resetEncoders();
         m_odometry = 
             new DifferentialDriveOdometry(
-            m_gyro.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance());
+            m_gyro.getRotation2d(), getDistance(leftMotor), getDistance(rightMotor));
     }
+    final double meters_per_tick = 1.0;
+    double getDistance (TalonFX m)
+{
     
+    return m.getSelectedSensorPosition()*meters_per_tick;
+}
+
     @Override
     public void periodic() {
         //Update the odometry in the periodic block
         m_odometry.update(
-            m_gyro.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance());
+            m_gyro.getRotation2d(), getDistance(leftMotor), getDistance(rightMotor));
     }
 
     /**
@@ -108,8 +107,8 @@ class PathPlanner {
      * @param rightVolts the commanded right output
      */
     public void tankDriveVolts(double leftVolts, double rightVolts) {
-        m_leftMotors.setVoltage(leftVolts);
-        m_rightMotors.setVoltage(rightVolts);
+        leftMotors.setVoltage(leftVolts);
+        rightMotors.setVoltage(rightVolts);
         m_drive.feed();
     }
 
