@@ -1,473 +1,178 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
-import org.mayheminc.util.History;
-import org.mayheminc.util.MayhemTalonSRX;
-import org.mayheminc.util.MayhemTalonSRX.CurrentLimit;
+import java.beans.Encoder;
 
-import edu.wpi.first.wpilibj.*;
-import com.ctre.phoenix.motorcontrol.*;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class DriveBaseSubsystem extends SubsystemBase {
-    History headingHistory = new History();
 
-    PowerDistribution pdp = new PowerDistribution();
+    WPI_TalonFX leftMotor = new WPI_TalonFX(Constants.Talon.DRIVE_LEFT_1);
+    WPI_TalonFX rightMotor = new WPI_TalonFX(Constants.Talon.DRIVE_RIGHT_1);
+    // The motors on the left side of the drive.
+    private final MotorControllerGroup leftMotors = new MotorControllerGroup(
+            leftMotor,
+            new WPI_TalonFX(Constants.Talon.DRIVE_LEFT_2),
+            new WPI_TalonFX(Constants.Talon.DRIVE_LEFT_3));
 
-    // Brake modes
-    public static final boolean BRAKE_MODE = true;
-    public static final boolean COAST_MODE = false;
+    // The motors on the right side of the drive.
+    private final MotorControllerGroup rightMotors = new MotorControllerGroup(
+            rightMotor,
+            new WPI_TalonFX(Constants.Talon.DRIVE_RIGHT_2),
+            new WPI_TalonFX(Constants.Talon.DRIVE_RIGHT_3));
 
-    HeadingCorrection headingCorrection = new HeadingCorrection();
+    // The robot's drive
+    private final DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
 
-    // Talons
-    private final MayhemTalonSRX leftFrontTalon = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_TOP,
-            CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX leftRearTalon = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_BOTTOM,
-            CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX rightFrontTalon = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_TOP,
-            CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX rightRearTalon = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_BOTTOM,
-            CurrentLimit.HIGH_CURRENT);
+    // The gyro sensor
+    private final Gyro m_gyro = new ADXRS450_Gyro();
 
-    // Drive parameters
-    // pi * diameter * (pulley ratios) / (counts per rev * gearbox reduction)
-    public static final double DISTANCE_PER_PULSE_IN_INCHES = 3.14 * 5.75 * 36.0 / 42.0 / (2048.0 * 7.56); // corrected
+    // Odometry class for tracking robot pose
+    private final DifferentialDriveOdometry m_odometry;
 
-    private boolean m_closedLoopMode = true;
-    private final double m_maxWheelSpeed = 18000.0; // should be maximum wheel speed in native units
-    private static final double CLOSED_LOOP_RAMP_RATE = 0.1; // time from neutral to full in seconds
-
-    private double m_initialWheelDistance = 0.0;
-    private int m_iterationsSinceRotationCommanded = 0;
-    private int m_iterationsSinceMovementCommanded = 0;
-
-    private static final int LOOPS_GYRO_DELAY = 10;
-
-    /***********************************
-     * INITIALIZATION
-     **********************************************************/
-
+    /** Creates a new DriveSubsystem. */
     public DriveBaseSubsystem() {
-        // confirm all four drive talons are in coast mode
+        // We need to invert one side of the drivetrain so that positive voltages
+        // result in both sides moving forward. Depending on how your robot's
+        // gearbox is constructed, you might have to invert the left side instead.
+        rightMotors.setInverted(true);
 
-        this.configTalon(leftFrontTalon);
-        this.configTalon(leftRearTalon);
-        this.configTalon(rightFrontTalon);
-        this.configTalon(rightRearTalon);
-
-        // set rear talons to follow their respective front talons
-        leftRearTalon.follow(leftFrontTalon);
-        rightRearTalon.follow(rightFrontTalon);
-
-        // the left motors move the robot forwards with positive power
-        // but the right motors are backwards.
-        leftFrontTalon.setInverted(false);
-        leftRearTalon.setInverted(false);
-        rightFrontTalon.setInverted(true);
-        rightRearTalon.setInverted(true);
-
-        // talon closed loop config
-        configureDriveTalon(leftFrontTalon);
-        configureDriveTalon(rightFrontTalon);
-
-        headingCorrection.zeroHeadingGyro(0.0);
+        resetEncoders();
+        m_odometry = new DifferentialDriveOdometry(
+                m_gyro.getRotation2d(), getDistance(leftMotor), getDistance(rightMotor));
     }
 
-    private void configTalon(MayhemTalonSRX talon) {
-        talon.setNeutralMode(NeutralMode.Coast);
+    final double meters_per_tick = 1.0;
 
-        talon.configPeakCurrentLimit(60);
-        talon.configContinuousCurrentLimit(40);
-        talon.configPeakCurrentDuration(3000);
+    double getDistance(TalonFX m) {
 
-        talon.configNominalOutputVoltage(+0.0f, -0.0f);
-        talon.configPeakOutputVoltage(+12.0, -12.0);
-
-        // configure current limits
-        // enabled = true
-        // 40 = limit (amps)
-        // 60 = trigger_threshold (amps)
-        // 0.5 = threshold time(s)
-        talon.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5));
+        return m.getSelectedSensorPosition() * meters_per_tick;
     }
-
-    public void init() {
-        // reset the NavX
-        headingCorrection.zeroHeadingGyro(111.0); // we line up against the wall which is 111 from 0.
-    }
-
-    private void configureDriveTalon(final MayhemTalonSRX talon) {
-        final double wheelP = 0.020;
-        final double wheelI = 0.000;
-        final double wheelD = 0.200;
-        final double wheelF = 0.060;
-        final int slot = 0;
-        final int timeout = 0;
-
-        talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-
-        talon.configNominalOutputVoltage(+0.0f, -0.0f);
-        talon.configPeakOutputVoltage(12, -12);
-
-        talon.config_kP(slot, wheelP, timeout);
-        talon.config_kI(slot, wheelI, timeout);
-        talon.config_kD(slot, wheelD, timeout);
-        talon.config_kF(slot, wheelF, timeout);
-        talon.configClosedloopRamp(CLOSED_LOOP_RAMP_RATE); // specify minimum time for neutral to full in seconds
-
-        DriverStation.reportError("setWheelPIDF: " + wheelP + " " + wheelI + " " + wheelD + " " + wheelF + "\n", false);
-    }
-
-    // *********************** CLOSED-LOOP MODE ********************************
-
-    public void toggleClosedLoopMode() {
-        if (!m_closedLoopMode) {
-            setClosedLoopMode();
-        } else {
-            setOpenLoopMode();
-        }
-    }
-
-    public void setClosedLoopMode() {
-        m_closedLoopMode = true;
-    }
-
-    public void setOpenLoopMode() {
-        m_closedLoopMode = false;
-    }
-
-    // ********************* ENCODER-GETTERS ************************************
-
-    private double getRightEncoder() {
-        return rightFrontTalon.getSelectedSensorPosition(0);
-    }
-
-    private double getLeftEncoder() {
-        return leftFrontTalon.getSelectedSensorPosition(0);
-    }
-
-    static private final double STATIONARY = 0.1;
-    static private double m_prevLeftDistance = 0.0;
-    static private double m_prevRightDistance = 0.0;
-
-    public boolean isStationary() {
-        final double leftDistance = getLeftEncoder();
-        final double rightDistance = getRightEncoder();
-
-        final double leftDelta = Math.abs(leftDistance - m_prevLeftDistance);
-        final double rightDelta = Math.abs(rightDistance - m_prevRightDistance);
-
-        m_prevLeftDistance = leftDistance;
-        m_prevRightDistance = rightDistance;
-
-        return leftDelta < STATIONARY && rightDelta < STATIONARY;
-    }
-
-    public static double twoDecimalPlaces(double d) {
-        return ((double) ((int) (d * 100))) / 100;
-    }
-
-    public void stop() {
-        setMotorPower(0.0, 0.0);
-    }
-
-    private void setMotorPower(double leftPower, double rightPower) {
-        if (rightPower > 1.0)
-            rightPower = 1.0;
-        if (rightPower < -1.0)
-            rightPower = -1.0;
-        if (leftPower > 1.0)
-            leftPower = 1.0;
-        if (leftPower < -1.0)
-            leftPower = -1.0;
-
-        // System.out.printf("Left: %f Right: %f\n", leftPower, rightPower);
-
-        if (m_closedLoopMode) {
-            rightFrontTalon.set(ControlMode.Velocity, rightPower * m_maxWheelSpeed);
-            leftFrontTalon.set(ControlMode.Velocity, leftPower * m_maxWheelSpeed);
-        } else {
-            rightFrontTalon.set(ControlMode.PercentOutput, rightPower);
-            leftFrontTalon.set(ControlMode.PercentOutput, leftPower);
-        }
-    }
-
-    /**
-     * updateSdbPdp Update the Smart Dashboard with the Power Distribution Panel
-     * currents.
-     */
-    public void updateSdbPdp() {
-        double lf;
-        double rf;
-        double lb;
-        double rb;
-        final double fudgeFactor = 0.0;
-
-        lf = pdp.getCurrent(Constants.PDP.DRIVE_LEFT_FRONT) - fudgeFactor;
-        rf = pdp.getCurrent(Constants.PDP.DRIVE_LEFT_REAR) - fudgeFactor;
-        lb = pdp.getCurrent(Constants.PDP.DRIVE_RIGHT_FRONT) - fudgeFactor;
-        rb = pdp.getCurrent(Constants.PDP.DRIVE_RIGHT_REAR) - fudgeFactor;
-
-        SmartDashboard.putNumber("Left Front I", lf);
-        SmartDashboard.putNumber("Right Front I", rf);
-        SmartDashboard.putNumber("Left Back I", lb);
-        SmartDashboard.putNumber("Right Back I", rb);
-    }
-
-    /*
-     * This method allows one to drive in "Tank Drive Mode". Tank drive mode uses
-     * the left side of the joystick to control the left side of the robot, whereas
-     * the right side of the joystick controls the right side of the robot.
-     */
-    public void tankDrive(double leftSideThrottle, double rightSideThrottle) {
-        setMotorPower(leftSideThrottle, rightSideThrottle);
-    }
-
-    public double getPitch() {
-        return headingCorrection.getPitch();
-    }
-
-    double m_lastThrottle;
-    double m_lastSteering;
-
-    public void speedRacerDrive(double throttle, double rawSteeringX, boolean quickTurn) {
-        double leftPower;
-        double rightPower;
-        double rotation = 0;
-        final double QUICK_TURN_GAIN = 0.55; // 2019: .75. 2020: .75 was too fast.
-
-        m_lastThrottle = throttle;
-        m_lastSteering = rawSteeringX;
-
-        // check for if steering input is essentially zero for "DriveStraight"
-        // functionality
-        if ((-0.01 < rawSteeringX) && (rawSteeringX < 0.01)) {
-            // no turn being commanded, drive straight or stay still
-            m_iterationsSinceRotationCommanded++;
-
-            if ((-0.01 < throttle) && (throttle < 0.01)) {
-                // System.out.println("Drive: stay still");
-
-                // no motion commanded, stay still
-                m_iterationsSinceMovementCommanded++;
-                rotation = 0.0;
-
-                // if we are standing still and we are turned, assume the new direction is the
-                // correct direction
-                headingCorrection.lockHeading();
-            } else {
-                // driving straight
-                if ((m_iterationsSinceRotationCommanded == LOOPS_GYRO_DELAY)
-                        || (m_iterationsSinceMovementCommanded >= LOOPS_GYRO_DELAY)) {
-                    // exactly LOOPS_GYRO_DELAY iterations with no commanded turn,
-                    // or haven't had movement commanded for longer than LOOPS_GYRO_DELAY,
-                    // so we want to take steps to preserve our current heading hereafter
-
-                    // get current heading as desired heading
-                    headingCorrection.lockHeading();
-                    rotation = 0.0;
-
-                    System.out.println("Drive: drive straight LOCK");
-                } else if (m_iterationsSinceRotationCommanded < LOOPS_GYRO_DELAY) {
-                    // not long enough since we were last turning,
-                    // just drive straight without special heading maintenance
-                    rotation = 0.0;
-                    System.out.println("Drive: drive straight");
-                } else if (m_iterationsSinceRotationCommanded > LOOPS_GYRO_DELAY) {
-                    // after more then LOOPS_GYRO_DELAY iterations since commanded turn,
-                    // maintain the target heading
-                    rotation = headingCorrection.maintainHeading();
-                    System.out.println("Drive: drive straight w/ correction");
-                }
-                m_iterationsSinceMovementCommanded = 0;
-            }
-            // driveStraight code benefits from "spin" behavior when needed
-            leftPower = throttle + rotation;
-            rightPower = throttle - rotation;
-        } else {
-            // commanding a turn, reset iterationsSinceRotationCommanded
-            m_iterationsSinceRotationCommanded = 0;
-            m_iterationsSinceMovementCommanded = 0;
-            if (quickTurn) {
-
-                int throttleSign;
-                if (throttle >= 0.0) {
-                    throttleSign = 1;
-                } else {
-                    throttleSign = -1;
-                }
-
-                // want a high-rate turn (also allows "spin" behavior)
-                // power to each wheel is a combination of the throttle and rotation
-                rotation = rawSteeringX * throttleSign * QUICK_TURN_GAIN;
-                leftPower = throttle + rotation;
-                rightPower = throttle - rotation;
-            } else {
-                // want a standard rate turn (scaled by the throttle)
-                if (rawSteeringX >= 0.0) {
-                    // turning to the right, derate the right power by turn amount
-                    // note that rawSteeringX is positive in this portion of the "if"
-                    leftPower = throttle;
-                    rightPower = throttle * (1.0 - Math.abs(rawSteeringX));
-                } else {
-                    // turning to the left, derate the left power by turn amount
-                    // note that rawSteeringX is negative in this portion of the "if"
-                    leftPower = throttle * (1.0 - Math.abs(rawSteeringX));
-                    rightPower = throttle;
-                }
-            }
-        }
-        setMotorPower(leftPower, rightPower);
-    }
-
-    public void rotateToHeading(final double desiredHeading) {
-        headingCorrection.setDesiredHeading(desiredHeading);
-    }
-
-    // **********************************************DISPLAY****************************************************
 
     @Override
     public void periodic() {
-        headingCorrection.periodic();
-        updateHistory();
-        updateSmartDashboard();
-    }
-
-    private void updateSmartDashboard() {
-        headingCorrection.updateSmartDashboard();
-
-        SmartDashboard.putBoolean("In Autonomous", DriverStation.isAutonomous());
-        SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
-
-        SmartDashboard.putNumber("Throttle", m_lastThrottle);
-        SmartDashboard.putNumber("Steering", m_lastSteering);
-
-        // ***** KBS: Uncommenting below, as it takes a LONG time to get PDP values
-        // updateSdbPdp();
-
-        int matchnumber = DriverStation.getMatchNumber();
-        DriverStation.MatchType MatchType = DriverStation.getMatchType();
-        SmartDashboard.putString("matchInfo", "" + MatchType + '_' + matchnumber);
-
-        SmartDashboard.putNumber("Left Front Encoder Counts", leftFrontTalon.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Right Front Encoder Counts", rightFrontTalon.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Left Rear Encoder Counts", leftRearTalon.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Right Rear Encoder Counts", rightRearTalon.getSelectedSensorPosition(0));
-
-        // Note: getSpeed() returns ticks per 0.1 seconds
-        SmartDashboard.putNumber("Left Encoder Speed", leftFrontTalon.getSelectedSensorVelocity(0));
-        SmartDashboard.putNumber("Right Encoder Speed", rightFrontTalon.getSelectedSensorVelocity(0));
-
-        // To convert ticks per 0.1 seconds into feet per second
-        // a - multiply be 10 (tenths of second per second)
-        // b - divide by 12 (1 foot per 12 inches)
-        // c - multiply by distance (in inches) per pulse
-        SmartDashboard.putNumber("Left Speed (fps)",
-                leftFrontTalon.getSelectedSensorVelocity(0) * 10 / 12 * DISTANCE_PER_PULSE_IN_INCHES);
-        SmartDashboard.putNumber("Right Speed (fps)",
-                rightFrontTalon.getSelectedSensorVelocity(0) * 10 / 12 * DISTANCE_PER_PULSE_IN_INCHES);
-
-        SmartDashboard.putNumber("Left Talon Output Voltage", leftFrontTalon.getMotorOutputVoltage());
-        SmartDashboard.putNumber("Right Talon Output Voltage", rightFrontTalon.getMotorOutputVoltage());
-
-        SmartDashboard.putNumber("LF Falcon Supply Current", leftFrontTalon.getSupplyCurrent());
-        SmartDashboard.putNumber("LR Falcon Supply Current", leftRearTalon.getSupplyCurrent());
-        SmartDashboard.putNumber("RF Falcon Supply Current", rightFrontTalon.getSupplyCurrent());
-        SmartDashboard.putNumber("RR Falcon Supply Current", rightRearTalon.getSupplyCurrent());
-
-        SmartDashboard.putBoolean("Closed Loop Mode", m_closedLoopMode);
-    }
-
-    private static final double CAMERA_LAG = 0.150; // was .200; changing to .150 at CMP
-
-    int historyCount;
-
-    public void updateHistory() {
-        final double now = Timer.getFPGATimestamp();
-        headingHistory.add(now, headingCorrection.getHeading());
-
-        SmartDashboard.putNumber("Drive: History", historyCount++);
-    }
-
-    public double getHeading() {
-        return headingCorrection.getHeading();
-    }
-
-    public double getHeadingForCapturedImage() {
-        final double now = Timer.getFPGATimestamp();
-        final double indexTime = now - CAMERA_LAG;
-        return headingHistory.getAzForTime(indexTime);
+        // Update the odometry in the periodic block
+        m_odometry.update(
+                m_gyro.getRotation2d(), getDistance(leftMotor), getDistance(rightMotor));
     }
 
     /**
-     * Start a distance travel
-     */
-    public void saveInitialWheelDistance() {
-        m_initialWheelDistance = (getLeftEncoder() + getRightEncoder()) / 2;
-    }
-
-    /**
-     * Calculate the distance traveled. Return the second shortest distance. If a
-     * wheel is floating, it will have a larger value - ignore it. If a wheel is
-     * stuck, it will have a small value
+     * Returns the currently-estimated pose of the robot.
      * 
-     * @return
+     * @return The pose
      */
-    public double getWheelDistance() {
-        final double dist = (getLeftEncoder() + getRightEncoder()) / 2;
-        return dist - m_initialWheelDistance;
+    public Pose2d getPose() {
+        return m_odometry.getPoseMeters();
     }
 
-    // NOTE the difference between rotateToHeading(...) and goToHeading(...)
-    public void setDesiredHeading(final double desiredHeading) {
-        headingCorrection.setDesiredHeading(desiredHeading);
-        m_iterationsSinceRotationCommanded = LOOPS_GYRO_DELAY + 1;
-        m_iterationsSinceMovementCommanded = 0;
-
-        // reset the heading control loop for the new heading
-        headingCorrection.resetAndEnableHeadingPID();
+    /**
+     * Returns the current wheel speeds of the robot.
+     * 
+     * @return The current wheel speeds.
+     */
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+        return new DifferentialDriveWheelSpeeds(leftMotor.getSelectedSensorVelocity(),
+                rightMotor.getSelectedSensorVelocity());
     }
 
-    ////////////////////////////////////////////////////
-    // PidTunerObject
-    public double getP() {
-        return leftFrontTalon.getP();
+    /**
+     * Drives the robot using ardcade controls.
+     * 
+     * @param fwd the commanded forward movement
+     * @param rot the commanded rotation
+     */
+    public void arcadeDrive(double fwd, double rot) {
+        m_drive.arcadeDrive(fwd, rot);
     }
 
-    public double getI() {
-        return leftFrontTalon.getI();
+    /**
+     * Controls the left and right sides of the drive directly with voltages.
+     * 
+     * @param leftVolts  the commanded left output
+     * @param rightVolts the commanded right output
+     */
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+        leftMotors.setVoltage(leftVolts);
+        rightMotors.setVoltage(rightVolts);
+        m_drive.feed();
     }
 
-    public double getD() {
-        return leftFrontTalon.getD();
+    /** Resets the drive encoders to currently read a position of 0. */
+    public void resetEncoders() {
+        leftMotor.setSelectedSensorPosition(0.0);
+        rightMotor.setSelectedSensorPosition(0.0);
     }
 
-    public double getF() {
-        return leftFrontTalon.getF();
+    /**
+     * Gets the average distance of the two encoders.
+     * 
+     * @return the average of the two encoder readings
+     */
+    // public double getAverageEncoderDistance() {
+    // return (leftMotor.getDistance() + rightMotor.getDistance()) / 2.0;
+    // }
 
+    /**
+     * Gets the left drive encoder.
+     * 
+     * @return the left drive encoder
+     */
+    // public Encoder getLeftEncoder() {
+    // return m_leftEncoder;
+    // }
+
+    /**
+     * Gets the right drive encoder.
+     * 
+     * @return the right drive encoder
+     */
+    // public Encoder getRightEncoder() {
+    // return m_rightEncoder;
+    // }
+
+    /**
+     * Sets the max output of the drive. Useful for scaling the drive to drive more
+     * slowly.
+     * 
+     * @param maxOutput the maximum output to which the drive will be constrained
+     */
+    public void setMaxOutput(double maxOutput) {
+        m_drive.setMaxOutput(maxOutput);
     }
 
-    public void setP(double d) {
-        leftFrontTalon.config_kP(0, d, 0);
-        rightFrontTalon.config_kP(0, d, 0);
+    /** Zeroes the heading of the robot. */
+    public void zeroHeading() {
+        m_gyro.reset();
     }
 
-    public void setI(double d) {
-        leftFrontTalon.config_kI(0, d, 0);
-        rightFrontTalon.config_kI(0, d, 0);
+    /**
+     * Returns the heading of the robot.
+     * 
+     * @return the robot's heading in degrees, from -180 to 180
+     */
+    public double getHeading() {
+        return m_gyro.getRotation2d().getDegrees();
     }
 
-    public void setD(double d) {
-        leftFrontTalon.config_kD(0, d, 0);
-        rightFrontTalon.config_kD(0, d, 0);
-    }
-
-    public void setF(double d) {
-        leftFrontTalon.config_kF(0, d, 0);
-        rightFrontTalon.config_kF(0, d, 0);
+    /**
+     * Returns the turn rate of the robot.
+     * 
+     * @return The turn rate of the robot, in degrees per second
+     */
+    public double getTurnRate() {
+        return -m_gyro.getRate();
     }
 }
