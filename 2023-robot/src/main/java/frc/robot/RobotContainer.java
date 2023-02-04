@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.AutoRoutines.Test_1;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ClawPiston;
@@ -14,6 +15,7 @@ import frc.robot.subsystems.Targeting;
 import org.mayheminc.util.MayhemDriverPad;
 
 import frc.robot.subsystems.LimeLight;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -37,6 +39,7 @@ public class RobotContainer {
   public static final LimeLight limeLight = new LimeLight();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
+  SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -44,6 +47,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    autoChooser.addOption("test1", new Test_1());
   }
 
   /**
