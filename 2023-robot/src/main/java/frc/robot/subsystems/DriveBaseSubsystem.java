@@ -528,8 +528,13 @@ public class DriveBaseSubsystem extends SubsystemBase {
                 rightTalon1.getSelectedSensorVelocity());
     }
 
-    public Object resetOdometry(Pose2d initialPose) {
-        return null;
+    public void resetOdometry(Pose2d pose) {
+        leftTalon1.setSelectedSensorPosition(0.0);
+        rightTalon1.setSelectedSensorPosition(0.0);
+        // to-do change sensor position to distance in meters
+        m_odometry.resetPosition(
+                Rotation2d.fromDegrees(headingCorrection.getHeading()), leftTalon1.getSelectedSensorPosition(),
+                rightTalon1.getSelectedSensorPosition(), pose);
     }
 
 }
