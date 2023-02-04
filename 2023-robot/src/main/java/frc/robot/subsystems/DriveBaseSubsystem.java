@@ -528,4 +528,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
                 rightTalon1.getSelectedSensorVelocity());
     }
 
+    public Object resetOdometry(Pose2d initialPose) {
+        return null;
+    }
+
 }
