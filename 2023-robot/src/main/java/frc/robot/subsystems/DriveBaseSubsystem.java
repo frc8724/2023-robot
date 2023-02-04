@@ -348,6 +348,12 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     // **********************************************DISPLAY****************************************************
 
+    final double INCHES_TO_METER_CONVERSION_FACTOR = 0.0254;
+
+    double convertTicksToMeters(double ticks) {
+        return ticks * DISTANCE_PER_PULSE_IN_INCHES * INCHES_TO_METER_CONVERSION_FACTOR;
+    }
+
     @Override
     public void periodic() {
         headingCorrection.periodic();
@@ -355,8 +361,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
         updateSmartDashboard();
         m_odometry.update(
                 Rotation2d.fromDegrees(headingCorrection.getHeading()),
-                leftTalon1.getSelectedSensorPosition(),
-                rightTalon1.getSelectedSensorPosition());
+                convertTicksToMeters(leftTalon1.getSelectedSensorPosition()),
+                convertTicksToMeters(rightTalon1.getSelectedSensorPosition()));
     }
 
     private void updateSmartDashboard() {
