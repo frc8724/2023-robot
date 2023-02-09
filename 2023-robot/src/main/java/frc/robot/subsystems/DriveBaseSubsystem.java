@@ -105,6 +105,9 @@ public class DriveBaseSubsystem extends SubsystemBase {
         talon.configNominalOutputVoltage(+0.0f, -0.0f);
         talon.configPeakOutputVoltage(+12.0, -12.0);
 
+        // set the ramp to a slow ramp for testing
+        talon.configClosedloopRamp(1.0);
+
         // configure current limits
         // enabled = true
         // 40 = limit (amps)
@@ -115,7 +118,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     public void init() {
         // reset the NavX
-        headingCorrection.zeroHeadingGyro(111.0); // we line up against the wall which is 111 from 0.
+        headingCorrection.zeroHeadingGyro(0.0);
     }
 
     private void configureDriveTalon(final MayhemTalonSRX talon) {
