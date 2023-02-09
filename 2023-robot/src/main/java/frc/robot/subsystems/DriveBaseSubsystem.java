@@ -52,6 +52,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
     private boolean m_closedLoopMode = true;
     private final double m_maxWheelSpeed = 18000.0; // should be maximum wheel speed in native units
     private static final double CLOSED_LOOP_RAMP_RATE = 1.0; // time from neutral to full in seconds
+    private static final double OPEN_LOOP_RAMP_RATE = 1.0; // time from neutral to full in seconds
 
     private double m_initialWheelDistance = 0.0;
     private int m_iterationsSinceRotationCommanded = 0;
@@ -135,7 +136,9 @@ public class DriveBaseSubsystem extends SubsystemBase {
         talon.config_kI(slot, wheelI, timeout);
         talon.config_kD(slot, wheelD, timeout);
         talon.config_kF(slot, wheelF, timeout);
+
         talon.configClosedloopRamp(CLOSED_LOOP_RAMP_RATE); // specify minimum time for neutral to full in seconds
+        talon.configOpenloopRamp(OPEN_LOOP_RAMP_RATE); // set a reasonable open loop ramp
 
         DriverStation.reportError("setWheelPIDF: " + wheelP + " " + wheelI + " " + wheelD + " " + wheelF + "\n", false);
     }
