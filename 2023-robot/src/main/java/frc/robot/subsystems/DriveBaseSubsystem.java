@@ -51,7 +51,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     private boolean m_closedLoopMode = true;
     private final double m_maxWheelSpeed = 18000.0; // should be maximum wheel speed in native units
-    private static final double CLOSED_LOOP_RAMP_RATE = 0.1; // time from neutral to full in seconds
+    private static final double CLOSED_LOOP_RAMP_RATE = 1.0; // time from neutral to full in seconds
 
     private double m_initialWheelDistance = 0.0;
     private int m_iterationsSinceRotationCommanded = 0;
@@ -104,9 +104,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
         talon.configNominalOutputVoltage(+0.0f, -0.0f);
         talon.configPeakOutputVoltage(+12.0, -12.0);
-
-        // set the ramp to a slow ramp for testing
-        talon.configClosedloopRamp(1.0);
 
         // configure current limits
         // enabled = true
