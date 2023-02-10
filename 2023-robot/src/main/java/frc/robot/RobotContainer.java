@@ -5,6 +5,8 @@
 package frc.robot;
 
 import frc.robot.AutoRoutines.Test_1;
+import frc.robot.AutoRoutines.Test_Drive;
+import frc.robot.AutoRoutines.Test_Drive_2;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ClawPiston;
@@ -16,6 +18,7 @@ import org.mayheminc.util.MayhemDriverPad;
 
 import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -48,6 +51,9 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     autoChooser.addOption("test1", new Test_1());
+    autoChooser.addOption("testdrive", new Test_Drive());
+    autoChooser.addOption("testdrive2", new Test_Drive_2());
+    SmartDashboard.putData("Auto Mode", autoChooser);
   }
 
   /**
@@ -91,6 +97,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(drive);
+    return autoChooser.getSelected();
   }
 }
