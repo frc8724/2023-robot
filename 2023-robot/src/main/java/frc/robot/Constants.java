@@ -20,10 +20,10 @@ public final class Constants {
     public final class Talon {
         public static final int DRIVE_LEFT_TOP = 1; // falcons FX
         public static final int DRIVE_LEFT_FRONT = 2; // falcons FX
-        public static final int DRIVE_LEFT_BACK = 3; // falcons FX
+        public static final int DRIVE_LEFT_BOTTOM = 3; // falcons FX
         public static final int DRIVE_RIGHT_TOP = 4; // falcons FX
         public static final int DRIVE_RIGHT_FRONT = 5; // falcons FX
-        public static final int DRIVE_RIGHT_BACK = 6; // falcons FX
+        public static final int DRIVE_RIGHT_BOTTOM = 6; // falcons FX
 
         public static final int ARM_FALCON = 7; // falcons FX
 

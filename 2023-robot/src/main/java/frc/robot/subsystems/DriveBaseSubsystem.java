@@ -32,13 +32,13 @@ public class DriveBaseSubsystem extends SubsystemBase {
             CurrentLimit.HIGH_CURRENT);
     private final MayhemTalonSRX leftTalon2 = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_FRONT,
             CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX leftTalon3 = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_BACK,
+    private final MayhemTalonSRX leftTalon3 = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_BOTTOM,
             CurrentLimit.HIGH_CURRENT);
     private final MayhemTalonSRX rightTalon1 = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_TOP,
             CurrentLimit.HIGH_CURRENT);
     private final MayhemTalonSRX rightTalon2 = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_FRONT,
             CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX rightTalon3 = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_BACK,
+    private final MayhemTalonSRX rightTalon3 = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_BOTTOM,
             CurrentLimit.HIGH_CURRENT);
 
     // Odometry class for tracking robot pose
@@ -254,6 +254,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     double m_lastThrottle;
     double m_lastSteering;
+    double m_lastLeftPower;
+    double m_lastRightPower;
 
     public void speedRacerDrive(double throttle, double rawSteeringX, boolean quickTurn) {
         double leftPower;
@@ -342,6 +344,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
                 }
             }
         }
+
+        m_lastLeftPower = leftPower;
+        m_lastRightPower = rightPower;
+
         setMotorPower(leftPower, rightPower);
     }
 
@@ -376,6 +382,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("Throttle", m_lastThrottle);
         SmartDashboard.putNumber("Steering", m_lastSteering);
+        SmartDashboard.putNumber("Left Power", m_lastLeftPower);
+        SmartDashboard.putNumber("Right Power", m_lastRightPower);
 
         // ***** KBS: Uncommenting below, as it takes a LONG time to get PDP values
         // updateSdbPdp();
