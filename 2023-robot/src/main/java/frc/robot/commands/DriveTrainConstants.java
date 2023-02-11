@@ -6,10 +6,10 @@ public class DriveTrainConstants {
 
     public static double kRamseteB = 2;
     public static double kRamseteZeta = .7;
-    public static double ksVolts = .2;
-    public static double kvVoltSecondsPerMeter = 2.0;
-    public static double kaVoltSecondsSquaredPerMeter = .2;
-    public static DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(.7);
-    public static double kPDriveVel = 8.5;
+    public static double ksVolts = 0.098064;
+    public static double kvVoltSecondsPerMeter = 0.00094158;
+    public static double kaVoltSecondsSquaredPerMeter = 8.9811E-05;
+    public static DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(.6);
+    public static double kPDriveVel = 0.00015161;
 
 }
