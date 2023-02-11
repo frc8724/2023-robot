@@ -62,6 +62,9 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     private static final int LOOPS_GYRO_DELAY = 10;
 
+    double m_lastLeftPercent;
+    double m_lastRightPercent;
+
     /***********************************
      * INITIALIZATION
      **********************************************************/
@@ -372,6 +375,18 @@ public class DriveBaseSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Left Encoder Speed", leftTalon1.getSelectedSensorVelocity(0));
         SmartDashboard.putNumber("Right Encoder Speed", rightTalon1.getSelectedSensorVelocity(0));
 
+        DifferentialDriveWheelSpeeds speeds = getWheelSpeeds();
+        SmartDashboard.putNumber("Drive Left Speed m per s", speeds.leftMetersPerSecond);
+        SmartDashboard.putNumber("Drive Right Speed m per s", speeds.rightMetersPerSecond);
+        
+        SmartDashboard.putNumber("Drive Left Volts", leftTalon1.getMotorOutputVoltage());
+        SmartDashboard.putNumber("Drive Right Volts", rightTalon1.getMotorOutputVoltage());
+        SmartDashboard.putNumber("Drive Left Percent", m_lastLeftPercent);
+        SmartDashboard.putNumber("Drive Right Percent", m_lastRightPercent);
+        Pose2d pose = getPose();
+        SmartDashboard.putNumber("Drive Pose X", pose.getX());
+        SmartDashboard.putNumber("Drive Pose Y", pose.getY());
+
         // To convert ticks per 0.1 seconds into feet per second
         // a - multiply be 10 (tenths of second per second)
         // b - divide by 12 (1 foot per 12 inches)
@@ -438,8 +453,11 @@ public class DriveBaseSubsystem extends SubsystemBase {
     }
 
     public void tankDriveVolts(double leftVolts, double rightVolts) {
-        leftTalon1.set(TalonSRXControlMode.PercentOutput, leftVolts / 12.0);
-        rightTalon1.set(TalonSRXControlMode.PercentOutput, rightVolts / 12.0);
+        m_lastLeftPercent = leftVolts;
+        m_lastRightPercent = rightVolts;
+
+        leftTalon1.set(TalonSRXControlMode.PercentOutput, leftVolts);
+        rightTalon1.set(TalonSRXControlMode.PercentOutput, rightVolts);
     }
 
     /**
@@ -458,16 +476,17 @@ public class DriveBaseSubsystem extends SubsystemBase {
      */
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(
-                convertTicksToMeters(leftTalon1.getSelectedSensorVelocity()),
-                convertTicksToMeters(rightTalon1.getSelectedSensorVelocity()));
+                convertTicksToMeters(leftTalon1.getSelectedSensorVelocity() * 10), // *10 because it returns ticks per
+                                                                                   // 100ms
+                convertTicksToMeters(rightTalon1.getSelectedSensorVelocity() * 10));
     }
 
     public void resetOdometry(Pose2d pose) {
         leftTalon1.setSelectedSensorPosition(0.0);
         rightTalon1.setSelectedSensorPosition(0.0);
         m_odometry.resetPosition(
-                Rotation2d.fromDegrees(headingCorrection.getHeading()), leftTalon1.getSelectedSensorPosition(),
-                rightTalon1.getSelectedSensorPosition(), pose);
+                Rotation2d.fromDegrees(headingCorrection.getHeading()), 0.0,
+                0.0, pose);
     }
 
 }

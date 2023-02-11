@@ -20,6 +20,5 @@ public class TestTrajectoryCommand extends SequentialCommandGroup {
     addCommands(TrajectoryCommand.loadPathplannerCommand(
         "pathplanner/generatedJSON/TestStraight.wpilib.json",
         true));
-        addCommands(new DriveStraight(.2, 1.0));
   }
 }

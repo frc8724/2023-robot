@@ -10,6 +10,6 @@ public class DriveTrainConstants {
     public static double kvVoltSecondsPerMeter = 0.00094158;
     public static double kaVoltSecondsSquaredPerMeter = 8.9811E-05;
     public static DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(.6);
-    public static double kPDriveVel = 0.00015161;
+    public static double kPDriveVel = 0.015; // 0.00015161;
 
 }

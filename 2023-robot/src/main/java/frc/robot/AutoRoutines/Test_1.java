@@ -18,8 +18,8 @@ public class Test_1 extends SequentialCommandGroup {
   public Test_1() {
     // Test auto to raise shoulder, drive a path, lower shoulder, drive a path
     addCommands(new ShoulderGoto(10.0),
-        TrajectoryCommand.loadPathplannerCommand(path1, false));
+        TrajectoryCommand.loadPathplannerCommand(path1, true));
     addCommands(new ShoulderGoto(0.0),
-        TrajectoryCommand.loadPathplannerCommand(path1, false));
+        TrajectoryCommand.loadPathplannerCommand(path1, true));
   }
 }
