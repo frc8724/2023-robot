@@ -20,7 +20,9 @@ public class PowerDist extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    updateSdbPdp();
+
+    // RJD: commented out because it takes too long
+    // updateSdbPdp();
   }
 
   /**

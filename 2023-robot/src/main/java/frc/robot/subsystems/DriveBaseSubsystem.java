@@ -45,7 +45,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     // Drive parameters
     // pi * diameter * (pulley ratios) / (counts per rev * gearbox reduction)
-    public static final double DISTANCE_PER_PULSE_IN_INCHES = 3.14 * 5.75 * 36.0 / 42.0 / (2048.0 * 7.56); // corrected
+    public static final double DISTANCE_PER_PULSE_IN_INCHES = 3.14 * 6.0 * 36.0 / 42.0 / (2048.0 * 7.56); // corrected
 
     private boolean m_closedLoopMode = true;
     private final double m_maxWheelSpeed = 18000.0; // should be maximum wheel speed in native units
@@ -186,10 +186,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
         return leftDelta < STATIONARY && rightDelta < STATIONARY;
     }
 
-    public static double twoDecimalPlaces(double d) {
-        return ((double) ((int) (d * 100))) / 100;
-    }
-
     public void stop() {
         setMotorPower(0.0, 0.0);
     }
@@ -203,8 +199,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
             leftPower = 1.0;
         if (leftPower < -1.0)
             leftPower = -1.0;
-
-        // System.out.printf("Left: %f Right: %f\n", leftPower, rightPower);
 
         if (m_closedLoopMode) {
             rightTalon1.set(ControlMode.Velocity, rightPower * m_maxWheelSpeed);
@@ -361,9 +355,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Left Power", m_lastLeftPower);
         SmartDashboard.putNumber("Right Power", m_lastRightPower);
 
-        // ***** KBS: Uncommenting below, as it takes a LONG time to get PDP values
-        // updateSdbPdp();
-
         int matchnumber = DriverStation.getMatchNumber();
         DriverStation.MatchType MatchType = DriverStation.getMatchType();
         SmartDashboard.putString("matchInfo", "" + MatchType + '_' + matchnumber);
@@ -429,13 +420,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
         m_initialWheelDistance = (getLeftEncoder() + getRightEncoder()) / 2;
     }
 
-    /**
-     * Calculate the distance traveled. Return the second shortest distance. If a
-     * wheel is floating, it will have a larger value - ignore it. If a wheel is
-     * stuck, it will have a small value
-     * 
-     * @return
-     */
     public double getWheelDistance() {
         final double dist = (getLeftEncoder() + getRightEncoder()) / 2;
         return dist - m_initialWheelDistance;
@@ -451,56 +435,11 @@ public class DriveBaseSubsystem extends SubsystemBase {
         headingCorrection.resetAndEnableHeadingPID();
     }
 
-    ////////////////////////////////////////////////////
-    // PidTunerObject
-    public double getP() {
-        return leftTalon1.getP();
-    }
-
-    public double getI() {
-        return leftTalon1.getI();
-    }
-
-    public double getD() {
-        return leftTalon1.getD();
-    }
-
-    public double getF() {
-        return leftTalon1.getF();
-
-    }
-
-    public void setP(double d) {
-        leftTalon1.config_kP(0, d, 0);
-        rightTalon1.config_kP(0, d, 0);
-    }
-
-    public void setI(double d) {
-        leftTalon1.config_kI(0, d, 0);
-        rightTalon1.config_kI(0, d, 0);
-    }
-
-    public void setD(double d) {
-        leftTalon1.config_kD(0, d, 0);
-        rightTalon1.config_kD(0, d, 0);
-    }
-
-    public void setF(double d) {
-        leftTalon1.config_kF(0, d, 0);
-        rightTalon1.config_kF(0, d, 0);
-    }
-
     public void tankDriveVolts(double leftVolts, double rightVolts) {
         leftTalon1.set(TalonSRXControlMode.PercentOutput, leftVolts / 12.0);
         rightTalon1.set(TalonSRXControlMode.PercentOutput, rightVolts / 12.0);
     }
 
-    // @Override
-    // public void periodic() {
-    // // Update the odometry in the periodic block
-    // m_odometry.update(
-    // m_gyro.getRotation2d(), getDistance(leftMotor), getDistance(rightMotor));
-    // }
     /**
      * Returns the currently-estimated pose of the robot.
      * 
