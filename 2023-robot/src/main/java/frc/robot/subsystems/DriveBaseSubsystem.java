@@ -19,8 +19,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class DriveBaseSubsystem extends SubsystemBase {
     History headingHistory = new History();
 
-    PowerDistribution pdp = new PowerDistribution();
-
     // Brake modes
     public static final boolean BRAKE_MODE = true;
     public static final boolean COAST_MODE = false;
@@ -215,28 +213,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
             rightTalon1.set(ControlMode.PercentOutput, rightPower);
             leftTalon1.set(ControlMode.PercentOutput, leftPower);
         }
-    }
-
-    /**
-     * updateSdbPdp Update the Smart Dashboard with the Power Distribution Panel
-     * currents.
-     */
-    public void updateSdbPdp() {
-        double lf;
-        double rf;
-        double lb;
-        double rb;
-        final double fudgeFactor = 0.0;
-
-        lf = pdp.getCurrent(Constants.PDP.DRIVE_LEFT_FRONT) - fudgeFactor;
-        rf = pdp.getCurrent(Constants.PDP.DRIVE_LEFT_REAR) - fudgeFactor;
-        lb = pdp.getCurrent(Constants.PDP.DRIVE_RIGHT_FRONT) - fudgeFactor;
-        rb = pdp.getCurrent(Constants.PDP.DRIVE_RIGHT_REAR) - fudgeFactor;
-
-        SmartDashboard.putNumber("Left Front I", lf);
-        SmartDashboard.putNumber("Right Front I", rf);
-        SmartDashboard.putNumber("Left Back I", lb);
-        SmartDashboard.putNumber("Right Back I", rb);
     }
 
     /*

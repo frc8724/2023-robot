@@ -18,6 +18,7 @@ import frc.robot.subsystems.Targeting;
 import org.mayheminc.util.MayhemDriverPad;
 
 import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.PowerDist;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -41,6 +42,7 @@ public class RobotContainer {
   public static final ClawPiston clawPiston = new ClawPiston();
   public static final Targeting targeting = new Targeting();
   public static final LimeLight limeLight = new LimeLight();
+  public static final PowerDist pdp = new PowerDist();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
   SendableChooser<Command> autoChooser = new SendableChooser<>();
