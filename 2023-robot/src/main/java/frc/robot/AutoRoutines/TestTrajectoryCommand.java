@@ -6,6 +6,7 @@ package frc.robot.AutoRoutines;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DriveStraight;
 import frc.robot.commands.TrajectoryCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -17,7 +18,8 @@ public class TestTrajectoryCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(TrajectoryCommand.loadPathplannerCommand(
-        "pathplanner/generatedJSON/New Path.wpilib.json",
+        "pathplanner/generatedJSON/TestStraight.wpilib.json",
         true));
+        addCommands(new DriveStraight(.2, 1.0));
   }
 }

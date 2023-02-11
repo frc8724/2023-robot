@@ -45,8 +45,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     // Drive parameters
     // pi * diameter * (pulley ratios) / (counts per rev * gearbox reduction)
+    public static final double INCHES_TO_METER_CONVERSION_FACTOR = 0.0254;
     public static final double DISTANCE_PER_PULSE_IN_INCHES = 3.14 * 6.0 * 36.0 / 42.0 / (2048.0 * 7.56); // corrected
-    public static final double DISTANCE_PER_PULSE_IN_METERS = DISTANCE_PER_PULSE_IN_INCHES * 0.0254;
+    public static final double DISTANCE_PER_PULSE_IN_METERS = DISTANCE_PER_PULSE_IN_INCHES
+            * INCHES_TO_METER_CONVERSION_FACTOR;
     public static final double DISTANCE_PER_ROTATION_IN_METERS = DISTANCE_PER_PULSE_IN_METERS * 2048;
 
     private boolean m_closedLoopMode = true;
@@ -329,10 +331,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     // **********************************************DISPLAY****************************************************
 
-    final double INCHES_TO_METER_CONVERSION_FACTOR = 0.0254;
-
     double convertTicksToMeters(double ticks) {
-        return ticks * DISTANCE_PER_PULSE_IN_INCHES * INCHES_TO_METER_CONVERSION_FACTOR;
+        return ticks * DISTANCE_PER_PULSE_IN_METERS;
     }
 
     @Override
@@ -458,14 +458,13 @@ public class DriveBaseSubsystem extends SubsystemBase {
      */
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(
-                leftTalon1.getSelectedSensorVelocity(),
-                rightTalon1.getSelectedSensorVelocity());
+                convertTicksToMeters(leftTalon1.getSelectedSensorVelocity()),
+                convertTicksToMeters(rightTalon1.getSelectedSensorVelocity()));
     }
 
     public void resetOdometry(Pose2d pose) {
         leftTalon1.setSelectedSensorPosition(0.0);
         rightTalon1.setSelectedSensorPosition(0.0);
-        // to-do change sensor position to distance in meters
         m_odometry.resetPosition(
                 Rotation2d.fromDegrees(headingCorrection.getHeading()), leftTalon1.getSelectedSensorPosition(),
                 rightTalon1.getSelectedSensorPosition(), pose);
