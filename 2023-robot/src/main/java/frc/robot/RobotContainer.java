@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.AutoRoutines.TestTrajectoryCommand;
 import frc.robot.AutoRoutines.Test_1;
 import frc.robot.AutoRoutines.Test_Drive;
 import frc.robot.AutoRoutines.Test_Drive_2;
@@ -53,6 +54,7 @@ public class RobotContainer {
     autoChooser.addOption("test1", new Test_1());
     autoChooser.addOption("testdrive", new Test_Drive());
     autoChooser.addOption("testdrive2", new Test_Drive_2());
+    autoChooser.addOption("testtrajectorycommand", new TestTrajectoryCommand());
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
 

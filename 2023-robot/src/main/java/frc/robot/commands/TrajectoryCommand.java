@@ -24,7 +24,7 @@ public class TrajectoryCommand {
 
   public static Command loadPathplannerCommand(String filename, boolean reseOdomtry) {
     Trajectory trajectory;
-
+    DriverStation.reportError("Working Directory = " + System.getProperty("user.dir"), false);
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(filename);
       trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
@@ -32,6 +32,7 @@ public class TrajectoryCommand {
       DriverStation.reportError("Unable to open trajectory" + filename, exception.getStackTrace());
       return new InstantCommand();
     }
+    DriverStation.reportError("Found " + filename, false);
 
     RamseteCommand ramseteCommand = new RamseteCommand(
         trajectory,

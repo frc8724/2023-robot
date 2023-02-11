@@ -61,7 +61,7 @@ public class HeadingCorrection {
         Navx.zeroYaw();
         setHeadingOffset(headingOffset);
 
-        DriverStation.reportError("heading immediately after zero = " + getHeading() + "\n", false);
+        DriverStation.reportWarning("heading immediately after zero = " + getHeading() + "\n", false);
 
         m_HeadingPid.setSetpoint(headingOffset);
 
