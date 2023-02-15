@@ -4,16 +4,25 @@
 
 package frc.robot;
 
+import frc.robot.AutoRoutines.TestTrajectoryCommand;
+import frc.robot.AutoRoutines.Test_1;
+import frc.robot.AutoRoutines.Test_Drive;
+import frc.robot.AutoRoutines.Test_Drive_2;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ClawColorSensor;
 import frc.robot.subsystems.ClawPiston;
 import frc.robot.subsystems.ClawRollers;
 import frc.robot.subsystems.DriveBaseSubsystem;
 import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.Targeting;
 import org.mayheminc.util.MayhemDriverPad;
+import org.mayheminc.util.MayhemOperatorPad;
 
 import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.PowerDist;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -35,8 +44,13 @@ public class RobotContainer {
   public static final ClawPiston clawPiston = new ClawPiston();
   public static final Targeting targeting = new Targeting();
   public static final LimeLight limeLight = new LimeLight();
+  public static final PowerDist pdp = new PowerDist();
+  public static final ClawColorSensor clawColor = new ClawColorSensor();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
+  MayhemOperatorPad operatorPad = new MayhemOperatorPad();
+
+  SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -44,6 +58,11 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    autoChooser.addOption("test1", new Test_1());
+    autoChooser.addOption("testdrive", new Test_Drive());
+    autoChooser.addOption("testdrive2", new Test_Drive_2());
+    autoChooser.addOption("testtrajectorycommand", new TestTrajectoryCommand());
+    SmartDashboard.putData("Auto Mode", autoChooser);
   }
 
   /**
@@ -69,15 +88,49 @@ public class RobotContainer {
 
     driverPad.DRIVER_PAD_RED_BUTTON.whileTrue(new DriveCenterTarget());
 
-    // Test Buttons.
-    driverPad.DRIVER_PAD_YELLOW_BUTTON.whileTrue(new DriveRotate(0.2));
-    driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveRotate(-0.2));
+    /**
+     * auto align (human player, cone, or cube) - left top trigger
+     * auto level - left bottom trigger
+     * quick turn - right top trigger
+     * slow mode - right bottom trigger
+     * 
+     */
   }
 
   private void configureDriverStick() {
   }
 
   private void configureOperatorPadButtons() {
+    operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
+    operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
+    operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemPlaceCone(1));
+    operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
+    operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(
+        new ClawColorCommand(
+            new ClawPistonSet(ClawPiston.State.CLOSE),
+            new ClawPistonSet(ClawPiston.State.OPEN)));
+
+    // Claw Rollers Left Triggers
+    operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.2));
+    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.2));
+
+    // Claw Pistons Right Triggers
+    operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawPistonSet(ClawPiston.State.CLOSE));
+    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawPistonSet(ClawPiston.State.OPEN));
+
+    // Arm manual up/down
+    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.whileTrue(new ArmSetPower(0.25));
+    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.whileTrue(new ArmSetPower(-0.25));
+
+    // Shoulder manual up/down
+    operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_UP.whileTrue(new ShoulderSetPower(0.25));
+    operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_DOWN.whileTrue(new ShoulderSetPower(-0.25));
+
+    /*
+     * human player grab - cube or cone
+     * set lights to yellow or purple
+     * stow arm
+     */
   }
 
   /**
@@ -87,6 +140,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(drive);
+    return autoChooser.getSelected();
   }
 }

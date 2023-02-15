@@ -6,24 +6,27 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.ClawPiston;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ClawPistonSet extends InstantCommand {
-  ClawPiston.State position;
 
-  public ClawPistonSet(ClawPiston.State position) {
+/**
+ * Zero the drive, shoulder, and arm.
+ */
+public class SystemZero extends InstantCommand {
+  public SystemZero() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.clawPiston);
-
-    this.position = position;
+    addRequirements(RobotContainer.drive);
+    addRequirements(RobotContainer.shoulder);
+    addRequirements(RobotContainer.arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.clawPiston.set(position);
+    RobotContainer.drive.init();
+    RobotContainer.shoulder.zero();
+    RobotContainer.arm.zero();
   }
 }

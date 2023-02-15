@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
 public class DriveGetLevel extends CommandBase {
-  static final double START_DRIVING_PITCH = 0.2;
-  static final double STOP_DRIVING_PITCH = 0.1;
-  static final double DRIVE_POWER = 0.2;
+  static final double START_DRIVING_PITCH = 10.0;
+  static final double STOP_DRIVING_PITCH = 5.0;
+  static final double DRIVE_POWER = 0.1;
 
   /** Creates a new DriveGetLevel. */
   public DriveGetLevel() {

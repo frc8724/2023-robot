@@ -105,6 +105,16 @@ public class LimeLight extends SubsystemBase {
                 .getDouble(-1.0);
     }
 
+    /**
+     * Get distance from April Tag in meters
+     * 
+     * @return
+     */
+    public double getDistanceFromAprilTag() {
+        double[] d = getTargetPose();
+        return d[2];
+    }
+
     int count = 0;
 
     public void update() {
