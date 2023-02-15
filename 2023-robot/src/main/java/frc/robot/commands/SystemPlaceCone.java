@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shoulder;
+import frc.robot.subsystems.ClawPiston.State;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -25,7 +26,7 @@ public class SystemPlaceCone extends SequentialCommandGroup {
     addCommands(new ShoulderGoto(Shoulder.LEVEL_X_SCORE[level]));
     addCommands(new ShoulderWaitForPosition());
     // open the claw
-    addCommands(new ClawPistonSet(false));
+    addCommands(new ClawPistonSet(State.OPEN));
     addCommands(new WaitCommand(0.5));
     // retract the arm
     addCommands(new ArmGoto(Arm.LEVEL_X_SCORE[0]));

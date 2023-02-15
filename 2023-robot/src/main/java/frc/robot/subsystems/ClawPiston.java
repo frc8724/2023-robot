@@ -12,6 +12,12 @@ import frc.robot.Constants;
 
 /** Add your docs here. */
 public class ClawPiston extends SubsystemBase {
+
+    public enum State {
+        OPEN,
+        CLOSE
+    };
+
     private final Solenoid piston = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ClawPiston);
 
     /** Creates a new Arm. */
@@ -26,11 +32,11 @@ public class ClawPiston extends SubsystemBase {
 
     }
 
-    public boolean get() {
-        return piston.get();
+    public State get() {
+        return piston.get() ? State.OPEN : State.CLOSE;
     }
 
-    public void set(boolean b) {
-        piston.set(b);
+    public void set(State b) {
+        piston.set(b == State.OPEN);
     }
 }

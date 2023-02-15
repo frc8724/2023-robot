@@ -107,16 +107,16 @@ public class RobotContainer {
     operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
     operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(
         new ClawColorCommand(
-            new ClawPistonSet(true),
-            new ClawPistonSet(false)));
+            new ClawPistonSet(ClawPiston.State.CLOSE),
+            new ClawPistonSet(ClawPiston.State.OPEN)));
 
     // Claw Rollers Left Triggers
     operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.2));
     operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.2));
 
     // Claw Pistons Right Triggers
-    operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawPistonSet(true));
-    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawPistonSet(false));
+    operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawPistonSet(ClawPiston.State.CLOSE));
+    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawPistonSet(ClawPiston.State.OPEN));
 
     // Arm manual up/down
     operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.whileTrue(new ArmSetPower(0.25));

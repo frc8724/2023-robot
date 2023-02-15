@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ClawPiston;
 import frc.robot.subsystems.Shoulder;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -19,7 +20,7 @@ public class SystemGrabFromHumanPlayer extends SequentialCommandGroup {
     addCommands(new ShoulderWaitForPosition());
 
     // open claw and start sucking
-    addCommands(new ClawPistonSet(false));
+    addCommands(new ClawPistonSet(ClawPiston.State.OPEN));
     addCommands(new ClawRollerSet(0.25));
 
     // extend arm
