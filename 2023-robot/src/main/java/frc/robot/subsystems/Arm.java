@@ -19,6 +19,9 @@ import frc.robot.Constants;
 public class Arm extends SubsystemBase {
 
   public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 3000.0, 3500.0 };
+  public static final double HUMAN_PLAYER_STATION = 1234.0;
+  public static final double STOW = 100.0;
+
   static final double POSITION_SLOP = 1000.0;
 
   private final MayhemTalonSRX talon = new MayhemTalonSRX(Constants.Talon.ARM_FALCON,
@@ -78,5 +81,9 @@ public class Arm extends SubsystemBase {
   public void zero() {
     DriverStation.reportWarning("Arm: zero", false);
     talon.setPosition(0);
+  }
+
+  public void setPower(double d) {
+    talon.set(ControlMode.PercentOutput, d);
   }
 }

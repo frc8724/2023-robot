@@ -17,6 +17,7 @@ import frc.robot.subsystems.DriveBaseSubsystem;
 import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.Targeting;
 import org.mayheminc.util.MayhemDriverPad;
+import org.mayheminc.util.MayhemOperatorPad;
 
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.PowerDist;
@@ -47,6 +48,8 @@ public class RobotContainer {
   public static final ClawColorSensor clawColor = new ClawColorSensor();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
+  MayhemOperatorPad operatorPad = new MayhemOperatorPad();
+
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /**
@@ -85,15 +88,49 @@ public class RobotContainer {
 
     driverPad.DRIVER_PAD_RED_BUTTON.whileTrue(new DriveCenterTarget());
 
-    // Test Buttons.
-    driverPad.DRIVER_PAD_YELLOW_BUTTON.whileTrue(new DriveRotate(0.2));
-    driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveRotate(-0.2));
+    /**
+     * auto align (human player, cone, or cube) - left top trigger
+     * auto level - left bottom trigger
+     * quick turn - right top trigger
+     * slow mode - right bottom trigger
+     * 
+     */
   }
 
   private void configureDriverStick() {
   }
 
   private void configureOperatorPadButtons() {
+    operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
+    operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
+    operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemPlaceCone(1));
+    operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
+    operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(
+        new ClawColorCommand(
+            new ClawPistonSet(true),
+            new ClawPistonSet(false)));
+
+    // Claw Rollers Left Triggers
+    operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.2));
+    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.2));
+
+    // Claw Pistons Right Triggers
+    operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawPistonSet(true));
+    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawPistonSet(false));
+
+    // Arm manual up/down
+    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.whileTrue(new ArmSetPower(0.25));
+    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.whileTrue(new ArmSetPower(-0.25));
+
+    // Shoulder manual up/down
+    operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_UP.whileTrue(new ShoulderSetPower(0.25));
+    operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_DOWN.whileTrue(new ShoulderSetPower(-0.25));
+
+    /*
+     * human player grab - cube or cone
+     * set lights to yellow or purple
+     * stow arm
+     */
   }
 
   /**
