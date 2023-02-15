@@ -10,19 +10,23 @@ import frc.robot.RobotContainer;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShoulderOffset extends InstantCommand {
-  double position;
 
-  public ShoulderOffset(double pos) {
+/**
+ * Zero the drive, shoulder, and arm.
+ */
+public class SystemZero extends InstantCommand {
+  public SystemZero() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.drive);
     addRequirements(RobotContainer.shoulder);
-    position = pos;
+    addRequirements(RobotContainer.arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double currentposition = RobotContainer.shoulder.getCurrentPosition();
-    RobotContainer.shoulder.set(currentposition + position);
+    RobotContainer.drive.init();
+    RobotContainer.shoulder.zero();
+    RobotContainer.arm.zero();
   }
 }

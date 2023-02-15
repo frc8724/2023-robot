@@ -42,8 +42,8 @@ public class TrajectoryCommand {
             DriveTrainConstants.kaVoltSecondsSquaredPerMeter),
         DriveTrainConstants.kDriveKinematics,
         RobotContainer.drive::getWheelSpeeds,
-        new PIDController(DriveTrainConstants.kPDriveVel, 0, 0),
-        new PIDController(DriveTrainConstants.kPDriveVel, 0, 0),
+        new PIDController(DriveTrainConstants.kPDriveVel, 0, DriveTrainConstants.kDDriveVel),
+        new PIDController(DriveTrainConstants.kPDriveVel, 0, DriveTrainConstants.kDDriveVel),
         RobotContainer.drive::tankDriveVolts,
         RobotContainer.drive);
 

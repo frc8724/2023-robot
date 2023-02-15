@@ -18,6 +18,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shoulder extends SubsystemBase {
+  public static final double[] LEVEL_X_PRESCORE = { 0.0, 2000.0, 3500.0, 4000.0 };
+  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 3000.0, 3500.0 };
+  static final double POSITION_SLOP = 1000.0;
+
   final double kWheelP = 0.020;
   final double kWheelI = 0.000;
   final double kWheelD = 0.200;
@@ -33,7 +37,7 @@ public class Shoulder extends SubsystemBase {
       CurrentLimit.HIGH_CURRENT);
   private final MayhemTalonSRX rightTalon = new MayhemTalonSRX(Constants.Talon.RIGHT_SHOULDER_FALCON,
       CurrentLimit.HIGH_CURRENT);
-  private static final double CLOSED_LOOP_RAMP_RATE = 0.1; // time from neutral to full in seconds
+  private static final double CLOSED_LOOP_RAMP_RATE = 1.0; // time from neutral to full in seconds
 
   /** Creates a new Shoulder. */
   public Shoulder() {
@@ -89,7 +93,8 @@ public class Shoulder extends SubsystemBase {
 
     talon.configClosedloopRamp(CLOSED_LOOP_RAMP_RATE); // specify minimum time for neutral to full in seconds
 
-    DriverStation.reportError("setWheelPIDF: " + wheelP + " " + wheelI + " " + wheelD + " " + wheelF + "\n", false);
+    // DriverStation.reportError("setWheelPIDF: " + wheelP + " " + wheelI + " " +
+    // wheelD + " " + wheelF + "\n", false);
   }
 
   @Override
@@ -106,15 +111,26 @@ public class Shoulder extends SubsystemBase {
     SmartDashboard.putNumber("Arm D", wheelD);
     wheelF = SmartDashboard.getNumber("Arm F", kWheelF);
     SmartDashboard.putNumber("Arm F", wheelF);
-
   }
 
   public void set(double degree) {
     rightTalon.set(ControlMode.Position, degree * TICKS_PER_DEGREE);
   }
 
-  public double get() {
+  public double getCurrentPosition() {
     return rightTalon.getSelectedSensorPosition();
+  }
+
+  public double getTargetPosition() {
+    return rightTalon.getClosedLoopTarget();
+  }
+
+  public boolean isAtPosition() {
+    return Math.abs(getCurrentPosition() - getTargetPosition()) < POSITION_SLOP;
+  }
+
+  public void stop() {
+    set(getCurrentPosition());
   }
 
   // Set the arm to horizontal and then call zero().

@@ -10,6 +10,7 @@ import frc.robot.AutoRoutines.Test_Drive;
 import frc.robot.AutoRoutines.Test_Drive_2;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ClawColorSensor;
 import frc.robot.subsystems.ClawPiston;
 import frc.robot.subsystems.ClawRollers;
 import frc.robot.subsystems.DriveBaseSubsystem;
@@ -43,6 +44,7 @@ public class RobotContainer {
   public static final Targeting targeting = new Targeting();
   public static final LimeLight limeLight = new LimeLight();
   public static final PowerDist pdp = new PowerDist();
+  public static final ClawColorSensor clawColor = new ClawColorSensor();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
   SendableChooser<Command> autoChooser = new SendableChooser<>();
