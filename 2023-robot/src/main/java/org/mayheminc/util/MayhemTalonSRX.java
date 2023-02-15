@@ -4,6 +4,7 @@ import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.*;
 
 public class MayhemTalonSRX extends TalonSRX {
@@ -33,28 +34,21 @@ public class MayhemTalonSRX extends TalonSRX {
 		this.setNeutralMode(NeutralMode.Coast);
 
 		if (currentLimit == CurrentLimit.HIGH_CURRENT) {
-			this.configPeakCurrentLimit(60);
-			this.configContinuousCurrentLimit(40);
-			this.configPeakCurrentDuration(1000);
+			this.configSupplyCurrentLimit(
+					new SupplyCurrentLimitConfiguration(
+							true,
+							40,
+							60,
+							1.0));
+
 		} else if (currentLimit == CurrentLimit.LOW_CURRENT) {
-			this.configContinuousCurrentLimit(30);
+			this.configSupplyCurrentLimit(
+					new SupplyCurrentLimitConfiguration(
+							true,
+							30,
+							45,
+							1.0));
 		}
-
-		// this.configContinuousCurrentLimit(0, 0);
-		// this.configPeakCurrentLimit(0, 0);
-		// this.configPeakCurrentDuration(0, 0);
-		// this.configForwardLimitSwitchSource(RemoteLimitSwitchSource.Deactivated,
-		// LimitSwitchNormal.Disabled, 0, 0);
-		// this.configForwardSoftLimitEnable(false, 0);
-
-		// copied from CTRE Example:
-		// https://github.com/CrossTheRoadElec/Phoenix-Examples-Languages/blob/master/Java/Current%20Limit/src/org/usfirst/frc/team217/robot/Robot.java#L37
-		// this.configPeakCurrentLimit(80, 10);
-		// this.configPeakCurrentDuration(60000, 10); /* this is a necessary call to
-		// avoid errata. */
-		// this.configContinuousCurrentLimit(40, 10);
-		// this.enableCurrentLimit(true); /* honor initial setting */
-
 	}
 
 	@Override

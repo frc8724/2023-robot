@@ -104,10 +104,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
     private void configTalon(MayhemTalonSRX talon) {
         talon.setNeutralMode(NeutralMode.Coast);
 
-        talon.configPeakCurrentLimit(60);
-        talon.configContinuousCurrentLimit(40);
-        talon.configPeakCurrentDuration(3000);
-
         talon.configNominalOutputVoltage(+0.0f, -0.0f);
         talon.configPeakOutputVoltage(+12.0, -12.0);
 
@@ -116,7 +112,12 @@ public class DriveBaseSubsystem extends SubsystemBase {
         // 40 = limit (amps)
         // 60 = trigger_threshold (amps)
         // 0.5 = threshold time(s)
-        talon.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5));
+        talon.configSupplyCurrentLimit(
+                new SupplyCurrentLimitConfiguration(
+                        true,
+                        40,
+                        60,
+                        1.0));
     }
 
     public void init() {
@@ -378,7 +379,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
         DifferentialDriveWheelSpeeds speeds = getWheelSpeeds();
         SmartDashboard.putNumber("Drive Left Speed m per s", speeds.leftMetersPerSecond);
         SmartDashboard.putNumber("Drive Right Speed m per s", speeds.rightMetersPerSecond);
-        
+
         SmartDashboard.putNumber("Drive Left Volts", leftTalon1.getMotorOutputVoltage());
         SmartDashboard.putNumber("Drive Right Volts", rightTalon1.getMotorOutputVoltage());
         SmartDashboard.putNumber("Drive Left Percent", m_lastLeftPercent);

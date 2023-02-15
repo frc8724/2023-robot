@@ -57,10 +57,6 @@ public class Shoulder extends SubsystemBase {
   private void configTalon(MayhemTalonSRX talon) {
     talon.setNeutralMode(NeutralMode.Coast);
 
-    talon.configPeakCurrentLimit(60);
-    talon.configContinuousCurrentLimit(40);
-    talon.configPeakCurrentDuration(3000);
-
     talon.configNominalOutputVoltage(+0.0f, -0.0f);
     talon.configPeakOutputVoltage(+12.0, -12.0);
 
@@ -69,7 +65,12 @@ public class Shoulder extends SubsystemBase {
     // 40 = limit (amps)
     // 60 = trigger_threshold (amps)
     // 0.5 = threshold time(s)
-    talon.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 60, 0.5));
+    talon.configSupplyCurrentLimit(
+        new SupplyCurrentLimitConfiguration(
+            true,
+            40,
+            60,
+            1.0));
   }
 
   // Ideas to tune the arm.
