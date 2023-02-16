@@ -7,10 +7,10 @@ package frc.robot.AutoRoutines;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.SystemPlaceCone;
 
-public class Week0_PlaceCone2_DriveOut extends SequentialCommandGroup {
-  /** Creates a new Week0_PlaceCone2_DriveOut. */
-  public Week0_PlaceCone2_DriveOut() {
-    addCommands(new SystemPlaceCone(2));
-    addCommands(new Week0_DriveOut());
+public class Week0_PlaceCone3_Level extends SequentialCommandGroup {
+  /** Creates a new Week0_PlaceCone3_Level. */
+  public Week0_PlaceCone3_Level() {
+    addCommands(new SystemPlaceCone(3));
+    addCommands(new Week0_LevelStation());
   }
 }

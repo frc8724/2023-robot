@@ -12,6 +12,7 @@ import org.mayheminc.util.MayhemOperatorPad;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -48,21 +49,27 @@ public class RobotContainer {
     configureBindings();
 
     addAuto(new Week0_DriveOut());
-
-    addAuto(new Week0_DriveOut());
     addAuto(new Week0_LevelStation());
+
     addAuto(new Week0_PlaceCone2());
     addAuto(new Week0_PlaceCone2_DriveOut());
+    addAuto(new Week0_PlaceCone2_Level());
+
     addAuto(new Week0_PlaceCone3());
     addAuto(new Week0_PlaceCone3_DriveOut());
+    addAuto(new Week0_PlaceCone3_Level());
+
     addAuto(new Week0_PlaceCube2());
+    addAuto(new Week0_PlaceCube2_DriveOut());
+
     addAuto(new Week0_PlaceCube3());
+    addAuto(new Week0_PlaceCube3_DriveOut());
 
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
 
   private void addAuto(Command cmd) {
-    String name = cmd.getClass().getName();
+    String name = cmd.getClass().getSimpleName();
     autoChooser.addOption(name, cmd);
   }
 
@@ -106,10 +113,7 @@ public class RobotContainer {
     operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
     operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemPlaceCone(1));
     operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
-    operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(
-        new ClawColorCommand(
-            new ClawPistonSet(ClawPiston.State.CLOSE),
-            new ClawPistonSet(ClawPiston.State.OPEN)));
+    operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
 
     // Claw Rollers Left Triggers
     operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.2));
@@ -127,6 +131,9 @@ public class RobotContainer {
     operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_UP.whileTrue(new ShoulderSetPower(0.25));
     operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_DOWN.whileTrue(new ShoulderSetPower(-0.25));
 
+    // emergency zero
+    operatorPad.OPERATOR_PAD_BUTTON_TEN.onTrue(new SystemZero());
+
     /*
      * human player grab - cube or cone
      * set lights to yellow or purple
@@ -136,11 +143,15 @@ public class RobotContainer {
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
+   * Always prepend a System Zero command to the auto command.
+   * 
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return autoChooser.getSelected();
+    Command auto = autoChooser.getSelected();
+
+    return new SequentialCommandGroup(
+        new SystemZero(),
+        auto);
   }
 }

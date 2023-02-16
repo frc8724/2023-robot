@@ -5,16 +5,12 @@
 package frc.robot.AutoRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
-import frc.robot.commands.DriveStraightOnHeading;
-import frc.robot.commands.DriveToAprilTagDistance;
 import frc.robot.commands.SystemPlaceCone;
 
 public class Week0_PlaceCone3_DriveOut extends SequentialCommandGroup {
   /** Creates a new Week0_PlaceCone3_DriveOut. */
   public Week0_PlaceCone3_DriveOut() {
     addCommands(new SystemPlaceCone(3));
-    addCommands(new DriveStraightOnHeading(-0.2, 100, 0.0));
-    addCommands(new DriveToAprilTagDistance(-0.2, Constants.ConvertFeetToMeters(10.0)));
+    addCommands(new Week0_DriveOut());
   }
 }

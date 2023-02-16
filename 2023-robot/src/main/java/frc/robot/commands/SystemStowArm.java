@@ -15,8 +15,12 @@ import frc.robot.subsystems.Shoulder;
 public class SystemStowArm extends SequentialCommandGroup {
   /** Creates a new SystemStowArm. */
   public SystemStowArm() {
-    // close and stop the claw
-    addCommands(new ClawPistonSet(ClawPiston.State.CLOSE));
+    // close the claw on a cone. Leave open on cube.
+    new ClawColorCommand(
+        new ClawPistonSet(ClawPiston.State.CLOSE),
+        new ClawPistonSet(ClawPiston.State.OPEN));
+
+    // stop the claw
     addCommands(new ClawRollerSet(0.0));
 
     // retract arm
