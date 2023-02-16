@@ -4,23 +4,11 @@
 
 package frc.robot;
 
-import frc.robot.AutoRoutines.TestTrajectoryCommand;
-import frc.robot.AutoRoutines.Test_1;
-import frc.robot.AutoRoutines.Test_Drive;
-import frc.robot.AutoRoutines.Test_Drive_2;
+import frc.robot.AutoRoutines.*;
 import frc.robot.commands.*;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.ClawColorSensor;
-import frc.robot.subsystems.ClawPiston;
-import frc.robot.subsystems.ClawRollers;
-import frc.robot.subsystems.DriveBaseSubsystem;
-import frc.robot.subsystems.Shoulder;
-import frc.robot.subsystems.Targeting;
+import frc.robot.subsystems.*;
 import org.mayheminc.util.MayhemDriverPad;
 import org.mayheminc.util.MayhemOperatorPad;
-
-import frc.robot.subsystems.LimeLight;
-import frc.robot.subsystems.PowerDist;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -58,11 +46,24 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    autoChooser.addOption("test1", new Test_1());
-    autoChooser.addOption("testdrive", new Test_Drive());
-    autoChooser.addOption("testdrive2", new Test_Drive_2());
-    autoChooser.addOption("testtrajectorycommand", new TestTrajectoryCommand());
+
+    addAuto(new Week0_DriveOut());
+
+    addAuto(new Week0_DriveOut());
+    addAuto(new Week0_LevelStation());
+    addAuto(new Week0_PlaceCone2());
+    addAuto(new Week0_PlaceCone2_DriveOut());
+    addAuto(new Week0_PlaceCone3());
+    addAuto(new Week0_PlaceCone3_DriveOut());
+    addAuto(new Week0_PlaceCube2());
+    addAuto(new Week0_PlaceCube3());
+
     SmartDashboard.putData("Auto Mode", autoChooser);
+  }
+
+  private void addAuto(Command cmd) {
+    String name = cmd.getClass().getName();
+    autoChooser.addOption(name, cmd);
   }
 
   /**

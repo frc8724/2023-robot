@@ -81,4 +81,8 @@ public final class Constants {
         public static final int DriveBaseRight1 = 14;
         public static final int DriveBaseRight2 = 15;
     }
+
+    public static double ConvertFeetToMeters(double ft) {
+        return ft * 12 / 0.0254; // convert to inches, convert inches to meters
+    }
 }
