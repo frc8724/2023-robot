@@ -55,19 +55,19 @@ public class RobotContainer {
     addAuto(new Week0_DriveOut());
     addAuto(new Week0_LevelStation());
 
-    addAuto(new Week0_PlaceCone2());
-    addAuto(new Week0_PlaceCone2_DriveOut());
-    addAuto(new Week0_PlaceCone2_Level());
+    // addAuto(new Week0_PlaceCone2());
+    // addAuto(new Week0_PlaceCone2_DriveOut());
+    // addAuto(new Week0_PlaceCone2_Level());
 
-    addAuto(new Week0_PlaceCone3());
-    addAuto(new Week0_PlaceCone3_DriveOut());
-    addAuto(new Week0_PlaceCone3_Level());
+    // addAuto(new Week0_PlaceCone3());
+    // addAuto(new Week0_PlaceCone3_DriveOut());
+    // addAuto(new Week0_PlaceCone3_Level());
 
-    addAuto(new Week0_PlaceCube2());
-    addAuto(new Week0_PlaceCube2_DriveOut());
+    // addAuto(new Week0_PlaceCube2());
+    // addAuto(new Week0_PlaceCube2_DriveOut());
 
-    addAuto(new Week0_PlaceCube3());
-    addAuto(new Week0_PlaceCube3_DriveOut());
+    // addAuto(new Week0_PlaceCube3());
+    // addAuto(new Week0_PlaceCube3_DriveOut());
 
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
