@@ -26,7 +26,7 @@ public class ClawRollers extends SubsystemBase {
     }
 
     private void configTalon(MayhemTalonSRX talon) {
-        talon.setNeutralMode(NeutralMode.Coast);
+        talon.setNeutralMode(NeutralMode.Brake);
 
         talon.configNominalOutputVoltage(+0.0f, -0.0f);
         talon.configPeakOutputVoltage(+12.0, -12.0);

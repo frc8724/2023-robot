@@ -5,6 +5,7 @@
 package frc.robot.AutoRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DriveToAprilTagDistance;
 import frc.robot.commands.ShoulderGoto;
 import frc.robot.commands.TrajectoryCommand;
 
@@ -16,10 +17,6 @@ public class Test_1 extends SequentialCommandGroup {
 
   /** Creates a new Test_1. */
   public Test_1() {
-    // Test auto to raise shoulder, drive a path, lower shoulder, drive a path
-    addCommands(new ShoulderGoto(10.0),
-        TrajectoryCommand.loadPathplannerCommand(path1, true));
-    addCommands(new ShoulderGoto(0.0),
-        TrajectoryCommand.loadPathplannerCommand(path1, true));
+    addCommands(new DriveToAprilTagDistance(0.1, 1.0));
   }
 }

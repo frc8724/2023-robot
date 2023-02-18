@@ -17,8 +17,8 @@ public class SystemStowArm extends SequentialCommandGroup {
   public SystemStowArm() {
     // close the claw on a cone. Leave open on cube.
     new ClawColorCommand(
-        new ClawPistonSet(ClawPiston.State.CLOSE),
-        new ClawPistonSet(ClawPiston.State.OPEN));
+        new ClawPistonSet(ClawPiston.State.OPEN),
+        new ClawPistonSet(ClawPiston.State.CLOSE));
 
     // stop the claw
     addCommands(new ClawRollerSet(0.0));

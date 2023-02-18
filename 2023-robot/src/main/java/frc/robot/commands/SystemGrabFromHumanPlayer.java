@@ -17,7 +17,7 @@ public class SystemGrabFromHumanPlayer extends SequentialCommandGroup {
     addCommands(new ShoulderWaitForPosition());
 
     // open claw and start sucking
-    addCommands(new ClawPistonSet(ClawPiston.State.OPEN));
+    addCommands(new ClawPistonSet(ClawPiston.State.CLOSE));
     addCommands(new ClawRollerSet(0.25));
 
     // extend arm

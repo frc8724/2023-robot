@@ -48,6 +48,10 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
+    // addAuto(new Test_1());
+
+    addAuto(new Week0_StandStill());
+
     addAuto(new Week0_DriveOut());
     addAuto(new Week0_LevelStation());
 
@@ -120,12 +124,12 @@ public class RobotContainer {
     operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.2));
 
     // Claw Pistons Right Triggers
-    operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawPistonSet(ClawPiston.State.CLOSE));
-    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawPistonSet(ClawPiston.State.OPEN));
+    operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawPistonSet(ClawPiston.State.OPEN));
+    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawPistonSet(ClawPiston.State.CLOSE));
 
-    // Arm manual up/down
-    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.whileTrue(new ArmSetPower(0.25));
-    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.whileTrue(new ArmSetPower(-0.25));
+    // Arm manual in/out
+    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.whileTrue(new ArmSetPower(0.10));
+    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.whileTrue(new ArmSetPower(-0.10));
 
     // Shoulder manual up/down
     operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_UP.whileTrue(new ShoulderSetPower(0.25));

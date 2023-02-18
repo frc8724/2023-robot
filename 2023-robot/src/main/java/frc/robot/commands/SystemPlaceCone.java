@@ -26,7 +26,7 @@ public class SystemPlaceCone extends SequentialCommandGroup {
     addCommands(new ShoulderGoto(Shoulder.LEVEL_X_SCORE[level]));
     addCommands(new ShoulderWaitForPosition());
     // open the claw
-    addCommands(new ClawPistonSet(State.OPEN));
+    addCommands(new ClawPistonSet(State.CLOSE));
     addCommands(new WaitCommand(0.5));
     // retract the arm
     addCommands(new ArmGoto(Arm.LEVEL_X_SCORE[0]));
