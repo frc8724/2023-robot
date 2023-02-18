@@ -239,7 +239,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
         double leftPower;
         double rightPower;
         double rotation = 0;
-        final double QUICK_TURN_GAIN = 0.55; // 2019: .75. 2020: .75 was too fast.
+        final double QUICK_TURN_GAIN = 0.2; // .55 at strt ow week 0// 2019: .75. 2020: .75 was too fast.
 
         m_lastThrottle = throttle;
         m_lastSteering = rawSteeringX;
