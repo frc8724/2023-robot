@@ -121,7 +121,10 @@ public class RobotContainer {
 
     // Claw Rollers Left Triggers
     operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.2));
+    operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ClawRollerSet(0.0));
+
     operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.2));
+    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.onFalse(new ClawRollerSet(0.0));
 
     // Claw Pistons Right Triggers
     operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawPistonSet(ClawPiston.State.OPEN));
@@ -132,8 +135,8 @@ public class RobotContainer {
     operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.whileTrue(new ArmSetPower(-0.10));
 
     // Shoulder manual up/down
-    operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_UP.whileTrue(new ShoulderSetPower(0.25));
-    operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_DOWN.whileTrue(new ShoulderSetPower(-0.25));
+    operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_UP.whileTrue(new ShoulderSetPower(0.15));
+    operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_DOWN.whileTrue(new ShoulderSetPower(-0.15));
 
     // emergency zero
     operatorPad.OPERATOR_PAD_BUTTON_TEN.onTrue(new SystemZero());
