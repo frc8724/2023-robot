@@ -53,8 +53,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     private boolean m_closedLoopMode = true;
     private final double m_maxWheelSpeed = 18000.0; // should be maximum wheel speed in native units
-    private static final double CLOSED_LOOP_RAMP_RATE = 1.0; // time from neutral to full in seconds
-    private static final double OPEN_LOOP_RAMP_RATE = 1.0; // time from neutral to full in seconds
+    private static final double CLOSED_LOOP_RAMP_RATE = 0.2; // time from neutral to full in seconds
+    private static final double OPEN_LOOP_RAMP_RATE = 0.2; // time from neutral to full in seconds
 
     private double m_initialWheelDistance = 0.0;
     private int m_iterationsSinceRotationCommanded = 0;
@@ -281,7 +281,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
                 } else if (m_iterationsSinceRotationCommanded > LOOPS_GYRO_DELAY) {
                     // after more then LOOPS_GYRO_DELAY iterations since commanded turn,
                     // maintain the target heading
-                    rotation = headingCorrection.maintainHeading();
+                    rotation = 0.0; // disable for week 0 headingCorrection.maintainHeading();
+
                     System.out.println("Drive: drive straight w/ correction");
                 }
                 m_iterationsSinceMovementCommanded = 0;
@@ -490,4 +491,14 @@ public class DriveBaseSubsystem extends SubsystemBase {
                 0.0, pose);
     }
 
+    public void setBrake(boolean b) {
+        if (b) {
+            leftTalon1.setNeutralMode(NeutralMode.Brake);
+            rightTalon1.setNeutralMode(NeutralMode.Brake);
+
+        } else {
+            leftTalon1.setNeutralMode(NeutralMode.Coast);
+            rightTalon1.setNeutralMode(NeutralMode.Coast);
+        }
+    }
 }
