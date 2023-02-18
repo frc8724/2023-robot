@@ -37,8 +37,8 @@ public final class Constants {
     }
 
     public final class Solenoid {
-        public static final int ClawPiston = 0;
-        public static final int CLIMBER = 1;
+        public static final int ClawPistonClose = 0;
+        public static final int ClawPistonOpen = 1;
         public static final int CAMERA_LIGHTS = 2;
     }
 
@@ -80,5 +80,9 @@ public final class Constants {
         public static final int ShooterRight = 13;
         public static final int DriveBaseRight1 = 14;
         public static final int DriveBaseRight2 = 15;
+    }
+
+    public static double ConvertFeetToMeters(double ft) {
+        return ft * 12 / 0.0254; // convert to inches, convert inches to meters
     }
 }

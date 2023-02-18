@@ -46,8 +46,8 @@ public class Arm extends SubsystemBase {
     talon.configSupplyCurrentLimit(
         new SupplyCurrentLimitConfiguration(
             true,
-            25,
-            30,
+            40,
+            60,
             3.0));
   }
 

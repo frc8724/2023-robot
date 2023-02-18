@@ -14,11 +14,12 @@ import frc.robot.Constants;
 public class ClawPiston extends SubsystemBase {
 
     public enum State {
-        OPEN,
-        CLOSE
+        CLOSE,
+        OPEN
     };
 
-    private final Solenoid piston = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ClawPiston);
+    private final Solenoid pistonClose = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ClawPistonClose);
+    private final Solenoid pistonOpen = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ClawPistonOpen);
 
     /** Creates a new Arm. */
     public ClawPiston() {
@@ -28,15 +29,16 @@ public class ClawPiston extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
 
-        // SmartDashboard.putBoolean("Claw Piston", piston.get());
-
+        SmartDashboard.putBoolean("Claw Piston", get() == State.CLOSE);
     }
 
     public State get() {
-        return piston.get() ? State.OPEN : State.CLOSE;
+        return pistonClose.get() ? State.CLOSE : State.OPEN;
     }
 
     public void set(State b) {
-        piston.set(b == State.OPEN);
+        pistonClose.set(b == State.CLOSE);
+        pistonOpen.set(b != State.CLOSE);
+
     }
 }

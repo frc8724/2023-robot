@@ -13,9 +13,9 @@ import frc.robot.subsystems.ClawPiston.State;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SystemPlaceCone extends SequentialCommandGroup {
-  /** Creates a new SystemPlaceCone. */
-  public SystemPlaceCone(int level) {
+public class SystemPlaceCube extends SequentialCommandGroup {
+  /** Creates a new SystemPlaceCube. */
+  public SystemPlaceCube(int level) {
     // rotate shoulder to the location
     addCommands(new ShoulderGoto(Shoulder.LEVEL_X_PRESCORE[level]));
     addCommands(new ShoulderWaitForPosition());
@@ -26,11 +26,12 @@ public class SystemPlaceCone extends SequentialCommandGroup {
     addCommands(new ShoulderGoto(Shoulder.LEVEL_X_SCORE[level]));
     addCommands(new ShoulderWaitForPosition());
     // open the claw
-    addCommands(new ClawPistonSet(State.CLOSE));
-    addCommands(new WaitCommand(0.5));
+    addCommands(new ClawRollerSet(-0.1));
+    addCommands(new WaitCommand(0.2));
     // retract the arm
     addCommands(new ArmGoto(Arm.LEVEL_X_SCORE[0]));
     addCommands(new ArmWaitForPosition());
+    addCommands(new ClawRollerSet(0.0));
     // lower the shoulder
     addCommands(new ShoulderGoto(Shoulder.LEVEL_X_SCORE[0]));
     addCommands(new ShoulderWaitForPosition());

@@ -4,26 +4,15 @@
 
 package frc.robot;
 
-import frc.robot.AutoRoutines.TestTrajectoryCommand;
-import frc.robot.AutoRoutines.Test_1;
-import frc.robot.AutoRoutines.Test_Drive;
-import frc.robot.AutoRoutines.Test_Drive_2;
+import frc.robot.AutoRoutines.*;
 import frc.robot.commands.*;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.ClawColorSensor;
-import frc.robot.subsystems.ClawPiston;
-import frc.robot.subsystems.ClawRollers;
-import frc.robot.subsystems.DriveBaseSubsystem;
-import frc.robot.subsystems.Shoulder;
-import frc.robot.subsystems.Targeting;
+import frc.robot.subsystems.*;
 import org.mayheminc.util.MayhemDriverPad;
 import org.mayheminc.util.MayhemOperatorPad;
-
-import frc.robot.subsystems.LimeLight;
-import frc.robot.subsystems.PowerDist;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -58,11 +47,34 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    autoChooser.addOption("test1", new Test_1());
-    autoChooser.addOption("testdrive", new Test_Drive());
-    autoChooser.addOption("testdrive2", new Test_Drive_2());
-    autoChooser.addOption("testtrajectorycommand", new TestTrajectoryCommand());
+
+    // addAuto(new Test_1());
+
+    addAuto(new Week0_StandStill());
+
+    addAuto(new Week0_DriveOut());
+    addAuto(new Week0_LevelStation());
+
+    addAuto(new Week0_PlaceCone2());
+    addAuto(new Week0_PlaceCone2_DriveOut());
+    addAuto(new Week0_PlaceCone2_Level());
+
+    addAuto(new Week0_PlaceCone3());
+    addAuto(new Week0_PlaceCone3_DriveOut());
+    addAuto(new Week0_PlaceCone3_Level());
+
+    addAuto(new Week0_PlaceCube2());
+    addAuto(new Week0_PlaceCube2_DriveOut());
+
+    addAuto(new Week0_PlaceCube3());
+    addAuto(new Week0_PlaceCube3_DriveOut());
+
     SmartDashboard.putData("Auto Mode", autoChooser);
+  }
+
+  private void addAuto(Command cmd) {
+    String name = cmd.getClass().getSimpleName();
+    autoChooser.addOption(name, cmd);
   }
 
   /**
@@ -105,26 +117,29 @@ public class RobotContainer {
     operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
     operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemPlaceCone(1));
     operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
-    operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(
-        new ClawColorCommand(
-            new ClawPistonSet(ClawPiston.State.CLOSE),
-            new ClawPistonSet(ClawPiston.State.OPEN)));
+    operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
 
     // Claw Rollers Left Triggers
     operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.2));
+    operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ClawRollerSet(0.0));
+
     operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.2));
+    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.onFalse(new ClawRollerSet(0.0));
 
     // Claw Pistons Right Triggers
-    operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawPistonSet(ClawPiston.State.CLOSE));
-    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawPistonSet(ClawPiston.State.OPEN));
+    operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawPistonSet(ClawPiston.State.OPEN));
+    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawPistonSet(ClawPiston.State.CLOSE));
 
-    // Arm manual up/down
-    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.whileTrue(new ArmSetPower(0.25));
-    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.whileTrue(new ArmSetPower(-0.25));
+    // Arm manual in/out
+    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.whileTrue(new ArmSetPower(0.10));
+    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.whileTrue(new ArmSetPower(-0.10));
 
     // Shoulder manual up/down
-    operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_UP.whileTrue(new ShoulderSetPower(0.25));
-    operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_DOWN.whileTrue(new ShoulderSetPower(-0.25));
+    operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_UP.whileTrue(new ShoulderSetPower(0.15));
+    operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_DOWN.whileTrue(new ShoulderSetPower(-0.15));
+
+    // emergency zero
+    operatorPad.OPERATOR_PAD_BUTTON_TEN.onTrue(new SystemZero());
 
     /*
      * human player grab - cube or cone
@@ -135,11 +150,15 @@ public class RobotContainer {
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
+   * Always prepend a System Zero command to the auto command.
+   * 
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return autoChooser.getSelected();
+    Command auto = autoChooser.getSelected();
+
+    return new SequentialCommandGroup(
+        new SystemZero(),
+        auto);
   }
 }

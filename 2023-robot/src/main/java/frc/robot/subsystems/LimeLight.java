@@ -112,7 +112,7 @@ public class LimeLight extends SubsystemBase {
      */
     public double getDistanceFromAprilTag() {
         double[] d = getTargetPose();
-        return d[2];
+        return Math.abs(d[2]);
     }
 
     int count = 0;
@@ -135,6 +135,7 @@ public class LimeLight extends SubsystemBase {
         SmartDashboard.putNumber("LimeLight Pose 5", d[5]);
 
         SmartDashboard.putNumber("LimeLight Pose Id", getTargetPoseId());
+        SmartDashboard.putNumber("LimeList Distance to April", getDistanceFromAprilTag());
     }
 
 }

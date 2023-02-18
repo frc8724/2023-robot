@@ -4,12 +4,11 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
 public class DriveToAprilTagDistance extends CommandBase {
-  static final double DRIVE_SLOP_METERS = 0.3;
+  static final double DRIVE_SLOP_METERS = 0.1;
 
   double power;
   double distanceInMeters;
@@ -27,7 +26,6 @@ public class DriveToAprilTagDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.drive.speedRacerDrive(power, 0.0, false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,8 +33,10 @@ public class DriveToAprilTagDistance extends CommandBase {
   public void execute() {
     // drive forward or backwards based on too close or too far
     if (RobotContainer.limeLight.getDistanceFromAprilTag() < this.distanceInMeters) {
+      RobotContainer.drive.speedRacerDrive(-Math.abs(power), 0.0, false);
       this.distanceInMeters = -Math.abs(this.distanceInMeters);
     } else {
+      RobotContainer.drive.speedRacerDrive(Math.abs(power), 0.0, false);
       this.distanceInMeters = Math.abs(this.distanceInMeters);
     }
   }

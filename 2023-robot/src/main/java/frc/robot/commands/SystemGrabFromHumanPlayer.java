@@ -9,9 +9,6 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ClawPiston;
 import frc.robot.subsystems.Shoulder;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SystemGrabFromHumanPlayer extends SequentialCommandGroup {
   /** Creates a new SystemGrabFromHumanPlayer. */
   public SystemGrabFromHumanPlayer() {
@@ -20,7 +17,7 @@ public class SystemGrabFromHumanPlayer extends SequentialCommandGroup {
     addCommands(new ShoulderWaitForPosition());
 
     // open claw and start sucking
-    addCommands(new ClawPistonSet(ClawPiston.State.OPEN));
+    addCommands(new ClawPistonSet(ClawPiston.State.CLOSE));
     addCommands(new ClawRollerSet(0.25));
 
     // extend arm
