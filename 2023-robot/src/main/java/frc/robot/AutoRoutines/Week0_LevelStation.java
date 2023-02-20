@@ -16,9 +16,10 @@ public class Week0_LevelStation extends SequentialCommandGroup {
   /** Creates a new Week0_LevelStation. */
   public Week0_LevelStation() {
     // drive back to see the april tag
-    addCommands(new DriveStraightOnHeading( -0.2, 100.0, 0.0));
+    addCommands(new DriveStraightOnHeading(-0.2, 100.0, 0.0));
     // use the april tag to get the distance
-    addCommands(new DriveToAprilTagDistance(-0.2, Constants.ConvertFeetToMeters(4.0)));
+    // addCommands(new DriveToAprilTagDistance(-0.2,
+    // Constants.ConvertFeetToMeters(4.0)));
     // stay level!
     addCommands(new DriveGetLevel());
   }

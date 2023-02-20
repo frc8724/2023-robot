@@ -55,19 +55,19 @@ public class RobotContainer {
     addAuto(new Week0_DriveOut());
     addAuto(new Week0_LevelStation());
 
-    addAuto(new Week0_PlaceCone2());
-    addAuto(new Week0_PlaceCone2_DriveOut());
-    addAuto(new Week0_PlaceCone2_Level());
+    // addAuto(new Week0_PlaceCone2());
+    // addAuto(new Week0_PlaceCone2_DriveOut());
+    // addAuto(new Week0_PlaceCone2_Level());
 
-    addAuto(new Week0_PlaceCone3());
-    addAuto(new Week0_PlaceCone3_DriveOut());
-    addAuto(new Week0_PlaceCone3_Level());
+    // addAuto(new Week0_PlaceCone3());
+    // addAuto(new Week0_PlaceCone3_DriveOut());
+    // addAuto(new Week0_PlaceCone3_Level());
 
-    addAuto(new Week0_PlaceCube2());
-    addAuto(new Week0_PlaceCube2_DriveOut());
+    // addAuto(new Week0_PlaceCube2());
+    // addAuto(new Week0_PlaceCube2_DriveOut());
 
-    addAuto(new Week0_PlaceCube3());
-    addAuto(new Week0_PlaceCube3_DriveOut());
+    // addAuto(new Week0_PlaceCube3());
+    // addAuto(new Week0_PlaceCube3_DriveOut());
 
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
@@ -100,6 +100,9 @@ public class RobotContainer {
 
     driverPad.DRIVER_PAD_RED_BUTTON.whileTrue(new DriveCenterTarget());
 
+    driverPad.DRIVER_PAD_BLUE_BUTTON.onTrue(new DriveBrakeMode(true));
+    driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
+
     /**
      * auto align (human player, cone, or cube) - left top trigger
      * auto level - left bottom trigger
@@ -120,11 +123,11 @@ public class RobotContainer {
     operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
 
     // Claw Rollers Left Triggers
-    operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.2));
-    operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ClawRollerSet(0.0));
+    operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.5));
+    operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ClawRollerSet(0.05));
 
-    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.2));
-    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.onFalse(new ClawRollerSet(0.0));
+    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.5));
+    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.onFalse(new ClawRollerSet(0.00));
 
     // Claw Pistons Right Triggers
     operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawPistonSet(ClawPiston.State.OPEN));

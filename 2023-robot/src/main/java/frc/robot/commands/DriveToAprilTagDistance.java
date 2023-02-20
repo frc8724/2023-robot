@@ -50,6 +50,8 @@ public class DriveToAprilTagDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(this.distanceInMeters - RobotContainer.limeLight.getDistanceFromAprilTag()) < DRIVE_SLOP_METERS);
+    return true;
+    // return (Math.abs(this.distanceInMeters -
+    // RobotContainer.limeLight.getDistanceFromAprilTag()) < DRIVE_SLOP_METERS);
   }
 }

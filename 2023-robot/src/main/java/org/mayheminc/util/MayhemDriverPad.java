@@ -82,7 +82,7 @@ public class MayhemDriverPad {
 
         private static final double THROTTLE_DEAD_ZONE_PERCENT = 0.20;
         private static final double MIN_THROTTLE_FOR_MOVEMENT = 0.00; // what is the min throttle for Movement
-        private static final double NORMAL_MAX_THROTTLE = 0.90; // maximum speed is normally 100%
+        private static final double NORMAL_MAX_THROTTLE = 0.40; // maximum speed is normally 100%
         // private static final double SLOW_MODE_MAX_THROTTLE = 0.30; // maximum
         // throttle in "slow mode" is 30%
 
