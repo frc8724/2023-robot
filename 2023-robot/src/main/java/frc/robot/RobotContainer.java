@@ -7,8 +7,12 @@ package frc.robot;
 import frc.robot.AutoRoutines.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+
+import org.mayheminc.util.LEDLights;
 import org.mayheminc.util.MayhemDriverPad;
 import org.mayheminc.util.MayhemOperatorPad;
+import org.mayheminc.util.LEDLights.PatternID;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,6 +39,7 @@ public class RobotContainer {
   public static final LimeLight limeLight = new LimeLight();
   public static final PowerDist pdp = new PowerDist();
   public static final ClawColorSensor clawColor = new ClawColorSensor();
+  public static final LEDLights ledLights = new LEDLights();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
   MayhemOperatorPad operatorPad = new MayhemOperatorPad();
@@ -121,6 +126,9 @@ public class RobotContainer {
     operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemPlaceCone(1));
     operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
     operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
+
+    operatorPad.OPERATOR_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.YELLOW));
+    operatorPad.OPERATOR_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.BLUE_VIOLET));
 
     // Claw Rollers Left Triggers
     operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.5));
