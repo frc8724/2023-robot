@@ -493,9 +493,17 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     public void setBrake(boolean b) {
         if (b) {
+            // brake mode in the motors
             leftTalon1.setNeutralMode(NeutralMode.Brake);
             rightTalon1.setNeutralMode(NeutralMode.Brake);
 
+            // set the encoder position to 0.0
+            leftTalon1.setSelectedSensorPosition(0.0);
+            rightTalon1.setSelectedSensorPosition(0.0);
+
+            // set to position stay at 0.
+            leftTalon1.set(ControlMode.Position, 0.0);
+            rightTalon1.set(ControlMode.Position, 0.0);
         } else {
             leftTalon1.setNeutralMode(NeutralMode.Coast);
             rightTalon1.setNeutralMode(NeutralMode.Coast);
