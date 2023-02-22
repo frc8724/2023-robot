@@ -2,8 +2,8 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import org.mayheminc.util.History;
-import org.mayheminc.util.MayhemTalonSRX;
-import org.mayheminc.util.MayhemTalonSRX.CurrentLimit;
+import org.mayheminc.util.MayhemTalonFX;
+import org.mayheminc.util.MayhemTalonFX.CurrentLimit;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -26,17 +26,17 @@ public class DriveBaseSubsystem extends SubsystemBase {
     HeadingCorrection headingCorrection = new HeadingCorrection();
 
     // Talons
-    private final MayhemTalonSRX leftTalon1 = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_TOP,
+    private final MayhemTalonFX leftTalon1 = new MayhemTalonFX(Constants.Talon.DRIVE_LEFT_TOP,
             CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX leftTalon2 = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_FRONT,
+    private final MayhemTalonFX leftTalon2 = new MayhemTalonFX(Constants.Talon.DRIVE_LEFT_FRONT,
             CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX leftTalon3 = new MayhemTalonSRX(Constants.Talon.DRIVE_LEFT_BOTTOM,
+    private final MayhemTalonFX leftTalon3 = new MayhemTalonFX(Constants.Talon.DRIVE_LEFT_BOTTOM,
             CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX rightTalon1 = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_TOP,
+    private final MayhemTalonFX rightTalon1 = new MayhemTalonFX(Constants.Talon.DRIVE_RIGHT_TOP,
             CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX rightTalon2 = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_FRONT,
+    private final MayhemTalonFX rightTalon2 = new MayhemTalonFX(Constants.Talon.DRIVE_RIGHT_FRONT,
             CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonSRX rightTalon3 = new MayhemTalonSRX(Constants.Talon.DRIVE_RIGHT_BOTTOM,
+    private final MayhemTalonFX rightTalon3 = new MayhemTalonFX(Constants.Talon.DRIVE_RIGHT_BOTTOM,
             CurrentLimit.HIGH_CURRENT);
 
     // Odometry class for tracking robot pose
@@ -70,15 +70,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
      **********************************************************/
 
     public DriveBaseSubsystem() {
-        // confirm all four drive talons are in coast mode
-
-        this.configTalon(leftTalon1);
-        this.configTalon(leftTalon2);
-        this.configTalon(leftTalon3);
-        this.configTalon(rightTalon1);
-        this.configTalon(rightTalon2);
-        this.configTalon(rightTalon3);
-
         // set rear talons to follow their respective front talons
         leftTalon2.follow(leftTalon1);
         leftTalon3.follow(leftTalon1);
@@ -101,31 +92,12 @@ public class DriveBaseSubsystem extends SubsystemBase {
         headingCorrection.zeroHeadingGyro(0.0);
     }
 
-    private void configTalon(MayhemTalonSRX talon) {
-        talon.setNeutralMode(NeutralMode.Coast);
-
-        talon.configNominalOutputVoltage(+0.0f, -0.0f);
-        talon.configPeakOutputVoltage(+12.0, -12.0);
-
-        // configure current limits
-        // enabled = true
-        // 40 = limit (amps)
-        // 60 = trigger_threshold (amps)
-        // 0.5 = threshold time(s)
-        talon.configSupplyCurrentLimit(
-                new SupplyCurrentLimitConfiguration(
-                        true,
-                        40,
-                        60,
-                        1.0));
-    }
-
     public void init() {
         // reset the NavX
         headingCorrection.zeroHeadingGyro(0.0);
     }
 
-    private void configureDriveTalon(final MayhemTalonSRX talon) {
+    private void configureDriveTalon(final MayhemTalonFX talon) {
         final double wheelP = 0.020;
         final double wheelI = 0.000;
         final double wheelD = 0.200;
@@ -458,8 +430,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
         m_lastLeftPercent = leftVolts;
         m_lastRightPercent = rightVolts;
 
-        leftTalon1.set(TalonSRXControlMode.PercentOutput, leftVolts);
-        rightTalon1.set(TalonSRXControlMode.PercentOutput, rightVolts);
+        leftTalon1.set(TalonFXControlMode.PercentOutput, leftVolts);
+        rightTalon1.set(TalonFXControlMode.PercentOutput, rightVolts);
     }
 
     /**

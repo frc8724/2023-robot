@@ -130,6 +130,9 @@ public class RobotContainer {
     operatorPad.OPERATOR_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.YELLOW));
     operatorPad.OPERATOR_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.BLUE_VIOLET));
 
+    operatorPad.OPERATOR_PAD_D_PAD_LEFT.onTrue(new ShoulderGoto(0.0)); // debug
+    operatorPad.OPERATOR_PAD_D_PAD_RIGHT.onTrue(new ShoulderOffset(100.0)); // debug
+
     // Claw Rollers Left Triggers
     operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.5));
     operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ClawRollerSet(0.05));
@@ -166,10 +169,16 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command auto = autoChooser.getSelected();
+    // Command auto = autoChooser.getSelected();
 
-    return new SequentialCommandGroup(
-        new SystemZero(),
-        auto);
+    // return new SequentialCommandGroup(
+    // new SystemZero(),
+    // auto);
+
+    return autoChooser.getSelected();
+  }
+
+  public Command startTeleopCommand() {
+    return new LedLightsSet(PatternID.RED);
   }
 }
