@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.AutoRoutines.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.ArmBrake.State;
 
 import org.mayheminc.util.LEDLights;
 import org.mayheminc.util.MayhemDriverPad;
@@ -33,6 +34,7 @@ public class RobotContainer {
   public static final DriveBaseSubsystem drive = new DriveBaseSubsystem();
   public static final Shoulder shoulder = new Shoulder();
   public static final Arm arm = new Arm();
+  public static final ArmBrake armBrake = new ArmBrake();
   public static final ClawRollers clawRollers = new ClawRollers();
   public static final ClawPiston clawPiston = new ClawPiston();
   public static final Targeting targeting = new Targeting();
@@ -121,28 +123,41 @@ public class RobotContainer {
   }
 
   private void configureOperatorPadButtons() {
-    operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
-    operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
-    operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemPlaceCone(1));
-    operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
-    operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
+    SmartDashboard.putString("Debug", "configureOperatorPadButtons");
+    // operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
+    // operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
+    // operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemPlaceCone(1));
+    // operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new
+    // SystemGrabFromHumanPlayer());
+    // operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
+    operatorPad.OPERATOR_PAD_BUTTON_ONE.onTrue(new ArmOffset(-4.0));
+    operatorPad.OPERATOR_PAD_BUTTON_TWO.onTrue(new ArmOffset(+4.0));
 
     operatorPad.OPERATOR_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.YELLOW));
     operatorPad.OPERATOR_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.BLUE_VIOLET));
 
-    operatorPad.OPERATOR_PAD_D_PAD_LEFT.onTrue(new ShoulderGoto(0.0)); // debug
-    operatorPad.OPERATOR_PAD_D_PAD_RIGHT.onTrue(new ShoulderOffset(100.0)); // debug
+    // operatorPad.OPERATOR_PAD_D_PAD_LEFT.onTrue(new
+    // ShoulderOffsetInDegrees(-60.0)); // debug
+    // operatorPad.OPERATOR_PAD_D_PAD_RIGHT.onTrue(new
+    // ShoulderOffsetInDegrees(60.0)); // debug
 
     // Claw Rollers Left Triggers
-    operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.5));
-    operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ClawRollerSet(0.05));
+    // operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.5));
+    // operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ClawRollerSet(0.05));
 
-    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.5));
-    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.onFalse(new ClawRollerSet(0.00));
+    operatorPad.OPERATOR_PAD_BUTTON_FIVE.onTrue(new ArmBrakeSet(State.OPEN));
+
+    operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ArmBrakeSet(State.CLOSE));
+    // operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.5));
+    // operatorPad.OPERATOR_PAD_BUTTON_SEVEN.onFalse(new ClawRollerSet(0.00));
 
     // Claw Pistons Right Triggers
-    operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawPistonSet(ClawPiston.State.OPEN));
-    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawPistonSet(ClawPiston.State.CLOSE));
+    // operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new
+    // ClawPistonSet(ClawPiston.State.OPEN));
+    // operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new
+    // ClawPistonSet(ClawPiston.State.CLOSE));
+    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.onTrue(new ShoulderOffsetInDegrees(-60.0)); // debug
+    operatorPad.OPERATOR_PAD_BUTTON_SIX.onTrue(new ShoulderOffsetInDegrees(60.0)); // debug
 
     // Arm manual in/out
     operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.whileTrue(new ArmSetPower(0.10));

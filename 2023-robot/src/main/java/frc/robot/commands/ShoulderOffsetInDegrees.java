@@ -10,10 +10,10 @@ import frc.robot.RobotContainer;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShoulderOffset extends InstantCommand {
+public class ShoulderOffsetInDegrees extends InstantCommand {
   double position;
 
-  public ShoulderOffset(double pos) {
+  public ShoulderOffsetInDegrees(double pos) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.shoulder);
     position = pos;
@@ -22,7 +22,7 @@ public class ShoulderOffset extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double currentposition = RobotContainer.shoulder.getCurrentPosition();
-    RobotContainer.shoulder.set(currentposition + position);
+    double currentposition = RobotContainer.shoulder.getCurrentPositionInDegrees();
+    RobotContainer.shoulder.setAngleInDegrees(currentposition + position);
   }
 }

@@ -22,6 +22,6 @@ public class ShoulderGoto extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.shoulder.set(position);
+    RobotContainer.shoulder.setAngleInDegrees(position);
   }
 }

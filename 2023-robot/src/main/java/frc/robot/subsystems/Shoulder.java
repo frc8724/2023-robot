@@ -22,16 +22,16 @@ public class Shoulder extends SubsystemBase {
   public static final double HUMAN_PLAYER_STATION = 3000.0;
   public static final double STOW = 1000.0;
 
-  static final double POSITION_SLOP = 1000.0;
+  static final double POSITION_SLOP = 100.0;
 
-  final double kWheelP = 0.000;
+  final double kWheelP = 0.010; // 12V when 60 degrees off
   final double kWheelI = 0.000;
   final double kWheelD = 0.000;
-  final double kWheelF = 0.080;
+  final double kWheelF = 0.000;
 
   // horizontal = 64900 ticks
   // vertical = 140000 ticks
-  final int TICKS_PER_DEGREE = 100; // TODO: set this to the correct value.
+  final int TICKS_PER_DEGREE = 75100 / 90; // ~834 ticks per degree
 
   private final TalonFX leftTalon = new TalonFX(Constants.Talon.LEFT_SHOULDER_FALCON);
   private final TalonFX rightTalon = new TalonFX(Constants.Talon.RIGHT_SHOULDER_FALCON);
@@ -96,9 +96,9 @@ public class Shoulder extends SubsystemBase {
 
     talon.configClosedLoopPeakOutput(slot, 1.0);
 
-    talon.configMotionCruiseVelocity(100000); // measured velocity of ~100K at 85%; set cruise to that
-    talon.configMotionAcceleration(200000); // acceleration of 2x velocity allows cruise to be attained in 1/2
-                                            // second
+    talon.configMotionCruiseVelocity(3000); // measured velocity of ~100K at 85%; set cruise to that
+    talon.configMotionAcceleration(3000); // acceleration of 2x velocity allows cruise to be attained in 1 second
+                                          // second
     talon.set(TalonFXControlMode.Position, 0.0);
   }
 
@@ -122,12 +122,16 @@ public class Shoulder extends SubsystemBase {
     SmartDashboard.putNumber("Shoulder Motor %", rightTalon.getMotorOutputPercent());
   }
 
-  public void set(double degree) {
-    rightTalon.set(ControlMode.Position, degree * TICKS_PER_DEGREE);
+  public void setAngleInDegrees(double degree) {
+    SmartDashboard.putString("Debug", "setAngleInDegrees");
+
+    rightTalon.set(ControlMode.MotionMagic, degree * TICKS_PER_DEGREE);
   }
 
-  public double getCurrentPosition() {
-    return rightTalon.getSelectedSensorPosition();
+  public double getCurrentPositionInDegrees() {
+    SmartDashboard.putString("Debug", "getCurrentPositionInDegrees");
+
+    return rightTalon.getSelectedSensorPosition() / TICKS_PER_DEGREE;
   }
 
   public double getTargetPosition() {
@@ -135,18 +139,21 @@ public class Shoulder extends SubsystemBase {
   }
 
   public boolean isAtPosition() {
-    return Math.abs(getCurrentPosition() - getTargetPosition()) < POSITION_SLOP;
+    return Math.abs(getCurrentPositionInDegrees() - getTargetPosition()) < POSITION_SLOP;
   }
 
   public void stop() {
-    set(getCurrentPosition());
+    setAngleInDegrees(getCurrentPositionInDegrees());
   }
 
   // Set the arm to horizontal and then call zero().
   public void zero() {
     DriverStation.reportWarning("Shoulder: zero", false);
-    rightTalon.setSelectedSensorPosition(100.0);
-    rightTalon.set(TalonFXControlMode.MotionMagic, 0.0, DemandType.ArbitraryFeedForward, 0.00);
+    rightTalon.setSelectedSensorPosition(0.0);
+    // rightTalon.set(TalonFXControlMode.MotionMagic, 0.0,
+    // DemandType.ArbitraryFeedForward, 0.00);
+    rightTalon.set(TalonFXControlMode.Position, 0.0);
+
   }
 
   public void setPower(double power) {

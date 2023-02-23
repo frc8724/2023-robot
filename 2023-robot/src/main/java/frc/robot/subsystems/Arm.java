@@ -20,6 +20,7 @@ import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
 
+  static final double TICKS_PER_INCH = 3442;
   public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 3000.0, 3500.0 };
   public static final double HUMAN_PLAYER_STATION = 1234.0;
   public static final double STOW = 100.0;
@@ -32,6 +33,7 @@ public class Arm extends SubsystemBase {
   /** Creates a new Arm. */
   public Arm() {
     configTalon(talon);
+    zero();
   }
 
   private void configTalon(TalonFX talon) {
@@ -39,9 +41,9 @@ public class Arm extends SubsystemBase {
 
     talon.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
 
-    talon.config_kP(0, 1.0);
+    talon.config_kP(0, 0.1);
     talon.config_kI(0, 0.0);
-    talon.config_kD(0, 10.0);
+    talon.config_kD(0, 0.0);
     talon.config_kF(0, 0.0);
 
     talon.configClosedloopRamp(CLOSED_LOOP_RAMP_RATE); // specify minimum time for neutral to full in seconds
@@ -58,12 +60,16 @@ public class Arm extends SubsystemBase {
     return talon.getSelectedSensorPosition();
   }
 
+  public double getCurrentPositionInInches() {
+    return getCurrentPosition() / TICKS_PER_INCH;
+  }
+
   public double getTargetPosition() {
     return talon.getClosedLoopTarget();
   }
 
-  public void set(double p) {
-    talon.set(ControlMode.Position, p);
+  public void setInInches(double p) {
+    talon.set(ControlMode.Position, p * TICKS_PER_INCH);
   }
 
   public boolean isAtPosition() {
@@ -71,14 +77,14 @@ public class Arm extends SubsystemBase {
   }
 
   public void stop() {
-    set(getCurrentPosition());
+    setInInches(getCurrentPosition());
   }
 
   // Set the arm to horizontal and then call zero().
   public void zero() {
     DriverStation.reportWarning("Arm: zero", false);
     talon.setSelectedSensorPosition(0.0);
-    talon.set(ControlMode.Position, 0.0);
+    talon.set(ControlMode.PercentOutput, 0.0);
   }
 
   public void setPower(double d) {

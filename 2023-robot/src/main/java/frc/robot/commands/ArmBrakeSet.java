@@ -6,23 +6,24 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.ArmBrake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ArmGoto extends InstantCommand {
-  double position;
+public class ArmBrakeSet extends InstantCommand {
+  ArmBrake.State position;
 
-  public ArmGoto(double pos) {
+  public ArmBrakeSet(ArmBrake.State position) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.arm);
+    addRequirements(RobotContainer.armBrake);
 
-    this.position = pos;
+    this.position = position;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.arm.setInInches(position);
+    RobotContainer.armBrake.set(position);
   }
 }
