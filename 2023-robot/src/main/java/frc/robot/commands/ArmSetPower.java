@@ -9,12 +9,18 @@ import frc.robot.RobotContainer;
 
 public class ArmSetPower extends CommandBase {
   double power;
+  boolean isFinished;
 
   /** Creates a new ArmSetPower. */
   public ArmSetPower(double power) {
+    this(power, false);
+  }
+
+  public ArmSetPower(double power, boolean b) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.arm);
     this.power = power;
+    isFinished = b;
   }
 
   // Called when the command is initially scheduled.
@@ -25,7 +31,8 @@ public class ArmSetPower extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -36,6 +43,6 @@ public class ArmSetPower extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }

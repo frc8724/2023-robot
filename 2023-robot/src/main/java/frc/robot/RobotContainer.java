@@ -130,8 +130,9 @@ public class RobotContainer {
     // operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new
     // SystemGrabFromHumanPlayer());
     // operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
-    operatorPad.OPERATOR_PAD_BUTTON_ONE.onTrue(new ArmOffset(-4.0));
-    operatorPad.OPERATOR_PAD_BUTTON_TWO.onTrue(new ArmOffset(+4.0));
+
+    operatorPad.OPERATOR_PAD_BUTTON_ONE.onTrue(new ArmSystemGoTo(-8.0));
+    operatorPad.OPERATOR_PAD_BUTTON_TWO.onTrue(new ArmSystemGoTo(+8.0));
 
     operatorPad.OPERATOR_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.YELLOW));
     operatorPad.OPERATOR_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.BLUE_VIOLET));
@@ -145,8 +146,9 @@ public class RobotContainer {
     // operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.5));
     // operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ClawRollerSet(0.05));
 
-    operatorPad.OPERATOR_PAD_BUTTON_FIVE.onTrue(new ArmBrakeSet(State.OPEN));
-    operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ArmBrakeSet(State.CLOSE));
+    operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ArmBrakeSet(State.OPEN));
+    operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new SequentialCommandGroup(
+        new ArmBrakeSet(State.CLOSE), new ArmSetPower(0.0)));
 
     // operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.5));
     // operatorPad.OPERATOR_PAD_BUTTON_SEVEN.onFalse(new ClawRollerSet(0.00));

@@ -25,7 +25,7 @@ public class Arm extends SubsystemBase {
   public static final double HUMAN_PLAYER_STATION = 1234.0;
   public static final double STOW = 100.0;
 
-  static final double POSITION_SLOP = 1000.0;
+  static final double POSITION_SLOP = 500.0;
   static final double CLOSED_LOOP_RAMP_RATE = 1.0;
 
   private final MayhemTalonFX talon = new MayhemTalonFX(Constants.Talon.ARM_FALCON, CurrentLimit.HIGH_CURRENT);
@@ -41,11 +41,17 @@ public class Arm extends SubsystemBase {
 
     talon.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
 
-    talon.config_kP(0, 0.1);
+    talon.config_kP(0, 0.2);
     talon.config_kI(0, 0.0);
-    talon.config_kD(0, 0.0);
+    talon.config_kD(0, 50.0);
     talon.config_kF(0, 0.0);
 
+    talon.configMotionCruiseVelocity(TICKS_PER_INCH); // measured velocity of ~100K at 85%; set cruise to that
+    talon.configMotionAcceleration(2 * TICKS_PER_INCH); // acceleration of 2x velocity allows cruise to be attained in 1
+                                                        // second
+    // second
+
+    talon.configAllowableClosedloopError(0, POSITION_SLOP, 0);
     talon.configClosedloopRamp(CLOSED_LOOP_RAMP_RATE); // specify minimum time for neutral to full in seconds
   }
 
@@ -54,6 +60,9 @@ public class Arm extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Arm Position", getCurrentPosition());
     SmartDashboard.putNumber("Arm Target", getTargetPosition());
+    SmartDashboard.putNumber("Arm Error", talon.getClosedLoopError());
+    SmartDashboard.putNumber("Arm Error 2", Math.abs(getCurrentPosition() - getTargetPosition()));
+    SmartDashboard.putBoolean("Arm At Position", isAtPosition());
   }
 
   public double getCurrentPosition() {
@@ -68,12 +77,17 @@ public class Arm extends SubsystemBase {
     return talon.getClosedLoopTarget();
   }
 
+  double m_targetPosition;
+
   public void setInInches(double p) {
+    m_targetPosition = p * TICKS_PER_INCH;
     talon.set(ControlMode.Position, p * TICKS_PER_INCH);
   }
 
   public boolean isAtPosition() {
-    return Math.abs(getCurrentPosition() - getTargetPosition()) < POSITION_SLOP;
+    return Math.abs(getCurrentPosition() - m_targetPosition) < 3 *
+        POSITION_SLOP;
+    // return talon.getClosedLoopError() < 3 * POSITION_SLOP;
   }
 
   public void stop() {
