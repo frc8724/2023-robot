@@ -18,26 +18,31 @@ public class ArmBrake extends SubsystemBase {
         OPEN
     };
 
-    private final Solenoid brakeClose = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ArmBrakeClose);
-    private final Solenoid brakeOpen = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ArmBrakeOpen);
+    // private final Solenoid brakeClose = new
+    // Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ArmBrakeClose);
+    private final Solenoid brake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ArmBrake);
 
     /** Creates a new Arm. */
     public ArmBrake() {
+        zero();
+    }
+
+    public void zero() {
+        set(State.CLOSE);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
 
-        SmartDashboard.putBoolean("Arm Brake Piston", get() == State.CLOSE);
+        SmartDashboard.putBoolean("Arm Brake Piston", get() == State.OPEN);
     }
 
     public State get() {
-        return brakeClose.get() ? State.CLOSE : State.OPEN;
+        return brake.get() ? State.OPEN : State.CLOSE;
     }
 
     public void set(State b) {
-        brakeClose.set(b == State.CLOSE);
-        brakeOpen.set(b != State.CLOSE);
+        brake.set(b == State.OPEN);
     }
 }

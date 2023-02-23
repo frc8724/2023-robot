@@ -146,8 +146,8 @@ public class RobotContainer {
     // operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ClawRollerSet(0.05));
 
     operatorPad.OPERATOR_PAD_BUTTON_FIVE.onTrue(new ArmBrakeSet(State.OPEN));
-
     operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ArmBrakeSet(State.CLOSE));
+
     // operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.5));
     // operatorPad.OPERATOR_PAD_BUTTON_SEVEN.onFalse(new ClawRollerSet(0.00));
 
