@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.lang.annotation.Target;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -17,21 +19,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shoulder extends SubsystemBase {
-  public static final double[] LEVEL_X_PRESCORE = { 0.0, 2000.0, 3500.0, 4000.0 };
-  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 3000.0, 3500.0 };
+  public static final double[] LEVEL_X_PRESCORE = { 0.0, 2000.0, 70000.0, 79500.0 };
+  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 53000.0, 71800.0 };
   public static final double HUMAN_PLAYER_STATION = 3000.0;
   public static final double STOW = 1000.0;
 
-  static final double POSITION_SLOP = 100.0;
+  static final double POSITION_SLOP = 2500.0;
 
   final double kWheelP = 0.010; // 12V when 60 degrees off
   final double kWheelI = 0.000;
   final double kWheelD = 0.000;
   final double kWheelF = 0.000;
-
-  // horizontal = 64900 ticks
-  // vertical = 140000 ticks
-  final int TICKS_PER_DEGREE = 75100 / 90; // ~834 ticks per degree
 
   private final TalonFX leftTalon = new TalonFX(Constants.Talon.LEFT_SHOULDER_FALCON);
   private final TalonFX rightTalon = new TalonFX(Constants.Talon.RIGHT_SHOULDER_FALCON);
@@ -96,8 +94,8 @@ public class Shoulder extends SubsystemBase {
 
     talon.configClosedLoopPeakOutput(slot, 1.0);
 
-    talon.configMotionCruiseVelocity(3000); // measured velocity of ~100K at 85%; set cruise to that
-    talon.configMotionAcceleration(3000); // acceleration of 2x velocity allows cruise to be attained in 1 second
+    talon.configMotionCruiseVelocity(6000); // measured velocity of ~100K at 85%; set cruise to that
+    talon.configMotionAcceleration(10000); // acceleration of 2x velocity allows cruise to be attained in 1 second
                                           // second
     talon.set(TalonFXControlMode.Position, 0.0);
   }
@@ -117,33 +115,34 @@ public class Shoulder extends SubsystemBase {
     // wheelF = SmartDashboard.getNumber("Shoulder F", kWheelF);
     SmartDashboard.putNumber("Shoulder F", kWheelF);
 
+    SmartDashboard.putBoolean("Shoulder at Position", isAtPosition());
+
     SmartDashboard.putNumber("Shoulder error", rightTalon.getClosedLoopError());
 
     SmartDashboard.putNumber("Shoulder Motor %", rightTalon.getMotorOutputPercent());
   }
 
-  public void setAngleInDegrees(double degree) {
-    SmartDashboard.putString("Debug", "setAngleInDegrees");
+  double TargetPositionTicks;
 
-    rightTalon.set(ControlMode.MotionMagic, degree * TICKS_PER_DEGREE);
+  public void setAngleInTicks(double ticks) {
+    TargetPositionTicks = ticks;
+    rightTalon.set(ControlMode.MotionMagic, ticks, DemandType.ArbitraryFeedForward,0.05);
   }
 
-  public double getCurrentPositionInDegrees() {
-    SmartDashboard.putString("Debug", "getCurrentPositionInDegrees");
-
-    return rightTalon.getSelectedSensorPosition() / TICKS_PER_DEGREE;
+  public double getCurrentPositionInTicks() {
+    return rightTalon.getSelectedSensorPosition();
   }
 
-  public double getTargetPosition() {
+  public double getTargetPositionTicks() {
     return rightTalon.getClosedLoopTarget();
   }
 
   public boolean isAtPosition() {
-    return Math.abs(getCurrentPositionInDegrees() - getTargetPosition()) < POSITION_SLOP;
+    return Math.abs(getCurrentPositionInTicks() - TargetPositionTicks) < 3 * POSITION_SLOP;
   }
 
   public void stop() {
-    setAngleInDegrees(getCurrentPositionInDegrees());
+    setAngleInTicks(getCurrentPositionInTicks());
   }
 
   // Set the arm to horizontal and then call zero().

@@ -25,9 +25,9 @@ public class ArmOffset extends InstantCommand {
   @Override
   public void initialize() {
     double pos;
-    pos = RobotContainer.arm.getCurrentPositionInInches();
+    pos = RobotContainer.arm.getCurrentPositionInTicks();
     pos += this.inches;
-    RobotContainer.arm.setInInches(pos);
+    RobotContainer.arm.setInTicks (pos);
     SmartDashboard.putString("Debug", "New Arm Pos: " + pos);
   }
 }

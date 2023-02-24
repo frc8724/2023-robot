@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Arm;
@@ -20,19 +21,23 @@ public class SystemPlaceCone extends SequentialCommandGroup {
     addCommands(new ShoulderGoto(Shoulder.LEVEL_X_PRESCORE[level]));
     addCommands(new ShoulderWaitForPosition());
     // extend the arm out
-    addCommands(new ArmGoto(Arm.LEVEL_X_SCORE[level]));
+    addCommands(new ArmSystemGoTo(Arm.LEVEL_X_SCORE[level]));
     addCommands(new ArmWaitForPosition());
     // rotate shoulder down to place
     addCommands(new ShoulderGoto(Shoulder.LEVEL_X_SCORE[level]));
-    addCommands(new ShoulderWaitForPosition());
+    addCommands(
+      new ParallelRaceGroup(
+      new ShoulderWaitForPosition(), new WaitCommand(1.0)));
     // open the claw
-    addCommands(new ClawPistonSet(State.CLOSE));
-    addCommands(new WaitCommand(0.5));
+    addCommands(new ClawPistonSet(State.OPEN));
+    addCommands(new WaitCommand(0.2));
     // retract the arm
-    addCommands(new ArmGoto(Arm.LEVEL_X_SCORE[0]));
+    addCommands(new ArmSystemGoTo(Arm.STOW));
     addCommands(new ArmWaitForPosition());
+    //close the claw
+    addCommands(new ClawPistonSet(State.CLOSE));
     // lower the shoulder
-    addCommands(new ShoulderGoto(Shoulder.LEVEL_X_SCORE[0]));
+    addCommands(new ShoulderGoto(Shoulder.STOW));
     addCommands(new ShoulderWaitForPosition());
   }
 }

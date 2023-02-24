@@ -22,7 +22,7 @@ public class ShoulderOffsetInDegrees extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double currentposition = RobotContainer.shoulder.getCurrentPositionInDegrees();
-    RobotContainer.shoulder.setAngleInDegrees(currentposition + position);
+    double currentposition = RobotContainer.shoulder.getCurrentPositionInTicks();
+    RobotContainer.shoulder.setAngleInTicks(currentposition + position);
   }
 }

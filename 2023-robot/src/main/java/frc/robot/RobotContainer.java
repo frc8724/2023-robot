@@ -124,15 +124,15 @@ public class RobotContainer {
 
   private void configureOperatorPadButtons() {
     SmartDashboard.putString("Debug", "configureOperatorPadButtons");
-    // operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
-    // operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
+    operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
+    operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
     // operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemPlaceCone(1));
     // operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new
     // SystemGrabFromHumanPlayer());
     // operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
 
-    operatorPad.OPERATOR_PAD_BUTTON_ONE.onTrue(new ArmSystemGoTo(-8.0));
-    operatorPad.OPERATOR_PAD_BUTTON_TWO.onTrue(new ArmSystemGoTo(+8.0));
+    operatorPad.OPERATOR_PAD_BUTTON_ONE.onTrue(new ShoulderGoto(68600.));
+    operatorPad.OPERATOR_PAD_BUTTON_TWO.onTrue(new ShoulderGoto(55300.));
 
     operatorPad.OPERATOR_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.YELLOW));
     operatorPad.OPERATOR_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.BLUE_VIOLET));
@@ -196,6 +196,10 @@ public class RobotContainer {
   }
 
   public Command startTeleopCommand() {
+    arm.stop();
+    shoulder.stop();
+
     return new LedLightsSet(PatternID.RED);
+
   }
 }

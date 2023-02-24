@@ -20,10 +20,10 @@ import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
 
-  static final double TICKS_PER_INCH = 3442;
-  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 3000.0, 3500.0 };
+  // static final double TICKS_PER_INCH = 3442;
+  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 39100.0, 108000.0 };
   public static final double HUMAN_PLAYER_STATION = 1234.0;
-  public static final double STOW = 100.0;
+  public static final double STOW = 0.0;
 
   static final double POSITION_SLOP = 500.0;
   static final double CLOSED_LOOP_RAMP_RATE = 1.0;
@@ -46,9 +46,9 @@ public class Arm extends SubsystemBase {
     talon.config_kD(0, 50.0);
     talon.config_kF(0, 0.0);
 
-    talon.configMotionCruiseVelocity(TICKS_PER_INCH); // measured velocity of ~100K at 85%; set cruise to that
-    talon.configMotionAcceleration(2 * TICKS_PER_INCH); // acceleration of 2x velocity allows cruise to be attained in 1
-                                                        // second
+    talon.configMotionCruiseVelocity(1500); // measured velocity of ~100K at 85%; set cruise to that
+    talon.configMotionAcceleration(2 * 3400); // acceleration of 2x velocity allows cruise to be attained in 1
+                                              // second
     // second
 
     talon.configAllowableClosedloopError(0, POSITION_SLOP, 0);
@@ -69,8 +69,8 @@ public class Arm extends SubsystemBase {
     return talon.getSelectedSensorPosition();
   }
 
-  public double getCurrentPositionInInches() {
-    return getCurrentPosition() / TICKS_PER_INCH;
+  public double getCurrentPositionInTicks() {
+    return getCurrentPosition();
   }
 
   public double getTargetPosition() {
@@ -79,19 +79,18 @@ public class Arm extends SubsystemBase {
 
   double m_targetPosition;
 
-  public void setInInches(double p) {
-    m_targetPosition = p * TICKS_PER_INCH;
-    talon.set(ControlMode.Position, p * TICKS_PER_INCH);
+  public void setInTicks(double p) {
+    m_targetPosition = p;
+    talon.set(ControlMode.Position, p);
   }
 
   public boolean isAtPosition() {
-    return Math.abs(getCurrentPosition() - m_targetPosition) < 3 *
+    return Math.abs(getCurrentPosition() - m_targetPosition) < 5 *
         POSITION_SLOP;
-    // return talon.getClosedLoopError() < 3 * POSITION_SLOP;
   }
 
   public void stop() {
-    setInInches(getCurrentPosition());
+    talon.set(ControlMode.PercentOutput, 0.0);
   }
 
   // Set the arm to horizontal and then call zero().
