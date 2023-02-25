@@ -21,9 +21,10 @@ import frc.robot.Constants;
 public class Arm extends SubsystemBase {
 
   // static final double TICKS_PER_INCH = 3442;
-  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 39100.0, 108000.0 };
-  public static final double HUMAN_PLAYER_STATION = 1234.0;
+  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 45000.0, 108000.0 };
+  public static final double HUMAN_PLAYER_STATION = 20000.0;
   public static final double STOW = 0.0;
+  public static final double FLOOR_PICKUP = 31000.0;
 
   static final double POSITION_SLOP = 500.0;
   static final double CLOSED_LOOP_RAMP_RATE = 1.0;

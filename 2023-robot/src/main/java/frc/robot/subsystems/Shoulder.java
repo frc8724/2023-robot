@@ -19,10 +19,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shoulder extends SubsystemBase {
-  public static final double[] LEVEL_X_PRESCORE = { 0.0, 2000.0, 70000.0, 79500.0 };
-  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 53000.0, 71800.0 };
-  public static final double HUMAN_PLAYER_STATION = 3000.0;
+  public static final double[] LEVEL_X_PRESCORE = { 0.0, 2000.0, 72000.0, 79500.0 };
+  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 53000.0, 65000.0 };
+  public static final double HUMAN_PLAYER_STATION = 73000.0;
   public static final double STOW = 1000.0;
+  public static final double FLOOR_PICKUP = 17000;
 
   static final double POSITION_SLOP = 2500.0;
 
@@ -96,7 +97,7 @@ public class Shoulder extends SubsystemBase {
 
     talon.configMotionCruiseVelocity(6000); // measured velocity of ~100K at 85%; set cruise to that
     talon.configMotionAcceleration(10000); // acceleration of 2x velocity allows cruise to be attained in 1 second
-                                          // second
+                                           // second
     talon.set(TalonFXControlMode.Position, 0.0);
   }
 
@@ -126,7 +127,7 @@ public class Shoulder extends SubsystemBase {
 
   public void setAngleInTicks(double ticks) {
     TargetPositionTicks = ticks;
-    rightTalon.set(ControlMode.MotionMagic, ticks, DemandType.ArbitraryFeedForward,0.05);
+    rightTalon.set(ControlMode.MotionMagic, ticks, DemandType.ArbitraryFeedForward, 0.05);
   }
 
   public double getCurrentPositionInTicks() {

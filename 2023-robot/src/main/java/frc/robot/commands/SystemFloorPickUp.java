@@ -6,29 +6,22 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.ClawPiston;
 import frc.robot.subsystems.Shoulder;
+import frc.robot.subsystems.ClawPiston.State;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SystemStowArm extends SequentialCommandGroup {
-  /** Creates a new SystemStowArm. */
-  public SystemStowArm() {
-    // close the claw on a cone. Leave open on cube.
-    new ClawColorCommand(
-        new ClawPistonSet(ClawPiston.State.OPEN),
-        new ClawPistonSet(ClawPiston.State.CLOSE));
-
-    // stop the claw
-    addCommands(new ClawRollerSet(0.0));
-
-    // retract arm
-    addCommands(new ArmSystemGoTo(Arm.STOW));
-    addCommands(new ArmWaitForPosition());
-
-    // rotate shoulder
-    addCommands(new ShoulderGoto(Shoulder.STOW));
+public class SystemFloorPickUp extends SequentialCommandGroup {
+  /** Creates a new SystemFloorPickUp. */
+  public SystemFloorPickUp() {
+    addCommands(new ShoulderGoto(Shoulder.FLOOR_PICKUP));
     addCommands(new ShoulderWaitForPosition());
+    // extend arm
+    addCommands(new ArmSystemGoTo(Arm.FLOOR_PICKUP));
+    addCommands(new ArmWaitForPosition());
+    // claw open
+    addCommands(new ClawPistonSet(State.OPEN));
+    addCommands(new ClawRollerSet(0.5));
   }
 }

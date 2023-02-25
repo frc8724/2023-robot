@@ -28,16 +28,5 @@ public class SystemPlaceCone extends SequentialCommandGroup {
     addCommands(
       new ParallelRaceGroup(
       new ShoulderWaitForPosition(), new WaitCommand(1.0)));
-    // open the claw
-    addCommands(new ClawPistonSet(State.OPEN));
-    addCommands(new WaitCommand(0.2));
-    // retract the arm
-    addCommands(new ArmSystemGoTo(Arm.STOW));
-    addCommands(new ArmWaitForPosition());
-    //close the claw
-    addCommands(new ClawPistonSet(State.CLOSE));
-    // lower the shoulder
-    addCommands(new ShoulderGoto(Shoulder.STOW));
-    addCommands(new ShoulderWaitForPosition());
   }
 }
