@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,6 +31,7 @@ public class Arm extends SubsystemBase {
   static final double CLOSED_LOOP_RAMP_RATE = 1.0;
 
   private final MayhemTalonFX talon = new MayhemTalonFX(Constants.Talon.ARM_FALCON, CurrentLimit.HIGH_CURRENT);
+  private final DigitalInput limitSwitch = new DigitalInput(0);
 
   /** Creates a new Arm. */
   public Arm() {
@@ -58,12 +60,19 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    if( limitSwitch.get() )
+    {
+      zero();
+    }
+
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Arm Position", getCurrentPosition());
     SmartDashboard.putNumber("Arm Target", getTargetPosition());
     SmartDashboard.putNumber("Arm Error", talon.getClosedLoopError());
     SmartDashboard.putNumber("Arm Error 2", Math.abs(getCurrentPosition() - getTargetPosition()));
     SmartDashboard.putBoolean("Arm At Position", isAtPosition());
+    SmartDashboard.putBoolean("Arm Limit Switch", limitSwitch.get());
   }
 
   public double getCurrentPosition() {
@@ -96,7 +105,7 @@ public class Arm extends SubsystemBase {
 
   // Set the arm to horizontal and then call zero().
   public void zero() {
-    DriverStation.reportWarning("Arm: zero", false);
+    // DriverStation.reportWarning("Arm: zero", false);
     talon.setSelectedSensorPosition(0.0);
     talon.set(ControlMode.PercentOutput, 0.0);
   }
