@@ -59,6 +59,7 @@ public class RobotContainer {
     // addAuto(new Test_1());
 
     addAuto(new Week0_StandStill());
+    addAuto(new Week1_DriveToCone());
 
     addAuto(new Week0_DriveOut());
     addAuto(new Week0_LevelStation());
@@ -110,6 +111,9 @@ public class RobotContainer {
 
     driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveBrakeMode(true));
     driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
+
+    driverPad.DRIVER_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.COLOR_1_STROBE));
+    driverPad.DRIVER_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.COLOR_2_STROBE));
 
     /**
      * auto align (human player, cone, or cube) - left top trigger
@@ -203,11 +207,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // Command auto = autoChooser.getSelected();
-
-    // return new SequentialCommandGroup(
-    // new SystemZero(),
-    // auto);
+    RobotContainer.drive.init();
+    RobotContainer.shoulder.zero();
+    RobotContainer.arm.zero();
 
     return autoChooser.getSelected();
   }

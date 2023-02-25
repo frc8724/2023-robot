@@ -253,7 +253,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
                 } else if (m_iterationsSinceRotationCommanded > LOOPS_GYRO_DELAY) {
                     // after more then LOOPS_GYRO_DELAY iterations since commanded turn,
                     // maintain the target heading
-                    rotation = 0.0; // disable for week 0 headingCorrection.maintainHeading();
+                    rotation = headingCorrection.maintainHeading();
 
                     System.out.println("Drive: drive straight w/ correction");
                 }

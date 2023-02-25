@@ -95,7 +95,7 @@ public class Shoulder extends SubsystemBase {
 
     talon.configClosedLoopPeakOutput(slot, 1.0);
 
-    talon.configMotionCruiseVelocity(6000); // measured velocity of ~100K at 85%; set cruise to that
+    talon.configMotionCruiseVelocity(8000); // measured velocity of ~100K at 85%; set cruise to that
     talon.configMotionAcceleration(10000); // acceleration of 2x velocity allows cruise to be attained in 1 second
                                            // second
     talon.set(TalonFXControlMode.Position, 0.0);
