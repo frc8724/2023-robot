@@ -43,6 +43,7 @@ public class RobotContainer {
   public static final PowerDist pdp = new PowerDist();
   public static final ClawColorSensor clawColor = new ClawColorSensor();
   public static final LEDLights ledLights = new LEDLights();
+  public static final Whacker whacker = new Whacker();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
   MayhemOperatorPad operatorPad = new MayhemOperatorPad();
@@ -114,6 +115,11 @@ public class RobotContainer {
 
     driverPad.DRIVER_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.COLOR_1_STROBE));
     driverPad.DRIVER_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.COLOR_2_STROBE));
+
+    // driverPad.DRIVER_PAD_D_PAD_LEFT.onTrue(new
+    // ArmSystemGoTo(Arm.LEVEL_X_SCORE[2]));
+    driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerSet(Whacker.State.DOWN));
+    driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onFalse(new WhackerSet(Whacker.State.UP));
 
     /**
      * auto align (human player, cone, or cube) - left top trigger

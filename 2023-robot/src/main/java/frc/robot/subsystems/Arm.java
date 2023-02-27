@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.ArmBrake.State;
 
 public class Arm extends SubsystemBase {
 
@@ -61,9 +63,9 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
 
-    if( limitSwitch.get() )
-    {
+    if (isAtLimitSwitch()) {
       zero();
+      RobotContainer.armBrake.set(State.CLOSE);
     }
 
     // This method will be called once per scheduler run
@@ -73,6 +75,10 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("Arm Error 2", Math.abs(getCurrentPosition() - getTargetPosition()));
     SmartDashboard.putBoolean("Arm At Position", isAtPosition());
     SmartDashboard.putBoolean("Arm Limit Switch", limitSwitch.get());
+  }
+
+  public boolean isAtLimitSwitch() {
+    return limitSwitch.get();
   }
 
   public double getCurrentPosition() {
