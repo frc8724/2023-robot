@@ -24,7 +24,7 @@ public class SystemStowArm extends SequentialCommandGroup {
     addCommands(new ClawRollerSet(0.0));
 
     // retract arm
-    addCommands(new ArmGoto(Arm.STOW));
+    addCommands(new ArmSystemGoTo(Arm.STOW));
     addCommands(new ArmWaitForPosition());
 
     // rotate shoulder

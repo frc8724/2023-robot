@@ -4,25 +4,26 @@
 
 package frc.robot.commands;
 
+import org.mayheminc.util.LEDLights.PatternID;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Shoulder;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShoulderGoto extends InstantCommand {
-  double position;
+public class LedLightsSet extends InstantCommand {
+  PatternID pattern;
 
-  public ShoulderGoto(double pos) {
+  public LedLightsSet(PatternID p) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.shoulder);
-    position = pos;
+    addRequirements(RobotContainer.ledLights);
+    pattern = p;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.shoulder.setAngleInTicks(position);
+    RobotContainer.ledLights.set(pattern);
   }
 }

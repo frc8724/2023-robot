@@ -37,9 +37,9 @@ public final class Constants {
     }
 
     public final class Solenoid {
-        public static final int ClawPistonClose = 0;
-        public static final int ClawPistonOpen = 1;
-        public static final int CAMERA_LIGHTS = 2;
+        public static final int ClawPiston = 3;
+        public static final int ArmBrake = 2;
+        public static final int Whacker = 1;
     }
 
     public final class PDP {

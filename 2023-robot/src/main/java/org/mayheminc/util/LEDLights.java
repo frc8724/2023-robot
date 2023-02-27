@@ -1,9 +1,10 @@
 package org.mayheminc.util;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class LEDLights {
+public class LEDLights extends SubsystemBase {
 
     public enum PatternID {
         RAINBOW_RAINBOW_PALETTE(-0.99, "Rainbow, Rainbow Palette"),
@@ -78,9 +79,9 @@ public class LEDLights {
         }
     }
 
-    // private final Spark m_blinkin = new Spark(Constants.Lights.LIGHTS_PORT);
+    private final Spark m_blinkin = new Spark(Constants.Lights.LIGHTS_PORT);
 
     public void set(PatternID pattern) {
-        // m_blinkin.set(pattern.getVal());
+        m_blinkin.set(pattern.getVal());
     }
 }

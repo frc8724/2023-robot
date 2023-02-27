@@ -7,12 +7,18 @@ package frc.robot;
 import frc.robot.AutoRoutines.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.ArmBrake.State;
+
+import org.mayheminc.util.LEDLights;
 import org.mayheminc.util.MayhemDriverPad;
 import org.mayheminc.util.MayhemOperatorPad;
+import org.mayheminc.util.LEDLights.PatternID;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -29,12 +35,15 @@ public class RobotContainer {
   public static final DriveBaseSubsystem drive = new DriveBaseSubsystem();
   public static final Shoulder shoulder = new Shoulder();
   public static final Arm arm = new Arm();
+  public static final ArmBrake armBrake = new ArmBrake();
   public static final ClawRollers clawRollers = new ClawRollers();
   public static final ClawPiston clawPiston = new ClawPiston();
   public static final Targeting targeting = new Targeting();
   public static final LimeLight limeLight = new LimeLight();
   public static final PowerDist pdp = new PowerDist();
   public static final ClawColorSensor clawColor = new ClawColorSensor();
+  public static final LEDLights ledLights = new LEDLights();
+  public static final Whacker whacker = new Whacker();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
   MayhemOperatorPad operatorPad = new MayhemOperatorPad();
@@ -51,16 +60,17 @@ public class RobotContainer {
     // addAuto(new Test_1());
 
     addAuto(new Week0_StandStill());
+    addAuto(new Week1_DriveToCone());
 
     addAuto(new Week0_DriveOut());
     addAuto(new Week0_LevelStation());
 
-    // addAuto(new Week0_PlaceCone2());
-    // addAuto(new Week0_PlaceCone2_DriveOut());
+    addAuto(new Week0_PlaceCone2());
+    addAuto(new Week0_PlaceCone2_DriveOut());
     // addAuto(new Week0_PlaceCone2_Level());
 
-    // addAuto(new Week0_PlaceCone3());
-    // addAuto(new Week0_PlaceCone3_DriveOut());
+    addAuto(new Week0_PlaceCone3());
+    addAuto(new Week0_PlaceCone3_DriveOut());
     // addAuto(new Week0_PlaceCone3_Level());
 
     // addAuto(new Week0_PlaceCube2());
@@ -100,8 +110,16 @@ public class RobotContainer {
 
     driverPad.DRIVER_PAD_RED_BUTTON.whileTrue(new DriveCenterTarget());
 
-    driverPad.DRIVER_PAD_BLUE_BUTTON.onTrue(new DriveBrakeMode(true));
+    driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveBrakeMode(true));
     driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
+
+    driverPad.DRIVER_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.COLOR_1_STROBE));
+    driverPad.DRIVER_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.COLOR_2_STROBE));
+
+    // driverPad.DRIVER_PAD_D_PAD_LEFT.onTrue(new
+    // ArmSystemGoTo(Arm.LEVEL_X_SCORE[2]));
+    driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerSet(Whacker.State.DOWN));
+    driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onFalse(new WhackerSet(Whacker.State.UP));
 
     /**
      * auto align (human player, cone, or cube) - left top trigger
@@ -116,26 +134,63 @@ public class RobotContainer {
   }
 
   private void configureOperatorPadButtons() {
+    SmartDashboard.putString("Debug", "configureOperatorPadButtons");
+
     operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
     operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
-    operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemPlaceCone(1));
+    operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemScoreAndStow());
     operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
-    operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
+    // operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
+
+    // operatorPad.OPERATOR_PAD_BUTTON_ONE.onTrue(new ShoulderGoto(68600.));
+    // operatorPad.OPERATOR_PAD_BUTTON_TWO.onTrue(new ShoulderGoto(55300.));
+
+    operatorPad.OPERATOR_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.YELLOW));
+    operatorPad.OPERATOR_PAD_D_PAD_DOWN.whileTrue(new SystemGrabAndStow());
+    operatorPad.OPERATOR_PAD_D_PAD_LEFT.whileTrue(new SystemFloorPickUp());
+
+    // debug
+    // operatorPad.OPERATOR_PAD_D_PAD_LEFT.onTrue(new
+    // ShoulderOffsetInDegrees(-60.0)); // debug
+    // operatorPad.OPERATOR_PAD_D_PAD_RIGHT.onTrue(new
+    // ShoulderOffsetInDegrees(60.0)); // debug
 
     // Claw Rollers Left Triggers
-    operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawRollerSet(0.5));
-    operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new ClawRollerSet(0.05));
+    operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawRollerSet(0.5));
+    operatorPad.OPERATOR_PAD_BUTTON_SIX.onFalse(new ClawRollerSet(0.1));
 
-    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(new ClawRollerSet(-0.5));
-    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.onFalse(new ClawRollerSet(0.00));
+    // debug
+    // operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ArmBrakeSet(State.OPEN));
+    // operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new SequentialCommandGroup(
+    // new ArmBrakeSet(State.CLOSE), new ArmSetPower(0.0)));
+
+    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawRollerSet(-0.5));
+    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.onFalse(new ClawRollerSet(0.00));
 
     // Claw Pistons Right Triggers
-    operatorPad.OPERATOR_PAD_BUTTON_SIX.whileTrue(new ClawPistonSet(ClawPiston.State.OPEN));
-    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawPistonSet(ClawPiston.State.CLOSE));
+    operatorPad.OPERATOR_PAD_BUTTON_FIVE.whileTrue(new ClawPistonSet(ClawPiston.State.OPEN));
+    operatorPad.OPERATOR_PAD_BUTTON_SEVEN.whileTrue(
+        new SequentialCommandGroup(
+            new ClawPistonSet(ClawPiston.State.CLOSE),
+            new ClawRollerSet(0.1)));
+
+    // debug
+    // operatorPad.OPERATOR_PAD_BUTTON_EIGHT.onTrue(new
+    // ShoulderOffsetInDegrees(-60.0)); // debug
+    // operatorPad.OPERATOR_PAD_BUTTON_SIX.onTrue(new
+    // ShoulderOffsetInDegrees(60.0)); // debug
 
     // Arm manual in/out
-    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.whileTrue(new ArmSetPower(0.10));
-    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.whileTrue(new ArmSetPower(-0.10));
+    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.whileTrue(
+        new SequentialCommandGroup(new ArmBrakeSet(State.OPEN),
+            new WaitCommand(.2),
+            new ArmSetPower(0.10)));
+    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.onFalse(new ArmBrakeSet(State.CLOSE));
+    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.whileTrue(
+        new SequentialCommandGroup(new ArmBrakeSet(State.OPEN),
+            new WaitCommand(.2),
+            new ArmSetPower(-0.10)));
+    operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.onFalse(new ArmBrakeSet(State.CLOSE));
 
     // Shoulder manual up/down
     operatorPad.OPERATOR_PAD_RIGHT_Y_AXIS_UP.whileTrue(new ShoulderSetPower(0.15));
@@ -158,10 +213,18 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command auto = autoChooser.getSelected();
+    RobotContainer.drive.init();
+    RobotContainer.shoulder.zero();
+    RobotContainer.arm.zero();
 
-    return new SequentialCommandGroup(
-        new SystemZero(),
-        auto);
+    return autoChooser.getSelected();
+  }
+
+  public Command startTeleopCommand() {
+    arm.stop();
+    shoulder.stop();
+
+    return new LedLightsSet(PatternID.RED);
+
   }
 }

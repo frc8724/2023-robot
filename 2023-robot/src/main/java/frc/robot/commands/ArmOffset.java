@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
 
@@ -11,21 +12,22 @@ import frc.robot.RobotContainer;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ArmOffset extends InstantCommand {
-  double offset;
+  double inches;
 
-  public ArmOffset(double offset) {
+  public ArmOffset(double inches) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.clawRollers);
+    addRequirements(RobotContainer.arm);
 
-    this.offset = offset;
+    this.inches = inches;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     double pos;
-    pos = RobotContainer.clawRollers.get();
-    pos += this.offset;
-    RobotContainer.clawRollers.set(pos);
+    pos = RobotContainer.arm.getCurrentPositionInTicks();
+    pos += this.inches;
+    RobotContainer.arm.setInTicks (pos);
+    SmartDashboard.putString("Debug", "New Arm Pos: " + pos);
   }
 }

@@ -11,31 +11,38 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 /** Add your docs here. */
-public class ClawPiston extends SubsystemBase {
+public class ArmBrake extends SubsystemBase {
 
     public enum State {
         CLOSE,
         OPEN
     };
 
-    private final Solenoid piston = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ClawPiston);
+    // private final Solenoid brakeClose = new
+    // Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ArmBrakeClose);
+    private final Solenoid brake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ArmBrake);
 
     /** Creates a new Arm. */
-    public ClawPiston() {
+    public ArmBrake() {
+        zero();
+    }
+
+    public void zero() {
+        set(State.CLOSE);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
 
-        SmartDashboard.putBoolean("Claw Piston", get() == State.OPEN);
+        SmartDashboard.putBoolean("Arm Brake Piston", get() == State.OPEN);
     }
 
     public State get() {
-        return piston.get() ? State.OPEN : State.CLOSE;
+        return brake.get() ? State.OPEN : State.CLOSE;
     }
 
     public void set(State b) {
-        piston.set(b == State.OPEN);
+        brake.set(b == State.OPEN);
     }
 }

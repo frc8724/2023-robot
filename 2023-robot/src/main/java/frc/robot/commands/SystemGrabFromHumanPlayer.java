@@ -17,11 +17,11 @@ public class SystemGrabFromHumanPlayer extends SequentialCommandGroup {
     addCommands(new ShoulderWaitForPosition());
 
     // open claw and start sucking
-    addCommands(new ClawPistonSet(ClawPiston.State.CLOSE));
+    addCommands(new ClawPistonSet(ClawPiston.State.OPEN));
     addCommands(new ClawRollerSet(0.25));
 
     // extend arm
-    addCommands(new ArmGoto(Arm.HUMAN_PLAYER_STATION));
+    addCommands(new ArmSystemGoTo(Arm.HUMAN_PLAYER_STATION));
     addCommands(new ArmWaitForPosition());
   }
 }

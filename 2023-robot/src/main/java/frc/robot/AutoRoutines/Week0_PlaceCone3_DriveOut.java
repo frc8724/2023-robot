@@ -4,13 +4,22 @@
 
 package frc.robot.AutoRoutines;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.SystemPlaceCone;
+import frc.robot.commands.SystemScoreAndStow;
+import frc.robot.commands.SystemZero;
 
 public class Week0_PlaceCone3_DriveOut extends SequentialCommandGroup {
   /** Creates a new Week0_PlaceCone3_DriveOut. */
   public Week0_PlaceCone3_DriveOut() {
+    addCommands(new SystemZero());
+
     addCommands(new SystemPlaceCone(3));
-    addCommands(new Week0_DriveOut());
+    addCommands(
+        new ParallelCommandGroup(
+            new Week0_DriveOut(),
+            new SystemScoreAndStow()));
   }
+
 }
