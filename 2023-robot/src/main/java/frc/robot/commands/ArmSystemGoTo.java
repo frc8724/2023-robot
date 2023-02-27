@@ -4,10 +4,6 @@
 
 package frc.robot.commands;
 
-import java.util.Set;
-
-import javax.swing.text.Position;
-
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ArmBrake.State;
