@@ -67,10 +67,12 @@ public class RobotContainer {
 
     addAuto(new Week0_PlaceCone2());
     addAuto(new Week0_PlaceCone2_DriveOut());
+    addAuto(new Week0_PlaceCone2_ChargingStation());
     // addAuto(new Week0_PlaceCone2_Level());
 
     addAuto(new Week0_PlaceCone3());
     addAuto(new Week0_PlaceCone3_DriveOut());
+    addAuto(new Week0_PlaceCone3_ChargingStation());
     // addAuto(new Week0_PlaceCone3_Level());
 
     // addAuto(new Week0_PlaceCube2());
