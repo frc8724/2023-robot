@@ -30,7 +30,7 @@ public class Arm extends SubsystemBase {
   public static final double FLOOR_PICKUP = 31000.0;
 
   static final double POSITION_SLOP = 500.0;
-  static final double CLOSED_LOOP_RAMP_RATE = 1.0;
+  static final double CLOSED_LOOP_RAMP_RATE = 1.0; // todo: lower this value
 
   private final MayhemTalonFX talon = new MayhemTalonFX(Constants.Talon.ARM_FALCON, CurrentLimit.HIGH_CURRENT);
   private final DigitalInput limitSwitch = new DigitalInput(0);
@@ -60,10 +60,12 @@ public class Arm extends SubsystemBase {
     talon.configClosedloopRamp(CLOSED_LOOP_RAMP_RATE); // specify minimum time for neutral to full in seconds
   }
 
+  boolean manualMode = false;
+
   @Override
   public void periodic() {
 
-    if (isAtLimitSwitch()) {
+    if (isAtLimitSwitch() && !manualMode && isMovingIn()) {
       zero();
       RobotContainer.armBrake.set(State.CLOSE);
     }
@@ -93,10 +95,16 @@ public class Arm extends SubsystemBase {
     return talon.getClosedLoopTarget();
   }
 
+  boolean isMovingIn()
+  {
+    return getTargetPosition() < getCurrentPosition();
+  }
+
   double m_targetPosition;
 
   public void setInTicks(double p) {
     m_targetPosition = p;
+    manualMode = false;
     talon.set(ControlMode.Position, p);
   }
 
@@ -106,6 +114,7 @@ public class Arm extends SubsystemBase {
   }
 
   public void stop() {
+    manualMode = true;
     talon.set(ControlMode.PercentOutput, 0.0);
   }
 
@@ -117,6 +126,12 @@ public class Arm extends SubsystemBase {
   }
 
   public void setPower(double d) {
+    manualMode = true;
+    talon.set(ControlMode.PercentOutput, d);
+  }
+
+  public void setAutoPower(double d) {
+    manualMode = false;
     talon.set(ControlMode.PercentOutput, d);
   }
 }

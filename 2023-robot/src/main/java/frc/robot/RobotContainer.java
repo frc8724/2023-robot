@@ -113,9 +113,6 @@ public class RobotContainer {
     driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveBrakeMode(true));
     driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
 
-    driverPad.DRIVER_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.COLOR_1_STROBE));
-    driverPad.DRIVER_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.COLOR_2_STROBE));
-
     // driverPad.DRIVER_PAD_D_PAD_LEFT.onTrue(new
     // ArmSystemGoTo(Arm.LEVEL_X_SCORE[2]));
     driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerSet(Whacker.State.DOWN));
@@ -145,8 +142,11 @@ public class RobotContainer {
     // operatorPad.OPERATOR_PAD_BUTTON_ONE.onTrue(new ShoulderGoto(68600.));
     // operatorPad.OPERATOR_PAD_BUTTON_TWO.onTrue(new ShoulderGoto(55300.));
 
-    operatorPad.OPERATOR_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.YELLOW));
-    operatorPad.OPERATOR_PAD_D_PAD_DOWN.whileTrue(new SystemGrabAndStow());
+    // operatorPad.OPERATOR_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.YELLOW));
+    operatorPad.OPERATOR_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.COLOR_1_STROBE).withTimeout(10.0));
+    operatorPad.OPERATOR_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.COLOR_2_STROBE).withTimeout(10.0));
+
+    // operatorPad.OPERATOR_PAD_D_PAD_DOWN.whileTrue(new SystemGrabAndStow());
     operatorPad.OPERATOR_PAD_D_PAD_LEFT.whileTrue(new SystemFloorPickUp());
 
     // debug

@@ -16,8 +16,6 @@ public class Whacker extends SubsystemBase {
     DOWN
   };
 
-  // private final Solenoid brakeClose = new
-  // Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ArmBrakeClose);
   private final Solenoid whacker = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.Whacker);
 
   /** Creates a new Whacker. */
@@ -32,7 +30,6 @@ public class Whacker extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
     SmartDashboard.putBoolean("Whacker Piston", get() == State.DOWN);
   }
 

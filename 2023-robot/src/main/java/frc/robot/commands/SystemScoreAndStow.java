@@ -17,16 +17,16 @@ public class SystemScoreAndStow extends SequentialCommandGroup {
   /** Creates a new SystemScoreAndStow. */
   public SystemScoreAndStow() {
     // open the claw
-    addCommands(new ClawPistonSet(State.OPEN));
-    addCommands(new WaitCommand(0.2));
+    // addCommands(new ClawPistonSet(State.OPEN));
+    // addCommands(new WaitCommand(0.2));
     // retract the arm
     addCommands(new ArmSystemGoTo(Arm.STOW));
     addCommands(new ArmWaitForPosition());
+    addCommands(new ArmSystemZero());
     // close the claw
     addCommands(new ClawPistonSet(State.CLOSE));
     // lower the shoulder
     addCommands(new ShoulderGoto(Shoulder.STOW));
     addCommands(new ShoulderWaitForPosition());
-
   }
 }
