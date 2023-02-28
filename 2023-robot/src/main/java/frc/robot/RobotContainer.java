@@ -110,7 +110,7 @@ public class RobotContainer {
 
     driverPad.DRIVER_PAD_RED_BUTTON.whileTrue(new DriveCenterTarget());
 
-    driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveBrakeMode(true));
+    driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveGetLevel());
     driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
 
     // driverPad.DRIVER_PAD_D_PAD_LEFT.onTrue(new
