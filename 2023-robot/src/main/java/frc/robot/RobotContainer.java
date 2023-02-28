@@ -57,8 +57,6 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    // addAuto(new Test_1());
-
     addAuto(new Week0_StandStill());
     addAuto(new Week1_DriveToCone());
 
@@ -68,18 +66,10 @@ public class RobotContainer {
     addAuto(new Week0_PlaceCone2());
     addAuto(new Week0_PlaceCone2_DriveOut());
     addAuto(new Week0_PlaceCone2_ChargingStation());
-    // addAuto(new Week0_PlaceCone2_Level());
 
     addAuto(new Week0_PlaceCone3());
     addAuto(new Week0_PlaceCone3_DriveOut());
     addAuto(new Week0_PlaceCone3_ChargingStation());
-    // addAuto(new Week0_PlaceCone3_Level());
-
-    // addAuto(new Week0_PlaceCube2());
-    // addAuto(new Week0_PlaceCube2_DriveOut());
-
-    // addAuto(new Week0_PlaceCube3());
-    // addAuto(new Week0_PlaceCube3_DriveOut());
 
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
