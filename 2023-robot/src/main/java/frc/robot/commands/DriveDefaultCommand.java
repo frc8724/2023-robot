@@ -12,21 +12,29 @@ import frc.robot.RobotContainer;
 public class DriveDefaultCommand extends CommandBase {
   Supplier<Double> throttle;
   Supplier<Double> steering;
+  Supplier<Boolean> quickTurn;
   Supplier<Boolean> slow;
 
   /** Creates a new DriveDefaultCommand. */
-  public DriveDefaultCommand(Supplier<Double> throttle, Supplier<Double> steering, Supplier<Boolean> slow) {
+  public DriveDefaultCommand(Supplier<Double> throttle, Supplier<Double> steering, Supplier<Boolean> quickTurn,
+      Supplier<Boolean> slow) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.drive);
 
     this.throttle = throttle;
     this.steering = steering;
+    this.quickTurn = quickTurn;
     this.slow = slow;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.drive.speedRacerDrive(this.throttle.get(), this.steering.get(), this.slow.get());
+    double t = this.throttle.get();
+    if (this.slow.get()) {
+      t = t / 3;
+    }
+
+    RobotContainer.drive.speedRacerDrive(t, this.steering.get(), this.quickTurn.get());
   }
 }

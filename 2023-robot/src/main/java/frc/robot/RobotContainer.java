@@ -101,16 +101,21 @@ public class RobotContainer {
     drive.setDefaultCommand(new DriveDefaultCommand(
         () -> driverPad.driveThrottle(),
         () -> driverPad.steeringX(),
-        () -> driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.getAsBoolean()));
-    driverPad.DRIVER_PAD_GREEN_BUTTON.whileTrue(new DriveGetLevel());
+        () -> driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.getAsBoolean(),
+        () -> driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.getAsBoolean()));
 
-    driverPad.DRIVER_PAD_RED_BUTTON.whileTrue(new DriveCenterTarget());
+    // driverPad.DRIVER_PAD_GREEN_BUTTON.whileTrue(new DriveGetLevel());
 
-    driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveGetLevel());
-    driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
+    // driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveGetLevel());
+    // driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
 
     // driverPad.DRIVER_PAD_D_PAD_LEFT.onTrue(new
     // ArmSystemGoTo(Arm.LEVEL_X_SCORE[2]));
+
+    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.whileTrue(new DriveCenterTarget(() -> driverPad.driveThrottle()));
+    // driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.whileTrue(new
+    // DriveCenterTarget(-0.05));
+
     driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerSet(Whacker.State.DOWN));
     driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onFalse(new WhackerSet(Whacker.State.UP));
 

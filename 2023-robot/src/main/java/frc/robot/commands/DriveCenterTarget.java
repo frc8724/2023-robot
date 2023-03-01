@@ -4,16 +4,21 @@
 
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DriveCenterTarget extends CommandBase {
+  Supplier<Double> throttle;
 
   /** Creates a new DriveCenterTarget. */
-  public DriveCenterTarget() {
+  public DriveCenterTarget(Supplier<Double> throttle) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.drive);
     addRequirements(RobotContainer.targeting);
+    this.throttle = throttle;
   }
 
   // Called when the command is initially scheduled.
@@ -25,9 +30,14 @@ public class DriveCenterTarget extends CommandBase {
   @Override
   public void execute() {
     if (RobotContainer.targeting.hasTarget()) {
-      RobotContainer.drive.speedRacerDrive(0.0, getRotationSpeed(), true);
+      double currentHeading = RobotContainer.drive.getHeading();
+      double desiredHeading = RobotContainer.targeting.getHorizontalOffset();
+      RobotContainer.drive.setDesiredHeading(currentHeading + desiredHeading);
+
+      double t = throttle.get();
+      RobotContainer.drive.speedRacerDrive(t, 0.0, true);
     } else {
-      RobotContainer.drive.speedRacerDrive(0.0, 0.0, true);
+      RobotContainer.drive.speedRacerDrive(0.0, 0.0, false);
     }
   }
 
