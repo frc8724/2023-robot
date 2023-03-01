@@ -32,7 +32,7 @@ public class DriveDefaultCommand extends CommandBase {
   public void execute() {
     double t = this.throttle.get();
     if (this.slow.get()) {
-      t = t / 3;
+      t = t / 2;
     }
 
     RobotContainer.drive.speedRacerDrive(t, this.steering.get(), this.quickTurn.get());
