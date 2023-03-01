@@ -4,9 +4,9 @@
 
 package frc.robot.AutoRoutines;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ClawDropCone;
+import frc.robot.commands.DriveStraightOnHeading;
 import frc.robot.commands.SystemPlaceCone;
 import frc.robot.commands.SystemStowArm;
 import frc.robot.commands.SystemZero;
@@ -19,10 +19,7 @@ public class Week1_PlaceCone_X_DriveOut extends SequentialCommandGroup {
     addCommands(new SystemPlaceCone(level));
 
     addCommands(new ClawDropCone());
-
-    addCommands(
-        new ParallelCommandGroup(
-            new Week1_DriveOut(),
-            new SystemStowArm()));
+    addCommands(new SystemStowArm());
+    addCommands(new DriveStraightOnHeading(-0.2, 120.0, 0.0));
   }
 }

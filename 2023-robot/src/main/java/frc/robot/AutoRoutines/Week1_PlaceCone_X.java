@@ -23,9 +23,7 @@ public class Week1_PlaceCone_X extends SequentialCommandGroup {
 
     addCommands(new ClawDropCone());
 
-    addCommands(
-        new ParallelCommandGroup(
-            new Week1_DriveOut(),
-            new SystemStowArm()));
+    addCommands(new SystemStowArm());
+
   }
 }
