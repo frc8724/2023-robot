@@ -4,17 +4,24 @@
 
 package frc.robot.AutoRoutines;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.ClawDropCone;
 import frc.robot.commands.DriveSystemOnChargingStation;
 import frc.robot.commands.SystemPlaceCone;
+import frc.robot.commands.SystemStowArm;
+import frc.robot.commands.SystemZero;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Week0_PlaceCone3_ChargingStation extends SequentialCommandGroup {
+public class Week1_PlaceCone_X_ChargingStation extends SequentialCommandGroup {
   /** Creates a new Week0_PlaceCone3_ChargingStation. */
-  public Week0_PlaceCone3_ChargingStation() {
-    addCommands(new SystemPlaceCone(3));
+  public Week1_PlaceCone_X_ChargingStation(int level) {
+    addCommands(new SystemZero());
+
+    addCommands(new SystemPlaceCone(level));
+
+    addCommands(new ClawDropCone());
+
+    addCommands(new SystemStowArm());
     addCommands(new DriveSystemOnChargingStation());
   }
 }

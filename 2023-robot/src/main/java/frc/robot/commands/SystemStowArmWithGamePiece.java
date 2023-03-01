@@ -5,27 +5,29 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.ClawPiston.State;
+import frc.robot.subsystems.ClawPiston;
 import frc.robot.subsystems.Shoulder;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SystemScoreAndStow extends SequentialCommandGroup {
-  /** Creates a new SystemScoreAndStow. */
-  public SystemScoreAndStow() {
-    // open the claw
-    // addCommands(new ClawPistonSet(State.OPEN));
-    // addCommands(new WaitCommand(0.2));
-    // retract the arm
+public class SystemStowArmWithGamePiece extends SequentialCommandGroup {
+  /** Creates a new SystemStowArm. */
+  public SystemStowArmWithGamePiece() {
+    // close the claw on a cone. Leave open on cube.
+    new ClawColorCommand(
+        new ClawPistonSet(ClawPiston.State.OPEN),
+        new ClawPistonSet(ClawPiston.State.CLOSE));
+
+    // stop the claw
+    addCommands(new ClawRollerSet(0.0));
+
+    // retract arm
     addCommands(new ArmSystemGoTo(Arm.STOW));
     addCommands(new ArmWaitForPosition());
-    addCommands(new ArmSystemZero());
-    // close the claw
-    addCommands(new ClawPistonSet(State.CLOSE));
-    // lower the shoulder
+
+    // rotate shoulder
     addCommands(new ShoulderGoto(Shoulder.STOW));
     addCommands(new ShoulderWaitForPosition());
   }

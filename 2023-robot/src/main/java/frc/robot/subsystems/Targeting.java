@@ -16,9 +16,9 @@ public class Targeting extends SubsystemBase {
   final double kI = 0.0;
   final double kD = 0.001;
 
-  double targetP;
-  double targetI;
-  double targetD;
+  // double targetP;
+  // double targetI;
+  // double targetD;
   double correction = 0.0;
 
   /** Creates a new Targeting. */
@@ -38,20 +38,20 @@ public class Targeting extends SubsystemBase {
       pid.reset();
     }
 
-    targetP = SmartDashboard.getNumber("Target P", kP);
-    SmartDashboard.putNumber("Target P", targetP);
-    targetI = SmartDashboard.getNumber("Target I", kI);
-    SmartDashboard.putNumber("Target I", targetI);
-    targetD = SmartDashboard.getNumber("Target D", kD);
-    SmartDashboard.putNumber("Target D", targetD);
+    // targetP = SmartDashboard.getNumber("Target P", kP);
+    // SmartDashboard.putNumber("Target P", targetP);
+    // targetI = SmartDashboard.getNumber("Target I", kI);
+    // SmartDashboard.putNumber("Target I", targetI);
+    // targetD = SmartDashboard.getNumber("Target D", kD);
+    // SmartDashboard.putNumber("Target D", targetD);
 
-    if (pid.getP() != targetP ||
-        pid.getI() != targetI ||
-        pid.getD() != targetD) {
-      pid = new PIDController(targetP, targetI, targetD);
-    }
+    // if (pid.getP() != targetP ||
+    // pid.getI() != targetI ||
+    // pid.getD() != targetD) {
+    // pid = new PIDController(targetP, targetI, targetD);
+    // }
 
-    SmartDashboard.putNumber("Targeting Correction", correction);
+    // SmartDashboard.putNumber("Targeting Correction", correction);
   }
 
   public boolean hasTarget() {

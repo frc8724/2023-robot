@@ -57,10 +57,10 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    addAuto(new Week0_StandStill());
-    addAuto(new Week1_DriveToCone());
+    addAuto(new Week1_StandStill());
+    addAuto(new Week3_DriveToCone());
 
-    addAuto(new Week0_DriveOut());
+    addAuto(new Week1_DriveOut());
     addAuto(new Week0_LevelStation());
 
     addAuto(new Week0_PlaceCone2());
@@ -68,8 +68,8 @@ public class RobotContainer {
     addAuto(new Week0_PlaceCone2_ChargingStation());
 
     addAuto(new Week0_PlaceCone3());
-    addAuto(new Week0_PlaceCone3_DriveOut());
-    addAuto(new Week0_PlaceCone3_ChargingStation());
+    addAuto(new Week1_PlaceCone3_DriveOut());
+    addAuto(new Week1_PlaceCone_X_ChargingStation());
 
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
@@ -127,7 +127,7 @@ public class RobotContainer {
 
     operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
     operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
-    operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemScoreAndStow());
+    operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemStowArm());
     operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
     // operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
 
