@@ -67,6 +67,17 @@ public class LimeLight extends SubsystemBase {
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipeLmode);
     }
 
+    int pipelineValue = 0;
+
+    public void togglePipeline() {
+        pipelineValue++;
+        if (pipelineValue >= 2) {
+            pipelineValue = 0;
+        }
+        pipelineMode(pipelineValue);
+
+    }
+
     public enum VisionModes {
         LOW(0),
         LEFT(1),

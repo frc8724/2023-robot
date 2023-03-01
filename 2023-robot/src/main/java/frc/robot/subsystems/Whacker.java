@@ -40,4 +40,8 @@ public class Whacker extends SubsystemBase {
   public void set(State b) {
     whacker.set(b == State.DOWN);
   }
+
+  public void toggle() {
+    set(get() == State.DOWN ? State.UP : State.DOWN);
+  }
 }

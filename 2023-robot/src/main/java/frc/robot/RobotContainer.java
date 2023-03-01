@@ -56,7 +56,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-
+    addAuto(new DriveSystemOnChargingStation());
     addAuto(new Week1_StandStill());
     // addAuto(new Week3_DriveToCone());
 
@@ -104,28 +104,14 @@ public class RobotContainer {
         () -> driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.getAsBoolean(),
         () -> driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.getAsBoolean()));
 
-    // driverPad.DRIVER_PAD_GREEN_BUTTON.whileTrue(new DriveGetLevel());
-
-    // driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveGetLevel());
     // driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
 
-    // driverPad.DRIVER_PAD_D_PAD_LEFT.onTrue(new
-    // ArmSystemGoTo(Arm.LEVEL_X_SCORE[2]));
-
     driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.whileTrue(new DriveCenterTarget(() -> driverPad.driveThrottle()));
-    // driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.whileTrue(new
-    // DriveCenterTarget(-0.05));
+    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onTrue(new LimelightSetPipeline(1));
+    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onFalse(new LimelightSetPipeline(0));
 
-    driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerSet(Whacker.State.DOWN));
-    driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onFalse(new WhackerSet(Whacker.State.UP));
+    driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerToggle());
 
-    /**
-     * auto align (human player, cone, or cube) - left top trigger
-     * auto level - left bottom trigger
-     * quick turn - right top trigger
-     * slow mode - right bottom trigger
-     * 
-     */
   }
 
   private void configureDriverStick() {
