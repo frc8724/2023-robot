@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
 
@@ -20,6 +21,7 @@ public class SystemZero extends InstantCommand {
     addRequirements(RobotContainer.drive);
     addRequirements(RobotContainer.shoulder);
     addRequirements(RobotContainer.arm);
+    addRequirements(RobotContainer.clawPiston);
   }
 
   // Called when the command is initially scheduled.
@@ -28,5 +30,6 @@ public class SystemZero extends InstantCommand {
     RobotContainer.drive.init();
     RobotContainer.shoulder.zero();
     RobotContainer.arm.zero();
+    RobotContainer.clawPiston.zero();
   }
 }

@@ -27,7 +27,7 @@ public class Shoulder extends SubsystemBase {
 
   static final double POSITION_SLOP = 2500.0;
 
-  final double kWheelP = 0.010; // 12V when 60 degrees off
+  final double kWheelP = 0.015;
   final double kWheelI = 0.000;
   final double kWheelD = 0.000;
   final double kWheelF = 0.000;
@@ -150,8 +150,6 @@ public class Shoulder extends SubsystemBase {
   public void zero() {
     DriverStation.reportWarning("Shoulder: zero", false);
     rightTalon.setSelectedSensorPosition(0.0);
-    // rightTalon.set(TalonFXControlMode.MotionMagic, 0.0,
-    // DemandType.ArbitraryFeedForward, 0.00);
     rightTalon.set(TalonFXControlMode.Position, 0.0);
 
   }

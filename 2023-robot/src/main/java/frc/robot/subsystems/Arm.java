@@ -24,10 +24,10 @@ public class Arm extends SubsystemBase {
   // static final double TICKS_PER_INCH = 3442;
   public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 45000.0, 112000.0 };
   public static final double HUMAN_PLAYER_STATION = 20000.0;
-  public static final double STOW = 0.0;
+  public static final double ALMOST_STOW = 500.0;
   public static final double FLOOR_PICKUP = 31000.0;
 
-  static final double POSITION_SLOP = 500.0;
+  static final double POSITION_SLOP = 1000.0;
   static final double CLOSED_LOOP_RAMP_RATE = 1.0; // todo: lower this value
 
   private final MayhemTalonFX talon = new MayhemTalonFX(Constants.Talon.ARM_FALCON, CurrentLimit.HIGH_CURRENT);
@@ -94,7 +94,7 @@ public class Arm extends SubsystemBase {
   }
 
   boolean isMovingIn() {
-    return getTargetPosition() < getCurrentPosition();
+    return getTargetPosition() + 5000 < getCurrentPosition();
   }
 
   double m_targetPosition;

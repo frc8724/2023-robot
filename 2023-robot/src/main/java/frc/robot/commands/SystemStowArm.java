@@ -17,7 +17,7 @@ public class SystemStowArm extends SequentialCommandGroup {
   /** Creates a new SystemScoreAndStow. */
   public SystemStowArm() {
     // retract the arm
-    addCommands(new ArmSystemGoTo(Arm.STOW));
+    addCommands(new ArmSystemGoTo(Arm.ALMOST_STOW));
     addCommands(new ArmWaitForPosition());
     addCommands(new ArmSystemZero());
     // close the claw

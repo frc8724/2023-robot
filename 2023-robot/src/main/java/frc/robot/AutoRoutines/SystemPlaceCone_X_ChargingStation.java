@@ -21,7 +21,8 @@ public class SystemPlaceCone_X_ChargingStation extends SequentialCommandGroup {
 
     addCommands(new ClawDropCone());
 
-    addCommands(new SystemStowArm());
-    addCommands(new DriveSystemOnChargingStation());
+    addCommands(new ParallelCommandGroup(
+        new SystemStowArm(),
+        new DriveSystemOnChargingStation()));
   }
 }

@@ -21,8 +21,8 @@ public class Week0_PlaceCone2_DriveOut extends SequentialCommandGroup {
     addCommands(new SystemPlaceCone(2));
     addCommands(new ClawPistonSet(State.OPEN));
 
-    addCommands(new SystemStowArm());
-
-    addCommands(new DriveStraightOnHeading(-0.2, 120.0, 0.0));
+    addCommands(new ParallelCommandGroup(
+        new SystemStowArm(),
+        new DriveStraightOnHeading(-0.2, 120.0, 0.0)));
   }
 }

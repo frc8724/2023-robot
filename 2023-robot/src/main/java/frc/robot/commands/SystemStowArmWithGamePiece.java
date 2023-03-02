@@ -13,7 +13,6 @@ import frc.robot.subsystems.Shoulder;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SystemStowArmWithGamePiece extends SequentialCommandGroup {
-  /** Creates a new SystemStowArm. */
   public SystemStowArmWithGamePiece() {
     // close the claw on a cone. Leave open on cube.
     new ClawColorCommand(
@@ -24,7 +23,7 @@ public class SystemStowArmWithGamePiece extends SequentialCommandGroup {
     addCommands(new ClawRollerSet(0.0));
 
     // retract arm
-    addCommands(new ArmSystemGoTo(Arm.STOW));
+    addCommands(new ArmSystemGoTo(Arm.ALMOST_STOW));
     addCommands(new ArmWaitForPosition());
 
     // rotate shoulder
