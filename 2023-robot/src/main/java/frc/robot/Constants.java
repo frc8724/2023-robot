@@ -62,7 +62,7 @@ public final class Constants {
     }
 
     public final class Lights {
-        public static final int LIGHTS_PORT = 0;
+        public static final int LIGHTS_PORT = 1;
     }
 
     public final class PdpPorts {
