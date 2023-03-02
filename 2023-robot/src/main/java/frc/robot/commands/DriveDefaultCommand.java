@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
 public class DriveDefaultCommand extends CommandBase {
+  static final double SLOW_MODE_FACTOR = 0.33;
+
   Supplier<Double> throttle;
   Supplier<Double> steering;
   Supplier<Boolean> quickTurn;
@@ -32,7 +34,7 @@ public class DriveDefaultCommand extends CommandBase {
   public void execute() {
     double t = this.throttle.get();
     if (this.slow.get()) {
-      t = t / 2;
+      t = t * SLOW_MODE_FACTOR;
     }
 
     RobotContainer.drive.speedRacerDrive(t, this.steering.get(), this.quickTurn.get());

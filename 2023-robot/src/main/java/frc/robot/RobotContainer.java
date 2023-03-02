@@ -58,22 +58,16 @@ public class RobotContainer {
     configureBindings();
     addAuto(new DriveSystemOnChargingStation());
     addAuto(new Week1_StandStill());
-    // addAuto(new Week3_DriveToCone());
 
     addAuto(new Week1_DriveOut());
-    // addAuto(new Week0_LevelStation());
 
-    // addAuto(new Week0_PlaceCone2());
-    // addAuto(new Week0_PlaceCone2_DriveOut());
-    // addAuto(new Week0_PlaceCone2_ChargingStation());
+    addAuto(new Week1_PlaceCone_2());
+    addAuto(new Week1_PlaceCone_2_DriveOut());
+    addAuto(new Week1_PlaceCone_2_ChargingStation());
 
-    addAuto(new Week1_PlaceCone_X(2));
-    addAuto(new Week1_PlaceCone_X_DriveOut(2));
-    addAuto(new Week1_PlaceCone_X_ChargingStation(2));
-
-    addAuto(new Week1_PlaceCone_X(3));
-    addAuto(new Week1_PlaceCone_X_DriveOut(3));
-    addAuto(new Week1_PlaceCone_X_ChargingStation(3));
+    addAuto(new Week1_PlaceCone_3());
+    addAuto(new Week1_PlaceCone_2_DriveOut());
+    addAuto(new Week1_PlaceCone_3_ChargingStation());
 
     SmartDashboard.putData("Auto Mode", autoChooser);
   }

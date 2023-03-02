@@ -4,22 +4,24 @@
 
 package frc.robot.AutoRoutines;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ClawDropCone;
-import frc.robot.commands.DriveStraightOnHeading;
+import frc.robot.commands.DriveSystemOnChargingStation;
 import frc.robot.commands.SystemPlaceCone;
 import frc.robot.commands.SystemStowArm;
 import frc.robot.commands.SystemZero;
 
-public class Week1_PlaceCone_X_DriveOut extends SequentialCommandGroup {
-  /** Creates a new Week1_PlaceCone2_DriveOut. */
-  public Week1_PlaceCone_X_DriveOut(int level) {
+public class SystemPlaceCone_X_ChargingStation extends SequentialCommandGroup {
+  /** Creates a new Week0_PlaceCone3_ChargingStation. */
+  public SystemPlaceCone_X_ChargingStation(int level) {
     addCommands(new SystemZero());
 
     addCommands(new SystemPlaceCone(level));
 
     addCommands(new ClawDropCone());
+
     addCommands(new SystemStowArm());
-    addCommands(new DriveStraightOnHeading(-0.2, 120.0, 0.0));
+    addCommands(new DriveSystemOnChargingStation());
   }
 }

@@ -2,26 +2,27 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.AutoRoutines;
+package frc.robot.AutoRoutines.Week0;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.ClawDropCone;
-import frc.robot.commands.DriveSystemOnChargingStation;
+import frc.robot.commands.ClawPistonSet;
+import frc.robot.commands.DriveStraightOnHeading;
 import frc.robot.commands.SystemPlaceCone;
 import frc.robot.commands.SystemStowArm;
 import frc.robot.commands.SystemZero;
+import frc.robot.subsystems.ClawPiston.State;
 
-public class Week1_PlaceCone_X_ChargingStation extends SequentialCommandGroup {
-  /** Creates a new Week0_PlaceCone3_ChargingStation. */
-  public Week1_PlaceCone_X_ChargingStation(int level) {
+public class Week0_PlaceCone2_DriveOut extends SequentialCommandGroup {
+  /** Creates a new Week0_PlaceCone2_DriveOut. */
+  public Week0_PlaceCone2_DriveOut() {
     addCommands(new SystemZero());
 
-    addCommands(new SystemPlaceCone(level));
-
-    addCommands(new ClawDropCone());
+    addCommands(new SystemPlaceCone(2));
+    addCommands(new ClawPistonSet(State.OPEN));
 
     addCommands(new SystemStowArm());
-    addCommands(new DriveSystemOnChargingStation());
+
+    addCommands(new DriveStraightOnHeading(-0.2, 120.0, 0.0));
   }
 }

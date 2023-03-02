@@ -4,26 +4,22 @@
 
 package frc.robot.AutoRoutines;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ClawDropCone;
+import frc.robot.commands.DriveStraightOnHeading;
 import frc.robot.commands.SystemPlaceCone;
 import frc.robot.commands.SystemStowArm;
 import frc.robot.commands.SystemZero;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Week1_PlaceCone_X extends SequentialCommandGroup {
-  /** Creates a new Week1_PlaceCone_X. */
-  public Week1_PlaceCone_X(int level) {
+public class SystemPlaceCone_X_DriveOut extends SequentialCommandGroup {
+  /** Creates a new Week1_PlaceCone2_DriveOut. */
+  public SystemPlaceCone_X_DriveOut(int level) {
     addCommands(new SystemZero());
 
     addCommands(new SystemPlaceCone(level));
 
     addCommands(new ClawDropCone());
-
     addCommands(new SystemStowArm());
-
+    addCommands(new DriveStraightOnHeading(-0.2, 120.0, 0.0));
   }
 }
