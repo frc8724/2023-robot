@@ -6,17 +6,16 @@ package frc.robot.AutoRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveStraightOnHeading;
-import frc.robot.commands.DriveStraightOnHeading.DistanceUnits;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Test_Drive_2 extends SequentialCommandGroup {
-  /** Creates a new Test_Drive_2. */
-  public Test_Drive_2() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DriveStraightOnHeading(0.1, 0.1, DistanceUnits.INCHES, 200, 0));
-    addCommands();
+public class Week3_DriveToCone extends SequentialCommandGroup {
+  /** Creates a new Week1_DriveToCone. */
+  public Week3_DriveToCone() {
+    addCommands(new DriveStraightOnHeading(-0.2, 120.0, 0.0));
+    addCommands(new DriveStraightOnHeading(-0.2, 50.0, 60.0));
+    addCommands(new DriveStraightOnHeading(0.2, 80.0, 70.0));
+
   }
 }

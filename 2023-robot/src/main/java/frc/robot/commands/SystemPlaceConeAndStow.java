@@ -6,24 +6,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ClawPiston.State;
-import frc.robot.subsystems.Shoulder;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SystemGrabAndStow extends SequentialCommandGroup {
-  /** Creates a new SystemGrabAndStow. */
-  public SystemGrabAndStow() {
-    // open the claw
-    addCommands(new ClawPistonSet(State.CLOSE));
-    addCommands(new WaitCommand(0.2));
-    // retract the arm
-    addCommands(new ArmSystemGoTo(Arm.ALMOST_STOW));
-    addCommands(new ArmWaitForPosition());
-    // lower the shoulder
-    addCommands(new ShoulderGoto(Shoulder.STOW));
-    addCommands(new ShoulderWaitForPosition());
+public class SystemPlaceConeAndStow extends SequentialCommandGroup {
+  /** Creates a new SystemPlaceConeAndStow. */
+  public SystemPlaceConeAndStow(int level) {
+    addCommands(new SystemPlaceCone(level));
+    // drop the cone
+    addCommands(new ClawPistonSet(State.OPEN));
+    addCommands(new WaitCommand(0.5));
+
+    addCommands(new SystemStowArm());
+
   }
 }

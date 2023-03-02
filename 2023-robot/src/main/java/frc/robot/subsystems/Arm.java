@@ -9,12 +9,10 @@ import org.mayheminc.util.MayhemTalonFX.CurrentLimit;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -24,13 +22,13 @@ import frc.robot.subsystems.ArmBrake.State;
 public class Arm extends SubsystemBase {
 
   // static final double TICKS_PER_INCH = 3442;
-  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 45000.0, 108000.0 };
+  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 45000.0, 112000.0 };
   public static final double HUMAN_PLAYER_STATION = 20000.0;
-  public static final double STOW = 0.0;
+  public static final double ALMOST_STOW = 500.0;
   public static final double FLOOR_PICKUP = 31000.0;
 
-  static final double POSITION_SLOP = 500.0;
-  static final double CLOSED_LOOP_RAMP_RATE = 1.0;
+  static final double POSITION_SLOP = 1000.0;
+  static final double CLOSED_LOOP_RAMP_RATE = 1.0; // todo: lower this value
 
   private final MayhemTalonFX talon = new MayhemTalonFX(Constants.Talon.ARM_FALCON, CurrentLimit.HIGH_CURRENT);
   private final DigitalInput limitSwitch = new DigitalInput(0);
@@ -46,13 +44,13 @@ public class Arm extends SubsystemBase {
 
     talon.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
 
-    talon.config_kP(0, 0.2);
+    talon.config_kP(0, 0.15);
     talon.config_kI(0, 0.0);
     talon.config_kD(0, 50.0);
     talon.config_kF(0, 0.0);
 
-    talon.configMotionCruiseVelocity(1500); // measured velocity of ~100K at 85%; set cruise to that
-    talon.configMotionAcceleration(2 * 3400); // acceleration of 2x velocity allows cruise to be attained in 1
+    talon.configMotionCruiseVelocity(1000); // measured velocity of ~100K at 85%; set cruise to that
+    talon.configMotionAcceleration(1 * 3400); // acceleration of 2x velocity allows cruise to be attained in 1
                                               // second
     // second
 
@@ -60,10 +58,12 @@ public class Arm extends SubsystemBase {
     talon.configClosedloopRamp(CLOSED_LOOP_RAMP_RATE); // specify minimum time for neutral to full in seconds
   }
 
+  boolean manualMode = false;
+
   @Override
   public void periodic() {
 
-    if (isAtLimitSwitch()) {
+    if (isAtLimitSwitch() && !manualMode && isMovingIn()) {
       zero();
       RobotContainer.armBrake.set(State.CLOSE);
     }
@@ -93,10 +93,15 @@ public class Arm extends SubsystemBase {
     return talon.getClosedLoopTarget();
   }
 
+  boolean isMovingIn() {
+    return getTargetPosition() + 5000 < getCurrentPosition();
+  }
+
   double m_targetPosition;
 
   public void setInTicks(double p) {
     m_targetPosition = p;
+    manualMode = false;
     talon.set(ControlMode.Position, p);
   }
 
@@ -106,6 +111,7 @@ public class Arm extends SubsystemBase {
   }
 
   public void stop() {
+    manualMode = true;
     talon.set(ControlMode.PercentOutput, 0.0);
   }
 
@@ -117,6 +123,12 @@ public class Arm extends SubsystemBase {
   }
 
   public void setPower(double d) {
+    manualMode = true;
+    talon.set(ControlMode.PercentOutput, d);
+  }
+
+  public void setAutoPower(double d) {
+    manualMode = false;
     talon.set(ControlMode.PercentOutput, d);
   }
 }

@@ -39,7 +39,7 @@ public final class Constants {
     public final class Solenoid {
         public static final int ClawPiston = 3;
         public static final int ArmBrake = 2;
-        public static final int Whacker = 1;
+        public static final int Whacker = 7;
     }
 
     public final class PDP {
@@ -62,7 +62,7 @@ public final class Constants {
     }
 
     public final class Lights {
-        public static final int LIGHTS_PORT = 0;
+        public static final int LIGHTS_PORT = 1;
     }
 
     public final class PdpPorts {

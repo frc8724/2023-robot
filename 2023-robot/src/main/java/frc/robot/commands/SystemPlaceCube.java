@@ -28,11 +28,11 @@ public class SystemPlaceCube extends SequentialCommandGroup {
     addCommands(new ClawRollerSet(-0.1));
     addCommands(new WaitCommand(0.2));
     // retract the arm
-    addCommands(new ArmSystemGoTo(Arm.LEVEL_X_SCORE[0]));
+    addCommands(new ArmSystemGoTo(Arm.ALMOST_STOW));
     addCommands(new ArmWaitForPosition());
     addCommands(new ClawRollerSet(0.0));
     // lower the shoulder
-    addCommands(new ShoulderGoto(Shoulder.LEVEL_X_SCORE[0]));
+    addCommands(new ShoulderGoto(Shoulder.STOW));
     addCommands(new ShoulderWaitForPosition());
   }
 }

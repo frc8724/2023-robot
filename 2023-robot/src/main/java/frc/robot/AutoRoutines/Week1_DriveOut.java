@@ -5,15 +5,13 @@
 package frc.robot.AutoRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
 import frc.robot.commands.DriveStraightOnHeading;
-import frc.robot.commands.DriveToAprilTagDistance;
+import frc.robot.commands.SystemZero;
 
-public class Week0_DriveOut extends SequentialCommandGroup {
+public class Week1_DriveOut extends SequentialCommandGroup {
   /** Creates a new Week0_DriveOut. */
-  public Week0_DriveOut() {
+  public Week1_DriveOut() {
+    addCommands(new SystemZero());
     addCommands(new DriveStraightOnHeading(-0.2, 120.0, 0.0));
-    // addCommands(new DriveToAprilTagDistance(-0.2,
-    // Constants.ConvertFeetToMeters(10.0)));
   }
 }

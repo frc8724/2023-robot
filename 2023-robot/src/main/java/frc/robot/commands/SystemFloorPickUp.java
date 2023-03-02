@@ -15,13 +15,14 @@ import frc.robot.subsystems.ClawPiston.State;
 public class SystemFloorPickUp extends SequentialCommandGroup {
   /** Creates a new SystemFloorPickUp. */
   public SystemFloorPickUp() {
+    // move shoulder
     addCommands(new ShoulderGoto(Shoulder.FLOOR_PICKUP));
     addCommands(new ShoulderWaitForPosition());
-    // extend arm
-    addCommands(new ArmSystemGoTo(Arm.FLOOR_PICKUP));
-    addCommands(new ArmWaitForPosition());
     // claw open
     addCommands(new ClawPistonSet(State.OPEN));
     addCommands(new ClawRollerSet(0.5));
+    // extend arm
+    addCommands(new ArmSystemGoTo(Arm.FLOOR_PICKUP));
+    addCommands(new ArmWaitForPosition());
   }
 }

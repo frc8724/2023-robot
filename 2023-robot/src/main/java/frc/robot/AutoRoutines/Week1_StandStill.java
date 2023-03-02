@@ -5,12 +5,11 @@
 package frc.robot.AutoRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.SystemPlaceCube;
+import frc.robot.commands.SystemZero;
 
-public class Week0_PlaceCube2_DriveOut extends SequentialCommandGroup {
-  /** Creates a new Week0_PlaceCube2_DriveOut. */
-  public Week0_PlaceCube2_DriveOut() {
-    addCommands(new SystemPlaceCube(2));
-    addCommands(new Week0_DriveOut());
+public class Week1_StandStill extends SequentialCommandGroup {
+  /** Creates a new Week0_StandStill. */
+  public Week1_StandStill() {
+    addCommands(new SystemZero());
   }
 }

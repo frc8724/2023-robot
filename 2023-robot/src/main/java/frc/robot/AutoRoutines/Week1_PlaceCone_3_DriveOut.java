@@ -5,13 +5,10 @@
 package frc.robot.AutoRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.ShoulderSetPower;
-import frc.robot.commands.SystemZero;
 
-public class Week0_StandStill extends SequentialCommandGroup {
-  /** Creates a new Week0_StandStill. */
-  public Week0_StandStill() {
-    addCommands(new SystemZero());
-    // addCommands(new ShoulderSetPower(0.10));
+public class Week1_PlaceCone_3_DriveOut extends SequentialCommandGroup {
+  /** Creates a new Week1_PlaceCone_3_DriveOut. */
+  public Week1_PlaceCone_3_DriveOut() {
+    addCommands(new SystemPlaceCone_X_DriveOut(3));
   }
 }

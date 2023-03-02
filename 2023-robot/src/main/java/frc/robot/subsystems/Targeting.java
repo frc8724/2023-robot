@@ -12,19 +12,19 @@ import frc.robot.RobotContainer;
 public class Targeting extends SubsystemBase {
   PIDController pid;
 
-  final double kP = 0.03;
+  final double kP = 0.01;
   final double kI = 0.0;
-  final double kD = 0.001;
+  final double kD = 0.0;
 
-  double targetP;
-  double targetI;
-  double targetD;
   double correction = 0.0;
 
   /** Creates a new Targeting. */
   public Targeting() {
     pid = new PIDController(kP, kI, kD);
+    pid.setSetpoint(0.0);
   }
+
+  double pidReset = 0.0;
 
   @Override
   public void periodic() {
@@ -33,22 +33,14 @@ public class Targeting extends SubsystemBase {
     SmartDashboard.putNumber("Taget Horizontal", getHorizontalOffset());
 
     if (hasTarget()) {
-      correction = -pid.calculate(getHorizontalOffset());
+      double d = -pid.calculate(getHorizontalOffset());
+      d = Math.min(0.3, d);
+      d = Math.max(-0.3, d);
+      correction = d;
+
     } else {
       pid.reset();
-    }
-
-    targetP = SmartDashboard.getNumber("Target P", kP);
-    SmartDashboard.putNumber("Target P", targetP);
-    targetI = SmartDashboard.getNumber("Target I", kI);
-    SmartDashboard.putNumber("Target I", targetI);
-    targetD = SmartDashboard.getNumber("Target D", kD);
-    SmartDashboard.putNumber("Target D", targetD);
-
-    if (pid.getP() != targetP ||
-        pid.getI() != targetI ||
-        pid.getD() != targetD) {
-      pid = new PIDController(targetP, targetI, targetD);
+      SmartDashboard.putNumber("Targeting Pid Reset", pidReset++);
     }
 
     SmartDashboard.putNumber("Targeting Correction", correction);
@@ -58,7 +50,7 @@ public class Targeting extends SubsystemBase {
     return RobotContainer.limeLight.isTargetAvalible();
   }
 
-  double getHorizontalOffset() {
+  public double getHorizontalOffset() {
     return RobotContainer.limeLight.getX();
   }
 

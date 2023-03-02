@@ -56,28 +56,18 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    addAuto(new DriveSystemOnChargingStation());
+    addAuto(new Week1_StandStill());
 
-    // addAuto(new Test_1());
+    addAuto(new Week1_DriveOut());
 
-    addAuto(new Week0_StandStill());
-    addAuto(new Week1_DriveToCone());
+    addAuto(new Week1_PlaceCone_2());
+    addAuto(new Week1_PlaceCone_2_DriveOut());
+    addAuto(new Week1_PlaceCone_2_ChargingStation());
 
-    addAuto(new Week0_DriveOut());
-    addAuto(new Week0_LevelStation());
-
-    addAuto(new Week0_PlaceCone2());
-    addAuto(new Week0_PlaceCone2_DriveOut());
-    // addAuto(new Week0_PlaceCone2_Level());
-
-    addAuto(new Week0_PlaceCone3());
-    addAuto(new Week0_PlaceCone3_DriveOut());
-    // addAuto(new Week0_PlaceCone3_Level());
-
-    // addAuto(new Week0_PlaceCube2());
-    // addAuto(new Week0_PlaceCube2_DriveOut());
-
-    // addAuto(new Week0_PlaceCube3());
-    // addAuto(new Week0_PlaceCube3_DriveOut());
+    addAuto(new Week1_PlaceCone_3());
+    addAuto(new Week1_PlaceCone_3_DriveOut());
+    addAuto(new Week1_PlaceCone_3_ChargingStation());
 
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
@@ -105,29 +95,17 @@ public class RobotContainer {
     drive.setDefaultCommand(new DriveDefaultCommand(
         () -> driverPad.driveThrottle(),
         () -> driverPad.steeringX(),
-        () -> driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.getAsBoolean()));
-    driverPad.DRIVER_PAD_GREEN_BUTTON.whileTrue(new DriveGetLevel());
+        () -> driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.getAsBoolean(),
+        () -> driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.getAsBoolean()));
 
-    driverPad.DRIVER_PAD_RED_BUTTON.whileTrue(new DriveCenterTarget());
+    // driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
 
-    driverPad.DRIVER_PAD_BLUE_BUTTON.whileTrue(new DriveBrakeMode(true));
-    driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
+    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.whileTrue(new DriveCenterTarget(() -> driverPad.driveThrottle()));
+    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onTrue(new LimelightSetPipeline(1));
+    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onFalse(new LimelightSetPipeline(0));
 
-    driverPad.DRIVER_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.COLOR_1_STROBE));
-    driverPad.DRIVER_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.COLOR_2_STROBE));
+    driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerToggle());
 
-    // driverPad.DRIVER_PAD_D_PAD_LEFT.onTrue(new
-    // ArmSystemGoTo(Arm.LEVEL_X_SCORE[2]));
-    driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerSet(Whacker.State.DOWN));
-    driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onFalse(new WhackerSet(Whacker.State.UP));
-
-    /**
-     * auto align (human player, cone, or cube) - left top trigger
-     * auto level - left bottom trigger
-     * quick turn - right top trigger
-     * slow mode - right bottom trigger
-     * 
-     */
   }
 
   private void configureDriverStick() {
@@ -138,15 +116,18 @@ public class RobotContainer {
 
     operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
     operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
-    operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemScoreAndStow());
+    operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemStowArm());
     operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
     // operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
 
     // operatorPad.OPERATOR_PAD_BUTTON_ONE.onTrue(new ShoulderGoto(68600.));
     // operatorPad.OPERATOR_PAD_BUTTON_TWO.onTrue(new ShoulderGoto(55300.));
 
-    operatorPad.OPERATOR_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.YELLOW));
-    operatorPad.OPERATOR_PAD_D_PAD_DOWN.whileTrue(new SystemGrabAndStow());
+    // operatorPad.OPERATOR_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.YELLOW));
+    operatorPad.OPERATOR_PAD_D_PAD_UP.onTrue(new LedLightsSet(PatternID.COLOR_1_STROBE).withTimeout(10.0));
+    operatorPad.OPERATOR_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.COLOR_2_STROBE).withTimeout(10.0));
+
+    // operatorPad.OPERATOR_PAD_D_PAD_DOWN.whileTrue(new SystemGrabAndStow());
     operatorPad.OPERATOR_PAD_D_PAD_LEFT.whileTrue(new SystemFloorPickUp());
 
     // debug

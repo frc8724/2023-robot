@@ -16,7 +16,7 @@ public class ArmZero extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.arm.setPower(-0.1);
+    RobotContainer.arm.setAutoPower(-0.1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -27,7 +27,7 @@ public class ArmZero extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.arm.setPower(0.0);
+    RobotContainer.arm.zero();
   }
 
   // Returns true when the command should end.

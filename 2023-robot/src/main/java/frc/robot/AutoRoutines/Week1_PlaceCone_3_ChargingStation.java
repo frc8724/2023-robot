@@ -5,11 +5,10 @@
 package frc.robot.AutoRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.SystemPlaceCone;
 
-public class Week0_PlaceCone3 extends SequentialCommandGroup {
-  /** Creates a new Week0_PlaceCone3. */
-  public Week0_PlaceCone3() {
-    addCommands(new SystemPlaceCone(3));
+public class Week1_PlaceCone_3_ChargingStation extends SequentialCommandGroup {
+  /** Creates a new Week1_PlaceCone_3_ChargingStation. */
+  public Week1_PlaceCone_3_ChargingStation() {
+    addCommands(new SystemPlaceCone_X_ChargingStation(3));
   }
 }

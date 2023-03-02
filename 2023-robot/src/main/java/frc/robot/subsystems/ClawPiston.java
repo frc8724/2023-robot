@@ -38,4 +38,8 @@ public class ClawPiston extends SubsystemBase {
     public void set(State b) {
         piston.set(b == State.OPEN);
     }
+
+    public void zero() {
+        set(State.CLOSE);
+    }
 }
