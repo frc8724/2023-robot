@@ -71,9 +71,9 @@ public class MayhemTalonFX extends TalonFX {
 
     }
 
-    public double getError() {
-        return this.getClosedLoopError(0);
-    }
+    // public double getError() {
+    // return this.getClosedLoopError(0);
+    // }
 
     public void setPosition(int zeroPositionCount) {
         this.setSelectedSensorPosition(zeroPositionCount, 0, 0);
