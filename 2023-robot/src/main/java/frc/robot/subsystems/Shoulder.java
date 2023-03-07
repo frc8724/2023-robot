@@ -105,7 +105,8 @@ public class Shoulder extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shoulder Current Ticks", rightTalon.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Shoulder Target Ticks", rightTalon.getClosedLoopTarget());
+    // SmartDashboard.putNumber("Shoulder Target Ticks",
+    // rightTalon.getClosedLoopTarget());
 
     // wheelP = SmartDashboard.getNumber("Shoulder P", kWheelP);
     SmartDashboard.putNumber("Shoulder P", kWheelP);
@@ -118,7 +119,7 @@ public class Shoulder extends SubsystemBase {
 
     SmartDashboard.putBoolean("Shoulder at Position", isAtPosition());
 
-    SmartDashboard.putNumber("Shoulder error", rightTalon.getClosedLoopError());
+    // SmartDashboard.putNumber("Shoulder error", rightTalon.getClosedLoopError());
 
     SmartDashboard.putNumber("Shoulder Motor %", rightTalon.getMotorOutputPercent());
   }
@@ -135,7 +136,10 @@ public class Shoulder extends SubsystemBase {
   }
 
   public double getTargetPositionTicks() {
-    return rightTalon.getClosedLoopTarget();
+    if (rightTalon.getControlMode() == ControlMode.Position) {
+      return rightTalon.getClosedLoopTarget();
+    } else
+      return 0.0;
   }
 
   public boolean isAtPosition() {
@@ -148,7 +152,7 @@ public class Shoulder extends SubsystemBase {
 
   // Set the arm to horizontal and then call zero().
   public void zero() {
-    DriverStation.reportWarning("Shoulder: zero", false);
+    // DriverStation.reportWarning("Shoulder: zero", false);
     rightTalon.setSelectedSensorPosition(0.0);
     rightTalon.set(TalonFXControlMode.Position, 0.0);
 
