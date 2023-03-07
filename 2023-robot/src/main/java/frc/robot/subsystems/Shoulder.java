@@ -108,19 +108,20 @@ public class Shoulder extends SubsystemBase {
     SmartDashboard.putNumber("Shoulder Target Ticks", rightTalon.getClosedLoopTarget());
 
     // wheelP = SmartDashboard.getNumber("Shoulder P", kWheelP);
-    SmartDashboard.putNumber("Shoulder P", kWheelP);
-    // wheelI = SmartDashboard.getNumber("Shoulder I", kWheelI);
-    SmartDashboard.putNumber("Shoulder I", kWheelI);
-    // wheelD = SmartDashboard.getNumber("Shoulder D", kWheelD);
-    SmartDashboard.putNumber("Shoulder D", kWheelD);
-    // wheelF = SmartDashboard.getNumber("Shoulder F", kWheelF);
-    SmartDashboard.putNumber("Shoulder F", kWheelF);
+    // SmartDashboard.putNumber("Shoulder P", kWheelP);
+    // // wheelI = SmartDashboard.getNumber("Shoulder I", kWheelI);
+    // SmartDashboard.putNumber("Shoulder I", kWheelI);
+    // // wheelD = SmartDashboard.getNumber("Shoulder D", kWheelD);
+    // SmartDashboard.putNumber("Shoulder D", kWheelD);
+    // // wheelF = SmartDashboard.getNumber("Shoulder F", kWheelF);
+    // SmartDashboard.putNumber("Shoulder F", kWheelF);
 
-    SmartDashboard.putBoolean("Shoulder at Position", isAtPosition());
+    // SmartDashboard.putBoolean("Shoulder at Position", isAtPosition());
 
-    SmartDashboard.putNumber("Shoulder error", rightTalon.getClosedLoopError());
+    // SmartDashboard.putNumber("Shoulder error", rightTalon.getClosedLoopError());
 
-    SmartDashboard.putNumber("Shoulder Motor %", rightTalon.getMotorOutputPercent());
+    // SmartDashboard.putNumber("Shoulder Motor %",
+    // rightTalon.getMotorOutputPercent());
   }
 
   double TargetPositionTicks;

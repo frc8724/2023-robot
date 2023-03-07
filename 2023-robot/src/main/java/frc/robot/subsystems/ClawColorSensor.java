@@ -17,7 +17,6 @@ public class ClawColorSensor extends SubsystemBase {
   final double[] CUBE1_COLORS_RGB = { 0.20, 0.33, 0.47 };
   final double[] CUBE2_COLORS_RGB = { 0.23, 0.43, 0.33 };
 
-
   final double[] CONE_COLORS_RGB = { 0.37, 0.54, 0.08 };
 
   final double COLOR_SLOP = 0.03;
@@ -35,9 +34,9 @@ public class ClawColorSensor extends SubsystemBase {
   public void periodic() {
     detectedColor = m_colorSensor.getColor();
 
-    SmartDashboard.putNumber("Color Red", detectedColor.red);
-    SmartDashboard.putNumber("Color Green", detectedColor.green);
-    SmartDashboard.putNumber("Color Blue", detectedColor.blue);
+    // SmartDashboard.putNumber("Color Red", detectedColor.red);
+    // SmartDashboard.putNumber("Color Green", detectedColor.green);
+    // SmartDashboard.putNumber("Color Blue", detectedColor.blue);
 
     SmartDashboard.putBoolean("Is Cone", isCone());
     SmartDashboard.putBoolean("Is Cube", isCube());

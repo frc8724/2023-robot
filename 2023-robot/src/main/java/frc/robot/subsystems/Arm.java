@@ -71,8 +71,9 @@ public class Arm extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Arm Position", getCurrentPosition());
     SmartDashboard.putNumber("Arm Target", getTargetPosition());
-    SmartDashboard.putNumber("Arm Error", talon.getClosedLoopError());
-    SmartDashboard.putNumber("Arm Error 2", Math.abs(getCurrentPosition() - getTargetPosition()));
+    // SmartDashboard.putNumber("Arm Error", talon.getClosedLoopError());
+    // SmartDashboard.putNumber("Arm Error 2", Math.abs(getCurrentPosition() -
+    // getTargetPosition()));
     SmartDashboard.putBoolean("Arm At Position", isAtPosition());
     SmartDashboard.putBoolean("Arm Limit Switch", limitSwitch.get());
   }

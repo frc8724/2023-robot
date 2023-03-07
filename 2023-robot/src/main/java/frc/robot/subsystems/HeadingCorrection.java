@@ -65,7 +65,7 @@ public class HeadingCorrection {
 
         m_HeadingPid.setSetpoint(headingOffset);
 
-        SmartDashboard.putString("Trace", "Zero Heading Gyro");
+        // SmartDashboard.putString("Trace", "Zero Heading Gyro");
 
         // restart the PID controller loop
         resetAndEnableHeadingPID();
@@ -130,12 +130,12 @@ public class HeadingCorrection {
     }
 
     public void updateSmartDashboard() {
-        SmartDashboard.putNumber("Heading: desired", m_HeadingPid.getSetpoint());
+        // SmartDashboard.putNumber("Heading: desired", m_HeadingPid.getSetpoint());
         SmartDashboard.putNumber("Heading: actual", this.getHeading());
-        SmartDashboard.putBoolean("Heading: correcting", m_useHeadingCorrection);
+        // SmartDashboard.putBoolean("Heading: correcting", m_useHeadingCorrection);
 
         SmartDashboard.putNumber("NavX Heading", getHeading());
-        SmartDashboard.putNumber("NavX Pitch", getPitch());
-        SmartDashboard.putNumber("NavX Roll", getRoll());
+        // SmartDashboard.putNumber("NavX Pitch", getPitch());
+        // SmartDashboard.putNumber("NavX Roll", getRoll());
     }
 }
