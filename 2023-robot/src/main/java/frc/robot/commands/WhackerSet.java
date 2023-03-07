@@ -23,5 +23,8 @@ public class WhackerSet extends InstantCommand {
   @Override
   public void initialize() {
     RobotContainer.whacker.set(state);
+    {
+      RobotContainer.drive.setBrake(state == State.DOWN);
+    }
   }
 }
