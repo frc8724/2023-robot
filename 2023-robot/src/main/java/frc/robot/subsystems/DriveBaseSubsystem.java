@@ -46,7 +46,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
     // Drive parameters
     // pi * diameter * (pulley ratios) / (counts per rev * gearbox reduction)
     public static final double INCHES_TO_METER_CONVERSION_FACTOR = 0.0254;
-    public static final double DISTANCE_PER_PULSE_IN_INCHES = 3.14 * 6.0 * 36.0 / 42.0 / (2048.0 * 7.56); // corrected
+    public static final double DISTANCE_PER_PULSE_IN_INCHES = 3.14 * 6.0 * 36.0 / 42.0 / (2048.0 * 10.86); // corrected
     public static final double DISTANCE_PER_PULSE_IN_METERS = DISTANCE_PER_PULSE_IN_INCHES
             * INCHES_TO_METER_CONVERSION_FACTOR;
     public static final double DISTANCE_PER_ROTATION_IN_METERS = DISTANCE_PER_PULSE_IN_METERS * 2048;
