@@ -39,7 +39,7 @@ public class Week3_PlaceCone_X_GetAnother extends SequentialCommandGroup {
                                                 new Drive_Place2ndCone(),
                                                 new SequentialCommandGroup(
                                                                 new WaitCommand(1.2),
-                                                                new ShoulderGoto(Shoulder.LEVEL_X_SCORE[Level]),
+                                                                new ShoulderGoto(Shoulder.LEVEL_X_PRESCORE[Level]),
                                                                 new ShoulderWaitForPosition(),
                                                                 new ArmSystemGoTo(Arm.LEVEL_X_SCORE[Level]))));
                 // new ShoulderGoto(Shoulder.LEVEL_X_SCORE[Level]))));
