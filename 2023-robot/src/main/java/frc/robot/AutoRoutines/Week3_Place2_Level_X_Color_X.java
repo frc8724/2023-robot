@@ -3,6 +3,7 @@ package frc.robot.AutoRoutines;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants.Color;
 import frc.robot.commands.ArmGoto;
 import frc.robot.commands.ArmSystemGoTo;
 import frc.robot.commands.ArmWaitForPosition;
@@ -22,8 +23,8 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.ClawPiston.State;
 
-public class Week3_PlaceCone_X_GetAnother extends SequentialCommandGroup {
-        public Week3_PlaceCone_X_GetAnother(int Level) {
+public class Week3_Place2_Level_X_Color_X extends SequentialCommandGroup {
+        public Week3_Place2_Level_X_Color_X(int Level, int color) {
                 addCommands(new SystemZero());
 
                 addCommands(new SystemPlaceCone(Level));
@@ -32,11 +33,13 @@ public class Week3_PlaceCone_X_GetAnother extends SequentialCommandGroup {
 
                 addCommands(
                                 new ParallelCommandGroup(
-                                                new SystemFloorPickUp(),
-                                                new Drive_GoTo2ndCone()));
+                                                new SequentialCommandGroup(
+                                                                new ArmSystemGoTo(Arm.ALMOST_STOW),
+                                                                new SystemFloorPickUp()),
+                                                new Drive_GoTo2ndCone(color)));
                 addCommands(
                                 new ParallelCommandGroup(
-                                                new Drive_Place2ndCone(),
+                                                new Drive_Place2ndCone(color),
                                                 new SequentialCommandGroup(
                                                                 new WaitCommand(1.2),
                                                                 new ShoulderGoto(Shoulder.LEVEL_X_PRESCORE[Level]),
@@ -47,10 +50,12 @@ public class Week3_PlaceCone_X_GetAnother extends SequentialCommandGroup {
                 addCommands(new ClawPistonSet(State.CLOSE));
                 addCommands(new ClawRollerSet(-0.3));
                 addCommands(new WaitCommand(.5));
-                addCommands(new DriveStraightOnHeading(-.05, -.5, 20, 0));
+                addCommands(new DriveStraightOnHeading(-.05, -.5, 20, 0 * color));
                 addCommands(new ParallelCommandGroup(
-                                new DriveStraightOnHeading(-.5, 100, 0),
-                                new SystemFloorPickUp()));
+                                new DriveStraightOnHeading(-.5, 100, 0 * color),
+                                new SequentialCommandGroup(
+                                                new ArmSystemGoTo(Arm.ALMOST_STOW),
+                                                new SystemFloorPickUp())));
 
         }
 }

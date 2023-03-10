@@ -58,9 +58,10 @@ public class RobotContainer {
     configureBindings();
     addAuto(new Week3_DriveToCone());
     // addAuto(new Week3_PlaceCone_X_GetAnother(2));
-    addAuto(new Week3_PlaceCone_2_GetAnother());
-    addAuto(new Week3_PlaceCone_3_GetAnother());
-
+    addAuto(new Week3_Place2_Level_2_Color_Red());
+    addAuto(new Week3_Place2_Level_3_Color_Red());
+    addAuto(new Week3_Place2_Level_2_Color_Blue());
+    addAuto(new Week3_Place2_Level_3_Color_Blue());
 
     addAuto(new DriveSystemOnChargingStation());
     addAuto(new Week1_StandStill());
@@ -104,8 +105,8 @@ public class RobotContainer {
         () -> driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.getAsBoolean(),
         () -> driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.getAsBoolean()));
 
-        driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.onTrue(new DriveBrakeMode(true));
-        driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.onFalse(new DriveBrakeMode(false));
+    driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.onTrue(new DriveBrakeMode(true));
+    driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.onFalse(new DriveBrakeMode(false));
 
     // driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
 
