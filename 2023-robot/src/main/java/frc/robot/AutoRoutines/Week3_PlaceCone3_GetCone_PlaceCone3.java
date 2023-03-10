@@ -6,9 +6,6 @@ package frc.robot.AutoRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Week3_PlaceCone3_GetCone_PlaceCone3 extends SequentialCommandGroup {
   /** Creates a new Week1_PlaceCone3_GetCone_PlaceCone3. */
   public Week3_PlaceCone3_GetCone_PlaceCone3() {

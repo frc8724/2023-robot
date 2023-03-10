@@ -53,7 +53,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     private boolean m_closedLoopMode = true;
     private final double m_maxWheelSpeed = 18000.0; // should be maximum wheel speed in native units
-    private static final double CLOSED_LOOP_RAMP_RATE = 0.6; // time from neutral to full in seconds
+    private static final double CLOSED_LOOP_RAMP_RATE = 0.5; // time from neutral to full in seconds
     private static final double OPEN_LOOP_RAMP_RATE = 0.2; // time from neutral to full in seconds
 
     private double m_initialWheelDistance = 0.0;

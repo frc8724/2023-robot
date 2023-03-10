@@ -56,6 +56,12 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    addAuto(new Week3_DriveToCone());
+    // addAuto(new Week3_PlaceCone_X_GetAnother(2));
+    addAuto(new Week3_PlaceCone_2_GetAnother());
+    addAuto(new Week3_PlaceCone_3_GetAnother());
+
+
     addAuto(new DriveSystemOnChargingStation());
     addAuto(new Week1_StandStill());
 
@@ -101,8 +107,10 @@ public class RobotContainer {
     // driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
 
     driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.whileTrue(new DriveCenterTarget(() -> driverPad.driveThrottle()));
-    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onTrue(new LimelightSetPipeline(1));
-    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onFalse(new LimelightSetPipeline(0));
+    // driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onTrue(new
+    // LimelightSetPipeline(1));
+    // driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onFalse(new
+    // LimelightSetPipeline(0));
 
     driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerToggle());
 
@@ -204,6 +212,7 @@ public class RobotContainer {
   public Command startTeleopCommand() {
     arm.stop();
     shoulder.stop();
+    clawRollers.set(0.0);
 
     return new LedLightsSet(PatternID.RED);
 

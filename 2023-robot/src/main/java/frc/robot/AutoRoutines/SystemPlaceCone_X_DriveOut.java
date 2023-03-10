@@ -23,6 +23,9 @@ public class SystemPlaceCone_X_DriveOut extends SequentialCommandGroup {
 
     addCommands(new ParallelCommandGroup(
         new SystemStowArm(),
-        new DriveStraightOnHeading(-0.2, 120.0, 0.0)));
+        new SequentialCommandGroup(
+            new DriveStraightOnHeading(-0.05, -.2, 20.0, 0.0),
+            new DriveStraightOnHeading(-0.2, 80.0, 0.0),
+            new DriveStraightOnHeading(-0.2, -0.05, 20.0, 0.0))));
   }
 }

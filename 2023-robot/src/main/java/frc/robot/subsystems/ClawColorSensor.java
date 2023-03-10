@@ -32,14 +32,14 @@ public class ClawColorSensor extends SubsystemBase {
    */
   @Override
   public void periodic() {
-    detectedColor = m_colorSensor.getColor();
+    // detectedColor = m_colorSensor.getColor();
 
     // SmartDashboard.putNumber("Color Red", detectedColor.red);
     // SmartDashboard.putNumber("Color Green", detectedColor.green);
     // SmartDashboard.putNumber("Color Blue", detectedColor.blue);
 
-    SmartDashboard.putBoolean("Is Cone", isCone());
-    SmartDashboard.putBoolean("Is Cube", isCube());
+    // SmartDashboard.putBoolean("Is Cone", isCone());
+    // SmartDashboard.putBoolean("Is Cube", isCube());
   }
 
   public boolean isCube() {

@@ -18,12 +18,14 @@ public class DriveCenterTarget extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.drive);
     addRequirements(RobotContainer.targeting);
+    addRequirements(RobotContainer.limeLight);
     this.throttle = throttle;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.limeLight.ledMode(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,6 +47,7 @@ public class DriveCenterTarget extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.drive.speedRacerDrive(0, 0, false);
+    RobotContainer.limeLight.ledMode(false);
   }
 
   // Returns true when the command should end.
