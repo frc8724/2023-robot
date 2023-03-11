@@ -27,16 +27,8 @@ public class Week3_Place2_Level_X_Color_X extends SequentialCommandGroup {
         public Week3_Place2_Level_X_Color_X(int Level, int color) {
                 addCommands(new SystemZero());
 
-                addCommands(new SystemPlaceCone(Level));
+                addCommands(new Week3_PlaceCone_GrabAnother_Level_X_Color_X(Level,color));
 
-                addCommands(new ClawDropCone());
-
-                addCommands(
-                                new ParallelCommandGroup(
-                                                new SequentialCommandGroup(
-                                                                new ArmSystemGoTo(Arm.ALMOST_STOW),
-                                                                new SystemFloorPickUp()),
-                                                new Drive_GoTo2ndCone(color)));
                 addCommands(
                                 new ParallelCommandGroup(
                                                 new Drive_Place2ndCone(color),
