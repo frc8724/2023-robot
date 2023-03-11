@@ -19,7 +19,7 @@ import frc.robot.subsystems.Shoulder;
 public class Week3_PlaceCone_Charging_Level_X_Color_X extends SequentialCommandGroup {
   public Week3_PlaceCone_Charging_Level_X_Color_X(int Level, int color) {
     addCommands(new SystemZero());
-    
+
     addCommands(new Week3_PlaceCone_GrabAnother_Level_X_Color_X(Level, color));
 
     addCommands(new DriveStraightOnHeading(.1, .2, 15, 80 * color));
@@ -34,13 +34,13 @@ public class Week3_PlaceCone_Charging_Level_X_Color_X extends SequentialCommandG
 
         // drive to the charging station
         new SequentialCommandGroup(
-            new DriveStraightOnHeading(.05, .3, 10, 45.0 * color),
-            new DriveStraightOnHeading(.3, 70, 45.0 * color),
+            new DriveStraightOnHeading(.1, .4, 10, 45.0 * color),
+            new DriveStraightOnHeading(.4, 70, 45.0 * color),
             new DriveBrakeMode(true),
-            new DriveStraightOnHeading(.3, 20, 0.0 * color),
+            new DriveStraightOnHeading(.4, 20, 0.0 * color),
 
-            new DriveStraightOnHeading(.3, .1, 20, 0.0 * color),
-            new DriveStraightOnHeading(.1, 50, 0.0 * color))));
+            new DriveStraightOnHeading(.4, .15, 10, 0.0 * color),
+            new DriveStraightOnHeading(.15, 50, 0.0 * color))));
 
     // addCommands(new DriveStraightOnHeading(.2, 50, 0.0 * color));
   }

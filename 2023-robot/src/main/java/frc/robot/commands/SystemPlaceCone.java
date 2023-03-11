@@ -23,9 +23,9 @@ public class SystemPlaceCone extends SequentialCommandGroup {
     addCommands(new ArmSystemGoTo(Arm.LEVEL_X_SCORE[level]));
     addCommands(new ArmWaitForPosition());
     // rotate shoulder down to place
-    addCommands(new ShoulderGoto(Shoulder.LEVEL_X_SCORE[level]));
-    addCommands(
-      new ParallelRaceGroup(
-      new ShoulderWaitForPosition(), new WaitCommand(1.0)));
+    // addCommands(new ShoulderGoto(Shoulder.LEVEL_X_SCORE[level]));
+    // addCommands(
+    //   new ParallelRaceGroup(
+    //   new ShoulderWaitForPosition(), new WaitCommand(1.0)));
   }
 }
