@@ -244,19 +244,19 @@ public class DriveBaseSubsystem extends SubsystemBase {
                     headingCorrection.lockHeading();
                     rotation = 0.0;
 
-                    System.out.println("Drive: drive straight LOCK");
+                    // System.out.println("Drive: drive straight LOCK");
                 } else if (m_iterationsSinceRotationCommanded < LOOPS_GYRO_DELAY) {
                     // not long enough since we were last turning,
                     // just drive straight without special heading maintenance
                     rotation = 0.0;
-                    System.out.println("Drive: drive straight");
+                    // System.out.println("Drive: drive straight");
                 } else if (m_iterationsSinceRotationCommanded > LOOPS_GYRO_DELAY
                         && DriverStation.isAutonomous()) {
                     // after more then LOOPS_GYRO_DELAY iterations since commanded turn,
                     // maintain the target heading
                     rotation = headingCorrection.maintainHeading();
 
-                    System.out.println("Drive: drive straight w/ correction");
+                    // System.out.println("Drive: drive straight w/ correction");
                 }
                 m_iterationsSinceMovementCommanded = 0;
             }
@@ -488,18 +488,20 @@ public class DriveBaseSubsystem extends SubsystemBase {
     }
 
     public void setBrake(boolean b) {
+        System.out.println("Drive: set brake " + b);
+
         if (b) {
             // brake mode in the motors
             leftTalon1.setNeutralMode(NeutralMode.Brake);
             rightTalon1.setNeutralMode(NeutralMode.Brake);
 
-            // set the encoder position to 0.0
-            leftTalon1.setSelectedSensorPosition(0.0);
-            rightTalon1.setSelectedSensorPosition(0.0);
+            // // set the encoder position to 0.0
+            // leftTalon1.setSelectedSensorPosition(0.0);
+            // rightTalon1.setSelectedSensorPosition(0.0);
 
-            // set to position stay at 0.
-            leftTalon1.set(ControlMode.Position, 0.0);
-            rightTalon1.set(ControlMode.Position, 0.0);
+            // // set to position stay at 0.
+            // leftTalon1.set(ControlMode.Position, 0.0);
+            // rightTalon1.set(ControlMode.Position, 0.0);
         } else {
             leftTalon1.setNeutralMode(NeutralMode.Coast);
             rightTalon1.setNeutralMode(NeutralMode.Coast);

@@ -150,6 +150,8 @@ public class RobotContainer {
 
     // operatorPad.OPERATOR_PAD_D_PAD_DOWN.whileTrue(new SystemGrabAndStow());
     operatorPad.OPERATOR_PAD_D_PAD_LEFT.whileTrue(new SystemFloorPickUp());
+    operatorPad.OPERATOR_PAD_D_PAD_LEFT.onFalse(new ArmBrakeSet(ArmBrake.State.CLOSE));
+    operatorPad.OPERATOR_PAD_D_PAD_LEFT.onFalse(new ArmSetPower(0.0));
 
     // debug
     // operatorPad.OPERATOR_PAD_D_PAD_LEFT.onTrue(new
@@ -226,6 +228,7 @@ public class RobotContainer {
     arm.stop();
     shoulder.stop();
     clawRollers.set(0.0);
+    drive.setBrake(false);
 
     return new LedLightsSet(PatternID.RED);
 

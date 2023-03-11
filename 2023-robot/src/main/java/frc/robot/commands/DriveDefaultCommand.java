@@ -31,7 +31,7 @@ public class DriveDefaultCommand extends CommandBase {
 
   @Override
   public void initialize() {
-    RobotContainer.drive.setBrake(false);
+    // RobotContainer.drive.setBrake(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
