@@ -64,6 +64,7 @@ public class RobotContainer {
     addAuto(new Week3_Place2_Level_3_Color_Blue());
 
     addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Red());
+    addAuto(new Week3_PlaceConeGetAnother_Charging_Level_3_Color_Red());
 
     addAuto(new DriveSystemOnChargingStation());
     addAuto(new Week1_StandStill());
