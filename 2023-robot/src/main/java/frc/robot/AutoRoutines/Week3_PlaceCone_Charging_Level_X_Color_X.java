@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArmSystemGoTo;
+import frc.robot.commands.ArmZero;
 import frc.robot.commands.ClawPistonSet;
 import frc.robot.commands.ClawRollerSet;
 import frc.robot.commands.DriveBrakeMode;
@@ -30,15 +31,20 @@ public class Week3_PlaceCone_Charging_Level_X_Color_X extends SequentialCommandG
     addCommands(new ClawPistonSet(State.CLOSE));
 
     addCommands(new ParallelCommandGroup(
+        // stutter the claw rollers to settle the
+        new SequentialCommandGroup(
+            new WaitCommand(1.0),
+            new ClawRollerSet(0.2),
+            new WaitCommand(1.0),
+            new ClawRollerSet(0.5),
+            new WaitCommand(0.5),
+            new ClawRollerSet(0.1)),
         // put the arm/shoulder in
         new SequentialCommandGroup(
-            new WaitCommand(0.5),
-            new ClawRollerSet(0.2),
-
             new ArmSystemGoTo(Arm.ALMOST_STOW),
+            new ArmZero(),
             new ShoulderGoto(Shoulder.CUBE_STOW),
             new ShoulderWaitForPosition()),
-
         // drive to the charging station
         new SequentialCommandGroup(
             new DriveStraightOnHeading(.1, .4, 10, 45.0 * color),
