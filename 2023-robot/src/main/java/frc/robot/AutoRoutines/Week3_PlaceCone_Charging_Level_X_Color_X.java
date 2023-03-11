@@ -40,8 +40,8 @@ public class Week3_PlaceCone_Charging_Level_X_Color_X extends SequentialCommandG
             new DriveStraightOnHeading(.4, 30, 0.0 * color),
 
             new DriveStraightOnHeading(.4, .15, 10, 0.0 * color),
-            new DriveStraightOnHeading(.15, .2, 55, 0.0 * color),
-            new DriveStraightOnHeading(.2, .1, 10, 0.0 * color))));
+            new DriveStraightOnHeading(.15, .2, 45, 0.0 * color),
+            new DriveStraightOnHeading(.2, .1, 15, 0.0 * color))));
 
     // addCommands(new DriveStraightOnHeading(.2, 50, 0.0 * color));
   }
