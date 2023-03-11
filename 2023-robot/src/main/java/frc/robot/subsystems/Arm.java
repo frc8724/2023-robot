@@ -91,7 +91,10 @@ public class Arm extends SubsystemBase {
   }
 
   public double getTargetPosition() {
-    return talon.getClosedLoopTarget();
+    if (talon.getControlMode() == ControlMode.Position) {
+      return talon.getClosedLoopTarget();
+    }
+    return 0.0;
   }
 
   boolean isMovingIn() {

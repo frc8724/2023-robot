@@ -63,6 +63,8 @@ public class RobotContainer {
     addAuto(new Week3_Place2_Level_2_Color_Blue());
     addAuto(new Week3_Place2_Level_3_Color_Blue());
 
+    addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Red());
+
     addAuto(new DriveSystemOnChargingStation());
     addAuto(new Week1_StandStill());
 
@@ -110,7 +112,13 @@ public class RobotContainer {
 
     // driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
 
-    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.whileTrue(new DriveCenterTarget(() -> driverPad.driveThrottle()));
+    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.whileTrue(
+        new SequentialCommandGroup(
+            new LimelightSetPipeline(2),
+            new WaitCommand(0.25),
+            new DriveCenterTarget(() -> driverPad.driveThrottle())));
+    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onFalse(new LimelightSetPipeline(3));
+
     // driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onTrue(new
     // LimelightSetPipeline(1));
     // driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onFalse(new

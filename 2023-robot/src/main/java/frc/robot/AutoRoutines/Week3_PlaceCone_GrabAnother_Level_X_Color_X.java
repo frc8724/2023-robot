@@ -18,19 +18,16 @@ import frc.robot.subsystems.Arm;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Week3_PlaceCone_GrabAnother_Level_X_Color_X extends SequentialCommandGroup {
   /** Creates a new Week3_PlaceCone_GrabAnother_Level_X_Color_X. */
-  public Week3_PlaceCone_GrabAnother_Level_X_Color_X(int Level,int color) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    
+  public Week3_PlaceCone_GrabAnother_Level_X_Color_X(int Level, int color) {
     addCommands(new SystemPlaceCone(Level));
 
     addCommands(new ClawDropCone());
 
     addCommands(
-                    new ParallelCommandGroup(
-                                    new SequentialCommandGroup(
-                                                    new ArmSystemGoTo(Arm.ALMOST_STOW),
-                                                    new SystemFloorPickUp()),
-                                    new Drive_GoTo2ndCone(color)));
+        new ParallelCommandGroup(
+            new SequentialCommandGroup(
+                new ArmSystemGoTo(Arm.ALMOST_STOW),
+                new SystemFloorPickUp()),
+            new Drive_GoTo2ndCone(color)));
   }
 }

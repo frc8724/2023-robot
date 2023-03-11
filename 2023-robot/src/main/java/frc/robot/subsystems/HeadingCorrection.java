@@ -48,6 +48,8 @@ public class HeadingCorrection {
      */
     public void periodic() {
         m_correction = m_HeadingPid.calculate(getHeading());
+        m_correction = Math.min(m_correction,.2);
+        m_correction = Math.max(-.2,m_correction);
         updateSmartDashboard();
     }
 

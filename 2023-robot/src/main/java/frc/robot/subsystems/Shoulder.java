@@ -24,6 +24,7 @@ public class Shoulder extends SubsystemBase {
   public static final double HUMAN_PLAYER_STATION = 73000.0;
   public static final double STOW = 1000.0;
   public static final double FLOOR_PICKUP = 17000;
+  public static final double CUBE_STOW = 14000;
 
   static final double POSITION_SLOP = 2500.0;
 
@@ -105,7 +106,9 @@ public class Shoulder extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shoulder Current Ticks", rightTalon.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Shoulder Target Ticks", rightTalon.getClosedLoopTarget());
+    if (rightTalon.getControlMode() != ControlMode.PercentOutput) {
+      SmartDashboard.putNumber("Shoulder Target Ticks", rightTalon.getClosedLoopTarget());
+    }
 
     // wheelP = SmartDashboard.getNumber("Shoulder P", kWheelP);
     // SmartDashboard.putNumber("Shoulder P", kWheelP);
@@ -136,7 +139,10 @@ public class Shoulder extends SubsystemBase {
   }
 
   public double getTargetPositionTicks() {
-    return rightTalon.getClosedLoopTarget();
+    if (rightTalon.getControlMode() != ControlMode.PercentOutput) {
+      return rightTalon.getClosedLoopTarget();
+    }
+    return 0.0;
   }
 
   public boolean isAtPosition() {
