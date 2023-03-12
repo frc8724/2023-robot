@@ -42,7 +42,7 @@ public class Week3_PlaceCone_Charging_Level_X_Color_X extends SequentialCommandG
         // put the arm/shoulder in
         new SequentialCommandGroup(
             new ArmSystemGoTo(Arm.ALMOST_STOW),
-            new ArmZero(),
+            // new ArmZero(),
             new ShoulderGoto(Shoulder.CUBE_STOW),
             new ShoulderWaitForPosition()),
         // drive to the charging station
