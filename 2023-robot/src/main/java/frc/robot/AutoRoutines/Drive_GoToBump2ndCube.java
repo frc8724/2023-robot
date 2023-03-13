@@ -16,15 +16,20 @@ public class Drive_GoToBump2ndCube extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new DriveStraightOnHeading(-0.05, -0.4, 15, 0));
-    addCommands(new DriveStraightOnHeading(-0.4, 33, 0));
+    addCommands(new DriveStraightOnHeading(-0.4, 33, 0));// get to bump
     addCommands(new DriveStraightOnHeading(-0.4, -0.15, 10, 0));
-    addCommands(new DriveStraightOnHeading(-0.15, 15, 0));
+    addCommands(new DriveStraightOnHeading(-0.15, 15, 0));// go over bump
     addCommands(new DriveStraightOnHeading(-0.15, -0.4, 15, 0));
-    addCommands(new DriveStraightOnHeading(-0.4, 137, 24));
-    addCommands(new DriveStraightOnHeading(-0.4, -0.1, 20, 82));
+    addCommands(new DriveStraightOnHeading(-0.4, 137, 24));// long distance
+    addCommands(new DriveStraightOnHeading(-0.4, -0.1, 20, 82));// aim to cube
+    addCommands(new DriveStraightOnHeading(0.05, 0.2, 15, 80));// get cube
+    addCommands(new DriveStraightOnHeading(0.2, 0.4, 120, 0));// come back
+    addCommands(new DriveStraightOnHeading(0.4, 0.15, 10, 0));
+    addCommands(new DriveStraightOnHeading(0.15, 15, 0));// go over bump
+    addCommands(new DriveStraightOnHeading(0.15, 0.4, 15, 0));
 
-    addCommands(new DriveStraightOnHeading(0.05, 0.2, 15, 80));
-    // addCommands(new DriveStraightOnHeading(-0.4, -0.1, 20, 0));
+    addCommands(new DriveStraightOnHeading(0.4, 45, -2));// go to scoring place
+    addCommands(new DriveStraightOnHeading(0.4, 0.2, 15, 0));
 
   }
 }
