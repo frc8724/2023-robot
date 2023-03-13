@@ -16,14 +16,14 @@ public class Drive_GoToBump2ndCube extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new DriveStraightOnHeading(-0.05, -0.4, 15, 0));
-    addCommands(new DriveStraightOnHeading(-0.4, 30, 0));
+    addCommands(new DriveStraightOnHeading(-0.4, 33, 0));
     addCommands(new DriveStraightOnHeading(-0.4, -0.15, 10, 0));
     addCommands(new DriveStraightOnHeading(-0.15, 15, 0));
     addCommands(new DriveStraightOnHeading(-0.15, -0.4, 15, 0));
-    addCommands(new DriveStraightOnHeading(-0.4, 140, 20));
-    addCommands(new DriveStraightOnHeading(-0.4, -0.1, 20, 80));
+    addCommands(new DriveStraightOnHeading(-0.4, 137, 24));
+    addCommands(new DriveStraightOnHeading(-0.4, -0.1, 20, 82));
 
-    // addCommands(new DriveStraightOnHeading(0.1, 0.3, 20, 80));
+    addCommands(new DriveStraightOnHeading(0.05, 0.2, 15, 80));
     // addCommands(new DriveStraightOnHeading(-0.4, -0.1, 20, 0));
 
   }
