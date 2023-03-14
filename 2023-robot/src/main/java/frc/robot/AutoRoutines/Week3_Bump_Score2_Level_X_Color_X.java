@@ -35,6 +35,6 @@ public class Week3_Bump_Score2_Level_X_Color_X extends SequentialCommandGroup {
                 new ArmSystemGoTo(Arm.ALMOST_STOW),
                 new SystemFloorPickUp()),
             new Drive_GoToBump2ndCube(color)));
-    addCommands(new Drive_Place2ndCubeBump(Level));
+    addCommands(new Drive_Place2ndCubeBump(Level, color));
   }
 }

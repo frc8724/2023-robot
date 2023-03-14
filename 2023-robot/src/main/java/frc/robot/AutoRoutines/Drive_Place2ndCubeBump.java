@@ -17,14 +17,14 @@ import frc.robot.subsystems.ClawPiston.State;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Drive_Place2ndCubeBump extends SequentialCommandGroup {
   /** Creates a new Drive_Place2ndCubeBump. */
-  public Drive_Place2ndCubeBump(int Level) {
+  public Drive_Place2ndCubeBump(int Level, int Color) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DriveStraightOnHeading(0.2, 0.4, 10, 0));
-    addCommands(new DriveStraightOnHeading(0.4, 115, 0));
+    addCommands(new DriveStraightOnHeading(0.2, 0.4, 10, 0 * Color));
+    addCommands(new DriveStraightOnHeading(0.4, 115, 0 * Color));
 
-    addCommands(new DriveStraightOnHeading(0.4, 0.15, 10, 0));
-    addCommands(new DriveStraightOnHeading(0.15, 15, 0));// go over bump
+    addCommands(new DriveStraightOnHeading(0.4, 0.15, 10, 0 * Color));
+    addCommands(new DriveStraightOnHeading(0.15, 15, 0 * Color));// go over bump
     addCommands(
         new ParallelCommandGroup(
             new SequentialCommandGroup(
@@ -32,9 +32,9 @@ public class Drive_Place2ndCubeBump extends SequentialCommandGroup {
                 new ClawRollerSet(-.5),
                 new ClawPistonSet(State.CLOSE)),
             new SequentialCommandGroup(
-                new DriveStraightOnHeading(0.15, 0.4, 15, 0),
-                new DriveStraightOnHeading(0.4, 50, -10),
-                new DriveStraightOnHeading(0.4, 0.05, 15, 0))));
+                new DriveStraightOnHeading(0.15, 0.4, 15, 0 * Color),
+                new DriveStraightOnHeading(0.4, 50, -15 * Color),
+                new DriveStraightOnHeading(0.4, 0.05, 15, 0 * Color))));
 
   }
 }

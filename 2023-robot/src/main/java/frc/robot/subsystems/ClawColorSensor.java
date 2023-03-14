@@ -31,20 +31,24 @@ public class ClawColorSensor extends SubsystemBase {
 
   /** Creates a new ClawColorSensor. */
   public ClawColorSensor() {
-    thread = new Thread(() -> Run());
-    thread.start();
+    // thread = new Thread(() -> Run());
+    // thread.start();
   }
 
+  I2C.Port i2cPort = I2C.Port.kOnboard;
+  ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+
   private void Run() {
-    I2C.Port i2cPort = I2C.Port.kOnboard;
-    ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
     m_colorSensor.configureColorSensor(ColorSensorResolution.kColorSensorRes13bit,
         ColorSensorMeasurementRate.kColorRate100ms, GainFactor.kGain3x);
     while (true) {
-      Color c = m_colorSensor.getColor();
-      setColor(c);
-      SmartDashboard.putNumber("Color x", c.red);
     }
+  }
+
+  private void ReadColorSensor() {
+    Color c = m_colorSensor.getColor();
+    setColor(c);
+    SmartDashboard.putNumber("Color x", c.red);
   }
 
   private synchronized Color getColor() {
@@ -81,6 +85,10 @@ public class ClawColorSensor extends SubsystemBase {
   @Override
   public void periodic() {
     // Color c = getColor();
+    // ReadColorSensor();
+    // detectedColor = m_colorSensor.getColor();
+
+    SmartDashboard.putNumber("Color Red X", detectedColor.red);
 
     SmartDashboard.putNumber("Color Red", getR());
     SmartDashboard.putNumber("Color Green", getG());
