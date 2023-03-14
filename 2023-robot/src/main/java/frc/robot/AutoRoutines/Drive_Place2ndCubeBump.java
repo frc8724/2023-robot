@@ -33,7 +33,7 @@ public class Drive_Place2ndCubeBump extends SequentialCommandGroup {
                 new ClawPistonSet(State.CLOSE)),
             new SequentialCommandGroup(
                 new DriveStraightOnHeading(0.15, 0.4, 15, 0),
-                new DriveStraightOnHeading(0.4, 50, -2),
+                new DriveStraightOnHeading(0.4, 50, -10),
                 new DriveStraightOnHeading(0.4, 0.05, 15, 0))));
 
   }
