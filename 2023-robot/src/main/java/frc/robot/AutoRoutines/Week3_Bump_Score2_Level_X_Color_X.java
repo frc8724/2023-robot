@@ -8,13 +8,10 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ArmSystemGoTo;
 import frc.robot.commands.ClawDropCone;
-import frc.robot.commands.ClawPistonSet;
-import frc.robot.commands.ClawRollerSet;
 import frc.robot.commands.SystemFloorPickUp;
 import frc.robot.commands.SystemPlaceCone;
 import frc.robot.commands.SystemZero;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.ClawPiston.State;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
