@@ -37,7 +37,7 @@ public class Week3_Place2_Level_X_Color_X extends SequentialCommandGroup {
                                                                 new ShoulderGoto(Shoulder.LEVEL_X_PRESCORE[Level]),
                                                                 new ShoulderWaitForPosition(),
                                                                 new ArmSystemGoTo(Arm.LEVEL_X_SCORE[Level]))));
-                // new ShoulderGoto(Shoulder.LEVEL_X_SCORE[Level]))));
+        
 
                 addCommands(new ClawPistonSet(State.CLOSE));
                 addCommands(new ClawRollerSet(-0.3));

@@ -20,7 +20,7 @@ import frc.robot.Constants;
 
 public class Shoulder extends SubsystemBase {
   public static final double[] LEVEL_X_PRESCORE = { 0.0, 2000.0, 72000.0, 79500.0 };
-  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 53000.0, 65000.0 };
+  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 62000.0, 74000.0 };
   public static final double HUMAN_PLAYER_STATION = 73000.0;
   public static final double STOW = 1000.0;
   public static final double FLOOR_PICKUP = 17000;
