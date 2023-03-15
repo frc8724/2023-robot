@@ -5,13 +5,16 @@
 package frc.robot.AutoRoutines;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ClawPistonSet;
 import frc.robot.commands.ClawRollerSet;
 import frc.robot.commands.DriveStraightOnHeading;
 import frc.robot.commands.ShoulderGoto;
 import frc.robot.commands.ShoulderWaitForPosition;
 import frc.robot.commands.SystemPlaceCone;
+import frc.robot.commands.SystemPlaceCube;
 import frc.robot.subsystems.ClawPiston.State;
 import frc.robot.subsystems.Shoulder;
 
@@ -31,9 +34,7 @@ public class Drive_Place2ndCubeBump extends SequentialCommandGroup {
     addCommands(
         new ParallelCommandGroup(
             new SequentialCommandGroup(
-                new SystemPlaceCone(Level),
-                new ShoulderGoto(Shoulder.LEVEL_X_SCORE[Level]),
-                new ShoulderWaitForPosition(),
+                new SystemPlaceCube(Level),
 
                 new ClawRollerSet(-.5),
                 new ClawPistonSet(State.CLOSE)),
