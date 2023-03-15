@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shoulder;
 
@@ -19,6 +21,10 @@ public class SystemPlaceCube extends SequentialCommandGroup {
     addCommands(new ShoulderWaitForPosition());
     // extend the arm out
     addCommands(new ArmSystemGoTo(Arm.LEVEL_X_SCORE[level]));
-    addCommands(new ArmWaitForPosition());
+    addCommands(new ParallelRaceGroup(
+      new ArmWaitForPosition(),
+      new SequentialCommandGroup(
+        new WaitCommand(0.25), 
+        new ClawRollerSet(-.5))));
   }
 }
