@@ -58,35 +58,38 @@ public class RobotContainer {
     configureBindings();
 
     addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Red());
-    addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Red());
+    // addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Red());
+    addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Blue());
+    // addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Blue());
+
 
     addAuto(new Week3_Bump_Score2_Level_2_Color_Red());
-    addAuto(new Week3_Bump_Score2_Level_3_Color_Red());
+    // addAuto(new Week3_Bump_Score2_Level_3_Color_Red());
     addAuto(new Week3_Bump_Score2_Level_2_Color_Blue());
-    addAuto(new Week3_Bump_Score2_Level_3_Color_Blue());
+    // addAuto(new Week3_Bump_Score2_Level_3_Color_Blue());
 
-    addAuto(new Week3_Place2_Level_2_Color_Red());
+    // addAuto(new Week3_Place2_Level_2_Color_Red());
     addAuto(new Week3_Place2_Level_3_Color_Red());
-    addAuto(new Week3_Place2_Level_2_Color_Blue());
+    // addAuto(new Week3_Place2_Level_2_Color_Blue());
     addAuto(new Week3_Place2_Level_3_Color_Blue());
 
     addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Red());
-    addAuto(new Week3_PlaceConeGetAnother_Charging_Level_3_Color_Red());
+    // addAuto(new Week3_PlaceConeGetAnother_Charging_Level_3_Color_Red());
     addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Blue());
-    addAuto(new Week3_PlaceConeGetAnother_Charging_Level_3_Color_Blue());
+    // addAuto(new Week3_PlaceConeGetAnother_Charging_Level_3_Color_Blue());
 
-    addAuto(new DriveSystemOnChargingStation());
-    addAuto(new Week1_StandStill());
+    // addAuto(new DriveSystemOnChargingStation());
+    // addAuto(new Week1_StandStill());
 
-    addAuto(new Week1_DriveOut());
+    // addAuto(new Week1_DriveOut());
 
-    addAuto(new Week1_PlaceCone_2());
-    addAuto(new Week1_PlaceCone_2_DriveOut());
-    addAuto(new Week1_PlaceCone_2_ChargingStation());
+    // addAuto(new Week1_PlaceCone_2());
+    // addAuto(new Week1_PlaceCone_2_DriveOut());
+    // addAuto(new Week1_PlaceCone_2_ChargingStation());
 
-    addAuto(new Week1_PlaceCone_3());
-    addAuto(new Week1_PlaceCone_3_DriveOut());
-    addAuto(new Week1_PlaceCone_3_ChargingStation());
+    // addAuto(new Week1_PlaceCone_3());
+    // addAuto(new Week1_PlaceCone_3_DriveOut());
+    // addAuto(new Week1_PlaceCone_3_ChargingStation());
 
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
@@ -142,7 +145,7 @@ public class RobotContainer {
   }
 
   private void configureOperatorPadButtons() {
-    SmartDashboard.putString("Debug", "configureOperatorPadButtons");
+    // SmartDashboard.putString("Debug", "configureOperatorPadButtons");
 
     operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
     operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));

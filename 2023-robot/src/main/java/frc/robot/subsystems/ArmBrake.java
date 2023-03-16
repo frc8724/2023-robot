@@ -35,7 +35,7 @@ public class ArmBrake extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
 
-        SmartDashboard.putBoolean("Arm Brake Piston", get() == State.OPEN);
+        // SmartDashboard.putBoolean("Arm Brake Piston", get() == State.OPEN);
     }
 
     public State get() {

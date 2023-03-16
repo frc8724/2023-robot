@@ -47,7 +47,7 @@ public class ClawRollers extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        SmartDashboard.putNumber("Claw Position", get());
+        // SmartDashboard.putNumber("Claw Position", get());
         // SmartDashboard.putNumber("Claw Target", talon.getClosedLoopTarget());
     }
 

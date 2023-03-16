@@ -30,7 +30,7 @@ public class Whacker extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Whacker Piston", get() == State.DOWN);
+    // SmartDashboard.putBoolean("Whacker Piston", get() == State.DOWN);
   }
 
   public State get() {

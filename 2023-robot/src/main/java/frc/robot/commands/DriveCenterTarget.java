@@ -56,9 +56,9 @@ public class DriveCenterTarget extends CommandBase {
 
       // SmartDashboard.putNumber("Drive Center Error", desiredHeading -
       // currentHeading);
-      SmartDashboard.putNumber("Drive Center steering", steering);
+      // SmartDashboard.putNumber("Drive Center steering", steering);
 
-      SmartDashboard.putNumber("Drive Center H Offset", desiredHeading);
+      // SmartDashboard.putNumber("Drive Center H Offset", desiredHeading);
       // SmartDashboard.putNumber("Drive Center Robot Heading", currentHeading);
 
       RobotContainer.drive.speedRacerDrive(t, -steering, true);

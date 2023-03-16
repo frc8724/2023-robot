@@ -48,7 +48,7 @@ public class ClawColorSensor extends SubsystemBase {
   private void ReadColorSensor() {
     Color c = m_colorSensor.getColor();
     setColor(c);
-    SmartDashboard.putNumber("Color x", c.red);
+    // SmartDashboard.putNumber("Color x", c.red);
   }
 
   private synchronized Color getColor() {
@@ -88,16 +88,16 @@ public class ClawColorSensor extends SubsystemBase {
     // ReadColorSensor();
     // detectedColor = m_colorSensor.getColor();
 
-    SmartDashboard.putNumber("Color Red X", detectedColor.red);
+    // SmartDashboard.putNumber("Color Red X", detectedColor.red);
 
-    SmartDashboard.putNumber("Color Red", getR());
-    SmartDashboard.putNumber("Color Green", getG());
-    SmartDashboard.putNumber("Color Blue", getB());
+    // SmartDashboard.putNumber("Color Red", getR());
+    // SmartDashboard.putNumber("Color Green", getG());
+    // SmartDashboard.putNumber("Color Blue", getB());
 
-    SmartDashboard.putNumber("Color Count", getCount());
+    // SmartDashboard.putNumber("Color Count", getCount());
 
-    SmartDashboard.putBoolean("Is Cone", isCone());
-    SmartDashboard.putBoolean("Is Cube", isCube());
+    // SmartDashboard.putBoolean("Is Cone", isCone());
+    // SmartDashboard.putBoolean("Is Cube", isCube());
   }
 
   public boolean isCube() {
