@@ -56,7 +56,7 @@ public class Week3_Bump_Score1_Charging_Level_X_Color_X extends SequentialComman
 
         // put the arm/shoulder in
         new SequentialCommandGroup(
-            new ShoulderGoto(Shoulder.CUBE_STOW),
+            new ShoulderGoto(Shoulder.CONE_STOW),
             new ShoulderWaitForPosition(),
             new ArmSystemGoTo(Arm.ALMOST_STOW)),
         // drive to the charging station
@@ -67,6 +67,6 @@ public class Week3_Bump_Score1_Charging_Level_X_Color_X extends SequentialComman
             new DriveStraightOnHeading(-.5, -.2, 20, 130.0 * color),
 
             new DriveStraightOnHeading(-.2, -.15, 25, 180.0 * color),
-            new DriveStraightOnHeading(-.15, 60, 180.0 * color))));
+            new DriveStraightOnHeading(-.15, 70, 180.0 * color))));
   }
 }

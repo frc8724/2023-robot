@@ -58,11 +58,12 @@ public class RobotContainer {
     configureBindings();
 
     addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Red());
-    
+    addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Red());
+
     addAuto(new Week3_Bump_Score2_Level_2_Color_Red());
     addAuto(new Week3_Bump_Score2_Level_3_Color_Red());
     addAuto(new Week3_Bump_Score2_Level_2_Color_Blue());
-    
+    addAuto(new Week3_Bump_Score2_Level_3_Color_Blue());
 
     addAuto(new Week3_Place2_Level_2_Color_Red());
     addAuto(new Week3_Place2_Level_3_Color_Red());

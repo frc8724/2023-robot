@@ -19,12 +19,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shoulder extends SubsystemBase {
-  public static final double[] LEVEL_X_PRESCORE = { 0.0, 2000.0, 72000.0, 79500.0 };
+  public static final double[] LEVEL_X_PRESCORE = { 0.0, 2000.0, 75000.0, 82500.0 };
   public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 62000.0, 74000.0 };
   public static final double HUMAN_PLAYER_STATION = 73000.0;
   public static final double STOW = 1000.0;
   public static final double FLOOR_PICKUP = 17000;
-  public static final double CUBE_STOW = 14000;
+  public static final double CONE_STOW = 14000;
 
   static final double POSITION_SLOP = 2500.0;
 

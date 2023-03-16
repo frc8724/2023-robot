@@ -43,7 +43,7 @@ public class Week3_PlaceCone_Charging_Level_X_Color_X extends SequentialCommandG
         new SequentialCommandGroup(
             new ArmSystemGoTo(Arm.ALMOST_STOW),
             // new ArmZero(),
-            new ShoulderGoto(Shoulder.CUBE_STOW),
+            new ShoulderGoto(Shoulder.CONE_STOW),
             new ShoulderWaitForPosition()),
         // drive to the charging station
         new SequentialCommandGroup(
@@ -56,7 +56,7 @@ public class Week3_PlaceCone_Charging_Level_X_Color_X extends SequentialCommandG
             new DriveBrakeMode(true),
             new DriveStraightOnHeading(.15, .2, 45, 0.0 * color),
             new DriveBrakeMode(true),
-            new DriveStraightOnHeading(.2, .1, 15, 0.0 * color),
+            new DriveStraightOnHeading(.2, .1, 25, 0.0 * color),
             new DriveBrakeMode(true))));
 
     // addCommands(new DriveStraightOnHeading(.2, 50, 0.0 * color));
