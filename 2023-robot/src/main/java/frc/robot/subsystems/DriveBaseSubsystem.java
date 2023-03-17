@@ -303,6 +303,24 @@ public class DriveBaseSubsystem extends SubsystemBase {
         setMotorPower(leftPower, rightPower);
     }
 
+    public void speedRacerDrive(double throttle) {
+        double leftPower;
+        double rightPower;
+        double rotation = 0;
+
+        m_lastThrottle = throttle;
+
+        rotation = headingCorrection.maintainHeading();
+        // driveStraight code benefits from "spin" behavior when needed
+        leftPower = throttle + rotation;
+        rightPower = throttle - rotation;
+
+        m_lastLeftPower = leftPower;
+        m_lastRightPower = rightPower;
+
+        setMotorPower(leftPower, rightPower);
+    }
+
     public void rotateToHeading(final double desiredHeading) {
         headingCorrection.setDesiredHeading(desiredHeading);
     }
