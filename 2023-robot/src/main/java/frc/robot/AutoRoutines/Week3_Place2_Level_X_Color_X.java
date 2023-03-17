@@ -27,17 +27,16 @@ public class Week3_Place2_Level_X_Color_X extends SequentialCommandGroup {
         public Week3_Place2_Level_X_Color_X(int Level, int color) {
                 addCommands(new SystemZero());
 
-                addCommands(new Week3_PlaceCone_GrabAnother_Level_X_Color_X(Level,color));
+                addCommands(new Week3_PlaceCone_GrabAnother_Level_X_Color_X(Level, color));
 
                 addCommands(
                                 new ParallelCommandGroup(
                                                 new Drive_Place2ndCone(color),
                                                 new SequentialCommandGroup(
                                                                 new WaitCommand(1.2),
-                                                                new ShoulderGoto(Shoulder.LEVEL_X_PRESCORE[Level]),
+                                                                new ShoulderGoto(Shoulder.LEVEL_X_PRESCORE[2]),
                                                                 new ShoulderWaitForPosition(),
-                                                                new ArmSystemGoTo(Arm.LEVEL_X_SCORE[Level]))));
-        
+                                                                new ArmSystemGoTo(Arm.LEVEL_X_SCORE[2]))));
 
                 addCommands(new ClawPistonSet(State.CLOSE));
                 addCommands(new ClawRollerSet(-0.3));
