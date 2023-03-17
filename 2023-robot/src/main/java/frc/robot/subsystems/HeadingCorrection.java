@@ -132,9 +132,11 @@ public class HeadingCorrection {
     }
 
     public void updateSmartDashboard() {
-        // SmartDashboard.putNumber("Heading: desired", m_HeadingPid.getSetpoint());
-        // SmartDashboard.putNumber("Heading: actual", this.getHeading());
-        // SmartDashboard.putBoolean("Heading: correcting", m_useHeadingCorrection);
+        SmartDashboard.putNumber("Heading: desired", m_HeadingPid.getSetpoint());
+        SmartDashboard.putNumber("Heading: actual", this.getHeading());
+        SmartDashboard.putBoolean("Heading: correcting", m_useHeadingCorrection);
+
+        SmartDashboard.putNumber("Heading: correction", m_correction);
 
         // SmartDashboard.putNumber("NavX Heading", getHeading());
         // SmartDashboard.putNumber("NavX Pitch", getPitch());
