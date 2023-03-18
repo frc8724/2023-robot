@@ -31,6 +31,7 @@ public class HeadingCorrection {
              */
             Navx = new AHRS(SPI.Port.kMXP);
             Navx.reset();
+            System.out.println("NavX Loaded!");
         } catch (final RuntimeException ex) {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
             System.out.println("Error loading navx.");
@@ -48,8 +49,8 @@ public class HeadingCorrection {
      */
     public void periodic() {
         m_correction = m_HeadingPid.calculate(getHeading());
-        m_correction = Math.min(m_correction,.2);
-        m_correction = Math.max(-.2,m_correction);
+        // m_correction = Math.min(m_correction,.2);
+        // m_correction = Math.max(-.2,m_correction);
         updateSmartDashboard();
     }
 

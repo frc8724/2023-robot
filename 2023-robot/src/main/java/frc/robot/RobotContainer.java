@@ -90,6 +90,8 @@ public class RobotContainer {
     addAuto(new Week1_PlaceCone_3_DriveOut());
     addAuto(new Week1_PlaceCone_3_ChargingStation());
 
+    addAuto(new Test_Drive());
+
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
 

@@ -303,6 +303,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
         setMotorPower(leftPower, rightPower);
     }
 
+    double lastRotation;
+
     public void speedRacerDrive(double throttle) {
         double leftPower;
         double rightPower;
@@ -311,6 +313,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
         m_lastThrottle = throttle;
 
         rotation = headingCorrection.maintainHeading();
+        lastRotation = rotation;
+
         // driveStraight code benefits from "spin" behavior when needed
         leftPower = throttle + rotation;
         rightPower = throttle - rotation;
@@ -342,8 +346,15 @@ public class DriveBaseSubsystem extends SubsystemBase {
                 convertTicksToMeters(rightTalon1.getSelectedSensorPosition()));
     }
 
+    double driveCount;
+
     private void updateSmartDashboard() {
         headingCorrection.updateSmartDashboard();
+        SmartDashboard.putNumber("Drive Rotation", lastRotation);
+        SmartDashboard.putNumber("Drive Count", driveCount++);
+        SmartDashboard.putNumber("Drive Heading", headingCorrection.getHeading());
+        SmartDashboard.putNumber("Drive Pitch", headingCorrection.getPitch());
+        SmartDashboard.putNumber("Drive Roll", headingCorrection.getRoll());
 
         // SmartDashboard.putBoolean("In Autonomous", DriverStation.isAutonomous());
         // SmartDashboard.putNumber("Battery Voltage",
