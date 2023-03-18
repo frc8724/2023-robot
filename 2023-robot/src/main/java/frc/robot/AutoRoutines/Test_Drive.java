@@ -19,10 +19,10 @@ public class Test_Drive extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new SystemZero());
     addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
-    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
-    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
-    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
-    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
-    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
+    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 90));
+    // addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
+    // addCommands(new DriveStraightOnHeading(+0.1, DistanceUnits.INCHES, 30, -90));
+    // addCommands(new DriveStraightOnHeading(-0.1, DistanceUnits.INCHES, 30, 0));
+    // addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
   }
 }

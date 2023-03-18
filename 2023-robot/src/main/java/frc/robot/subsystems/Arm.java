@@ -75,7 +75,7 @@ public class Arm extends SubsystemBase {
     // SmartDashboard.putNumber("Arm Error 2", Math.abs(getCurrentPosition() -
     // getTargetPosition()));
     // SmartDashboard.putBoolean("Arm At Position", isAtPosition());
-    // SmartDashboard.putBoolean("Arm Limit Switch", limitSwitch.get());
+    SmartDashboard.putBoolean("Arm Limit Switch", limitSwitch.get());
   }
 
   public boolean isAtLimitSwitch() {
