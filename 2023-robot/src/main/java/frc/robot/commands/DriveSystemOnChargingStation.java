@@ -14,8 +14,8 @@ public class DriveSystemOnChargingStation extends SequentialCommandGroup {
     addCommands(new WhackerSet(State.DOWN));
     addCommands(new WaitCommand(4.0));
 
-    addCommands(new DriveStraightOnHeading(-0.05, -0.15, 20.0, 0));
-    addCommands(new DriveStraightOnHeading(-0.15, 45.0, 0));
+    addCommands(new DriveStraightOnHeading(-0.05, -0.12, 20.0, 0));
+    addCommands(new DriveStraightOnHeading(-0.12, 46.0, 0));
     addCommands(new WhackerSet(State.UP));
     addCommands(new DriveStraightOnHeading(-0.15, -0.1, 20.0, 0));
     // addCommands(new DriveStraightOnHeading(-0.1, -0.05, 7.0, 45));

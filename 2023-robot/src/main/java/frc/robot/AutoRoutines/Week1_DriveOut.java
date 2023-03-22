@@ -12,6 +12,6 @@ public class Week1_DriveOut extends SequentialCommandGroup {
   /** Creates a new Week0_DriveOut. */
   public Week1_DriveOut() {
     addCommands(new SystemZero());
-    addCommands(new DriveStraightOnHeading(-0.2, 120.0, 0.0));
+    addCommands(new DriveStraightOnHeading(-0.2, 160.0, 0.0));
   }
 }
