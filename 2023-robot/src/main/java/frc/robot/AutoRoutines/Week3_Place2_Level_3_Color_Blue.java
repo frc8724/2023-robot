@@ -14,6 +14,6 @@ public class Week3_Place2_Level_3_Color_Blue extends SequentialCommandGroup {
   public Week3_Place2_Level_3_Color_Blue() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new Week3_Place2_Level_X_Color_X(2, -1));
+    addCommands(new Week3_Place2_Level_X_Color_X(3, -1));
   }
 }
