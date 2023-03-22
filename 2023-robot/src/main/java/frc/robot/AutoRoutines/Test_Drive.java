@@ -6,6 +6,7 @@ package frc.robot.AutoRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveStraightOnHeading;
+import frc.robot.commands.SystemZero;
 import frc.robot.commands.DriveStraightOnHeading.DistanceUnits;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -16,10 +17,12 @@ public class Test_Drive extends SequentialCommandGroup {
   public Test_Drive() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DriveStraightOnHeading(0.1, 0.1, DistanceUnits.INCHES, 50, 0));
-    addCommands(new DriveStraightOnHeading(0.1, 0.1, DistanceUnits.INCHES, 50, -90));
-    addCommands(new DriveStraightOnHeading(0.1, 0.1, DistanceUnits.INCHES, 50, 0));
-    addCommands(new DriveStraightOnHeading(0.1, 0.1, DistanceUnits.INCHES, 50, 90));
-    addCommands(new DriveStraightOnHeading(0.1, 0.1, DistanceUnits.INCHES, 50, 0));
+    addCommands(new SystemZero());
+    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
+    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 90));
+    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
+    addCommands(new DriveStraightOnHeading(+0.1, DistanceUnits.INCHES, 30, -90));
+    addCommands(new DriveStraightOnHeading(-0.1, DistanceUnits.INCHES, 30, 0));
+    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
   }
 }

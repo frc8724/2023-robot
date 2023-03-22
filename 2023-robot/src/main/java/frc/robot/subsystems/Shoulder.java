@@ -19,11 +19,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shoulder extends SubsystemBase {
-  public static final double[] LEVEL_X_PRESCORE = { 0.0, 2000.0, 72000.0, 79500.0 };
-  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 53000.0, 65000.0 };
+  public static final double[] LEVEL_X_PRESCORE = { 0.0, 2000.0, 75000.0, 82500.0 };
+  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 62000.0, 74000.0 };
   public static final double HUMAN_PLAYER_STATION = 73000.0;
   public static final double STOW = 1000.0;
   public static final double FLOOR_PICKUP = 17000;
+  public static final double CONE_STOW = 14000;
 
   static final double POSITION_SLOP = 2500.0;
 
@@ -95,8 +96,8 @@ public class Shoulder extends SubsystemBase {
 
     talon.configClosedLoopPeakOutput(slot, 1.0);
 
-    talon.configMotionCruiseVelocity(8000); // measured velocity of ~100K at 85%; set cruise to that
-    talon.configMotionAcceleration(10000); // acceleration of 2x velocity allows cruise to be attained in 1 second
+    talon.configMotionCruiseVelocity(20000); // measured velocity of ~100K at 85%; set cruise to that
+    talon.configMotionAcceleration(20000); // acceleration of 2x velocity allows cruise to be attained in 1 second
                                            // second
     talon.set(TalonFXControlMode.Position, 0.0);
   }
@@ -104,24 +105,28 @@ public class Shoulder extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Shoulder Current Ticks", rightTalon.getSelectedSensorPosition());
-    // SmartDashboard.putNumber("Shoulder Target Ticks",
-    // rightTalon.getClosedLoopTarget());
+    // SmartDashboard.putNumber("Shoulder Current Ticks",
+    // rightTalon.getSelectedSensorPosition());
+    if (rightTalon.getControlMode() != ControlMode.PercentOutput) {
+      // SmartDashboard.putNumber("Shoulder Target Ticks",
+      // rightTalon.getClosedLoopTarget());
+    }
 
     // wheelP = SmartDashboard.getNumber("Shoulder P", kWheelP);
-    SmartDashboard.putNumber("Shoulder P", kWheelP);
-    // wheelI = SmartDashboard.getNumber("Shoulder I", kWheelI);
-    SmartDashboard.putNumber("Shoulder I", kWheelI);
-    // wheelD = SmartDashboard.getNumber("Shoulder D", kWheelD);
-    SmartDashboard.putNumber("Shoulder D", kWheelD);
-    // wheelF = SmartDashboard.getNumber("Shoulder F", kWheelF);
-    SmartDashboard.putNumber("Shoulder F", kWheelF);
+    // SmartDashboard.putNumber("Shoulder P", kWheelP);
+    // // wheelI = SmartDashboard.getNumber("Shoulder I", kWheelI);
+    // SmartDashboard.putNumber("Shoulder I", kWheelI);
+    // // wheelD = SmartDashboard.getNumber("Shoulder D", kWheelD);
+    // SmartDashboard.putNumber("Shoulder D", kWheelD);
+    // // wheelF = SmartDashboard.getNumber("Shoulder F", kWheelF);
+    // SmartDashboard.putNumber("Shoulder F", kWheelF);
 
-    SmartDashboard.putBoolean("Shoulder at Position", isAtPosition());
+    // SmartDashboard.putBoolean("Shoulder at Position", isAtPosition());
 
     // SmartDashboard.putNumber("Shoulder error", rightTalon.getClosedLoopError());
 
-    SmartDashboard.putNumber("Shoulder Motor %", rightTalon.getMotorOutputPercent());
+    // SmartDashboard.putNumber("Shoulder Motor %",
+    // rightTalon.getMotorOutputPercent());
   }
 
   double TargetPositionTicks;
@@ -136,10 +141,10 @@ public class Shoulder extends SubsystemBase {
   }
 
   public double getTargetPositionTicks() {
-    if (rightTalon.getControlMode() == ControlMode.Position) {
+    if (rightTalon.getControlMode() != ControlMode.PercentOutput) {
       return rightTalon.getClosedLoopTarget();
-    } else
-      return 0.0;
+    }
+    return 0.0;
   }
 
   public boolean isAtPosition() {

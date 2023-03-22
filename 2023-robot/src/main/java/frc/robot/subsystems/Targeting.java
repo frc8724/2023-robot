@@ -29,8 +29,8 @@ public class Targeting extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Targeting HasTarget", hasTarget());
-    SmartDashboard.putNumber("Taget Horizontal", getHorizontalOffset());
+    // SmartDashboard.putBoolean("Targeting HasTarget", hasTarget());
+    // SmartDashboard.putNumber("Taget Horizontal", getHorizontalOffset());
 
     if (hasTarget()) {
       double d = -pid.calculate(getHorizontalOffset());
@@ -40,10 +40,10 @@ public class Targeting extends SubsystemBase {
 
     } else {
       pid.reset();
-      SmartDashboard.putNumber("Targeting Pid Reset", pidReset++);
+      // SmartDashboard.putNumber("Targeting Pid Reset", pidReset++);
     }
 
-    SmartDashboard.putNumber("Targeting Correction", correction);
+    // SmartDashboard.putNumber("Targeting Correction", correction);
   }
 
   public boolean hasTarget() {

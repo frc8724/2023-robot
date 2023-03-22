@@ -25,7 +25,7 @@ public class Arm extends SubsystemBase {
   public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 45000.0, 112000.0 };
   public static final double HUMAN_PLAYER_STATION = 20000.0;
   public static final double ALMOST_STOW = 500.0;
-  public static final double FLOOR_PICKUP = 31000.0;
+  public static final double FLOOR_PICKUP = 35000.0;
 
   static final double POSITION_SLOP = 1000.0;
   static final double CLOSED_LOOP_RAMP_RATE = 1.0; // todo: lower this value
@@ -69,11 +69,12 @@ public class Arm extends SubsystemBase {
     }
 
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Arm Position", getCurrentPosition());
-    SmartDashboard.putNumber("Arm Target", getTargetPosition());
+    // SmartDashboard.putNumber("Arm Position", getCurrentPosition());
+    // SmartDashboard.putNumber("Arm Target", getTargetPosition());
     // SmartDashboard.putNumber("Arm Error", talon.getClosedLoopError());
-    SmartDashboard.putNumber("Arm Error 2", Math.abs(getCurrentPosition() - getTargetPosition()));
-    SmartDashboard.putBoolean("Arm At Position", isAtPosition());
+    // SmartDashboard.putNumber("Arm Error 2", Math.abs(getCurrentPosition() -
+    // getTargetPosition()));
+    // SmartDashboard.putBoolean("Arm At Position", isAtPosition());
     SmartDashboard.putBoolean("Arm Limit Switch", limitSwitch.get());
   }
 
@@ -92,8 +93,8 @@ public class Arm extends SubsystemBase {
   public double getTargetPosition() {
     if (talon.getControlMode() == ControlMode.Position) {
       return talon.getClosedLoopTarget();
-    } else
-      return 0.0;
+    }
+    return 0.0;
   }
 
   boolean isMovingIn() {

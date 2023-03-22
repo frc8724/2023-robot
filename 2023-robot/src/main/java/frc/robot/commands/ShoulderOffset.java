@@ -10,10 +10,10 @@ import frc.robot.RobotContainer;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShoulderOffsetInDegrees extends InstantCommand {
+public class ShoulderOffset extends InstantCommand {
   double position;
 
-  public ShoulderOffsetInDegrees(double pos) {
+  public ShoulderOffset(double pos) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.shoulder);
     position = pos;

@@ -41,9 +41,9 @@ public class PowerDist extends SubsystemBase {
     lb = pdp.getCurrent(Constants.PDP.DRIVE_RIGHT_FRONT) - fudgeFactor;
     rb = pdp.getCurrent(Constants.PDP.DRIVE_RIGHT_REAR) - fudgeFactor;
 
-    SmartDashboard.putNumber("Left Front I", lf);
-    SmartDashboard.putNumber("Right Front I", rf);
-    SmartDashboard.putNumber("Left Back I", lb);
-    SmartDashboard.putNumber("Right Back I", rb);
+    // SmartDashboard.putNumber("Left Front I", lf);
+    // SmartDashboard.putNumber("Right Front I", rf);
+    // SmartDashboard.putNumber("Left Back I", lb);
+    // SmartDashboard.putNumber("Right Back I", rb);
   }
 }

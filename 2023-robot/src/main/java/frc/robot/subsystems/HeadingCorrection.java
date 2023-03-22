@@ -16,9 +16,12 @@ public class HeadingCorrection {
     // NavX parameters
     // private double m_desiredHeading = 0.0;
     private boolean m_useHeadingCorrection = true;
-    private static final double HEADING_PID_P = 0.007; // was 0.007 at GSD; was 0.030 in 2019 for HIGH_GEAR
+    // .0015 oscillates
+    // .001 was too slow
+    // .002 was
+    private static final double HEADING_PID_P = 0.004; // was 0.007 at GSD; was 0.030 in 2019 for HIGH_GEAR
     private static final double HEADING_PID_I = 0.000; // was 0.000 at GSD; was 0.000 in 2019
-    private static final double HEADING_PID_D = 0.000; // was 0.080 at GSD; was 0.04 in 2019
+    private static final double HEADING_PID_D = 0.00; // was 0.080 at GSD; was 0.04 in 2019
     private static final double kToleranceDegreesPIDControl = 0.2;
 
     public HeadingCorrection() {
@@ -31,6 +34,7 @@ public class HeadingCorrection {
              */
             Navx = new AHRS(SPI.Port.kMXP);
             Navx.reset();
+            System.out.println("NavX Loaded!");
         } catch (final RuntimeException ex) {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
             System.out.println("Error loading navx.");
@@ -48,6 +52,8 @@ public class HeadingCorrection {
      */
     public void periodic() {
         m_correction = m_HeadingPid.calculate(getHeading());
+        // m_correction = Math.min(m_correction,.2);
+        // m_correction = Math.max(-.2,m_correction);
         updateSmartDashboard();
     }
 
@@ -65,7 +71,7 @@ public class HeadingCorrection {
 
         m_HeadingPid.setSetpoint(headingOffset);
 
-        SmartDashboard.putString("Trace", "Zero Heading Gyro");
+        // SmartDashboard.putString("Trace", "Zero Heading Gyro");
 
         // restart the PID controller loop
         resetAndEnableHeadingPID();
@@ -134,8 +140,10 @@ public class HeadingCorrection {
         SmartDashboard.putNumber("Heading: actual", this.getHeading());
         SmartDashboard.putBoolean("Heading: correcting", m_useHeadingCorrection);
 
-        SmartDashboard.putNumber("NavX Heading", getHeading());
-        SmartDashboard.putNumber("NavX Pitch", getPitch());
-        SmartDashboard.putNumber("NavX Roll", getRoll());
+        SmartDashboard.putNumber("Heading: correction", m_correction);
+
+        // SmartDashboard.putNumber("NavX Heading", getHeading());
+        // SmartDashboard.putNumber("NavX Pitch", getPitch());
+        // SmartDashboard.putNumber("NavX Roll", getRoll());
     }
 }

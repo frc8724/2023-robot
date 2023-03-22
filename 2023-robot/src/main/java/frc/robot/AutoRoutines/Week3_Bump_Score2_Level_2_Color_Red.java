@@ -6,9 +6,8 @@ package frc.robot.AutoRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class Week3_PlaceCone3_GetCone_PlaceCone3 extends SequentialCommandGroup {
-  /** Creates a new Week1_PlaceCone3_GetCone_PlaceCone3. */
-  public Week3_PlaceCone3_GetCone_PlaceCone3() {
-    addCommands(new Week3_DriveToCone());
+public class Week3_Bump_Score2_Level_2_Color_Red extends SequentialCommandGroup {
+  public Week3_Bump_Score2_Level_2_Color_Red() {
+    addCommands(new Week3_Bump_Score2_Level_X_Color_X(2, 1));
   }
 }

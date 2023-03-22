@@ -46,7 +46,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
     // Drive parameters
     // pi * diameter * (pulley ratios) / (counts per rev * gearbox reduction)
     public static final double INCHES_TO_METER_CONVERSION_FACTOR = 0.0254;
-    public static final double DISTANCE_PER_PULSE_IN_INCHES = 3.14 * 6.0 * 36.0 / 42.0 / (2048.0 * 7.56); // corrected
+    public static final double DISTANCE_PER_PULSE_IN_INCHES = 3.14 * 6.0 * 36.0 / 42.0 / (2048.0 * 10.86); // corrected
     public static final double DISTANCE_PER_PULSE_IN_METERS = DISTANCE_PER_PULSE_IN_INCHES
             * INCHES_TO_METER_CONVERSION_FACTOR;
     public static final double DISTANCE_PER_ROTATION_IN_METERS = DISTANCE_PER_PULSE_IN_METERS * 2048;
@@ -244,18 +244,19 @@ public class DriveBaseSubsystem extends SubsystemBase {
                     headingCorrection.lockHeading();
                     rotation = 0.0;
 
-                    System.out.println("Drive: drive straight LOCK");
+                    // System.out.println("Drive: drive straight LOCK");
                 } else if (m_iterationsSinceRotationCommanded < LOOPS_GYRO_DELAY) {
                     // not long enough since we were last turning,
                     // just drive straight without special heading maintenance
                     rotation = 0.0;
-                    System.out.println("Drive: drive straight");
-                } else if (m_iterationsSinceRotationCommanded > LOOPS_GYRO_DELAY) {
+                    // System.out.println("Drive: drive straight");
+                } else if (m_iterationsSinceRotationCommanded > LOOPS_GYRO_DELAY
+                        && DriverStation.isAutonomous()) {
                     // after more then LOOPS_GYRO_DELAY iterations since commanded turn,
                     // maintain the target heading
                     rotation = headingCorrection.maintainHeading();
 
-                    System.out.println("Drive: drive straight w/ correction");
+                    // System.out.println("Drive: drive straight w/ correction");
                 }
                 m_iterationsSinceMovementCommanded = 0;
             }
@@ -302,6 +303,28 @@ public class DriveBaseSubsystem extends SubsystemBase {
         setMotorPower(leftPower, rightPower);
     }
 
+    double lastRotation;
+
+    public void speedRacerDrive(double throttle) {
+        double leftPower;
+        double rightPower;
+        double rotation = 0;
+
+        m_lastThrottle = throttle;
+
+        rotation = headingCorrection.maintainHeading();
+        lastRotation = rotation;
+
+        // driveStraight code benefits from "spin" behavior when needed
+        leftPower = throttle + rotation;
+        rightPower = throttle - rotation;
+
+        m_lastLeftPower = leftPower;
+        m_lastRightPower = rightPower;
+
+        setMotorPower(leftPower, rightPower);
+    }
+
     public void rotateToHeading(final double desiredHeading) {
         headingCorrection.setDesiredHeading(desiredHeading);
     }
@@ -323,64 +346,94 @@ public class DriveBaseSubsystem extends SubsystemBase {
                 convertTicksToMeters(rightTalon1.getSelectedSensorPosition()));
     }
 
+    double driveCount;
+
     private void updateSmartDashboard() {
         headingCorrection.updateSmartDashboard();
+        SmartDashboard.putNumber("Drive Rotation", lastRotation);
+        SmartDashboard.putNumber("Drive Count", driveCount++);
+        SmartDashboard.putNumber("Drive Heading", headingCorrection.getHeading());
+        SmartDashboard.putNumber("Drive Pitch", headingCorrection.getPitch());
+        SmartDashboard.putNumber("Drive Roll", headingCorrection.getRoll());
 
-        SmartDashboard.putBoolean("In Autonomous", DriverStation.isAutonomous());
-        SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
+        // SmartDashboard.putBoolean("In Autonomous", DriverStation.isAutonomous());
+        // SmartDashboard.putNumber("Battery Voltage",
+        // RobotController.getBatteryVoltage());
 
-        SmartDashboard.putNumber("Throttle", m_lastThrottle);
-        SmartDashboard.putNumber("Steering", m_lastSteering);
-        SmartDashboard.putNumber("Left Power", m_lastLeftPower);
-        SmartDashboard.putNumber("Right Power", m_lastRightPower);
+        // SmartDashboard.putNumber("Throttle", m_lastThrottle);
+        // SmartDashboard.putNumber("Steering", m_lastSteering);
+        // SmartDashboard.putNumber("Left Power", m_lastLeftPower);
+        // SmartDashboard.putNumber("Right Power", m_lastRightPower);
 
         int matchnumber = DriverStation.getMatchNumber();
         DriverStation.MatchType MatchType = DriverStation.getMatchType();
-        SmartDashboard.putString("matchInfo", "" + MatchType + '_' + matchnumber);
+        // SmartDashboard.putString("matchInfo", "" + MatchType + '_' + matchnumber);
 
-        SmartDashboard.putNumber("Left 1 Encoder Counts", leftTalon1.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Right 1 Encoder Counts", rightTalon1.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Left 2 Encoder Counts", leftTalon2.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Right 2 Encoder Counts", rightTalon2.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Left 3 Encoder Counts", leftTalon3.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Right 3 Encoder Counts", rightTalon3.getSelectedSensorPosition(0));
+        // SmartDashboard.putNumber("Left 1 Encoder Counts",
+        // leftTalon1.getSelectedSensorPosition(0));
+        // SmartDashboard.putNumber("Right 1 Encoder Counts",
+        // rightTalon1.getSelectedSensorPosition(0));
+        // SmartDashboard.putNumber("Left 2 Encoder Counts",
+        // leftTalon2.getSelectedSensorPosition(0));
+        // SmartDashboard.putNumber("Right 2 Encoder Counts",
+        // rightTalon2.getSelectedSensorPosition(0));
+        // SmartDashboard.putNumber("Left 3 Encoder Counts",
+        // leftTalon3.getSelectedSensorPosition(0));
+        // SmartDashboard.putNumber("Right 3 Encoder Counts",
+        // rightTalon3.getSelectedSensorPosition(0));
 
         // Note: getSpeed() returns ticks per 0.1 seconds
-        SmartDashboard.putNumber("Left Encoder Speed", leftTalon1.getSelectedSensorVelocity(0));
-        SmartDashboard.putNumber("Right Encoder Speed", rightTalon1.getSelectedSensorVelocity(0));
+        // SmartDashboard.putNumber("Left Encoder Speed",
+        // leftTalon1.getSelectedSensorVelocity(0));
+        // SmartDashboard.putNumber("Right Encoder Speed",
+        // rightTalon1.getSelectedSensorVelocity(0));
 
         DifferentialDriveWheelSpeeds speeds = getWheelSpeeds();
-        SmartDashboard.putNumber("Drive Left Speed m per s", speeds.leftMetersPerSecond);
-        SmartDashboard.putNumber("Drive Right Speed m per s", speeds.rightMetersPerSecond);
+        // SmartDashboard.putNumber("Drive Left Speed m per s",
+        // speeds.leftMetersPerSecond);
+        // SmartDashboard.putNumber("Drive Right Speed m per s",
+        // speeds.rightMetersPerSecond);
 
-        SmartDashboard.putNumber("Drive Left Volts", leftTalon1.getMotorOutputVoltage());
-        SmartDashboard.putNumber("Drive Right Volts", rightTalon1.getMotorOutputVoltage());
-        SmartDashboard.putNumber("Drive Left Percent", m_lastLeftPercent);
-        SmartDashboard.putNumber("Drive Right Percent", m_lastRightPercent);
-        Pose2d pose = getPose();
-        SmartDashboard.putNumber("Drive Pose X", pose.getX());
-        SmartDashboard.putNumber("Drive Pose Y", pose.getY());
+        // SmartDashboard.putNumber("Drive Left Volts",
+        // leftTalon1.getMotorOutputVoltage());
+        // SmartDashboard.putNumber("Drive Right Volts",
+        // rightTalon1.getMotorOutputVoltage());
+        // SmartDashboard.putNumber("Drive Left Percent", m_lastLeftPercent);
+        // SmartDashboard.putNumber("Drive Right Percent", m_lastRightPercent);
+        // Pose2d pose = getPose();
+        // SmartDashboard.putNumber("Drive Pose X", pose.getX());
+        // SmartDashboard.putNumber("Drive Pose Y", pose.getY());
 
         // To convert ticks per 0.1 seconds into feet per second
         // a - multiply be 10 (tenths of second per second)
         // b - divide by 12 (1 foot per 12 inches)
         // c - multiply by distance (in inches) per pulse
-        SmartDashboard.putNumber("Left Speed (fps)",
-                leftTalon1.getSelectedSensorVelocity(0) * 10 / 12 * DISTANCE_PER_PULSE_IN_INCHES);
-        SmartDashboard.putNumber("Right Speed (fps)",
-                rightTalon1.getSelectedSensorVelocity(0) * 10 / 12 * DISTANCE_PER_PULSE_IN_INCHES);
+        // SmartDashboard.putNumber("Left Speed (fps)",
+        // leftTalon1.getSelectedSensorVelocity(0) * 10 / 12 *
+        // DISTANCE_PER_PULSE_IN_INCHES);
+        // SmartDashboard.putNumber("Right Speed (fps)",
+        // rightTalon1.getSelectedSensorVelocity(0) * 10 / 12 *
+        // DISTANCE_PER_PULSE_IN_INCHES);
 
-        SmartDashboard.putNumber("Left Talon Output Voltage", leftTalon1.getMotorOutputVoltage());
-        SmartDashboard.putNumber("Right Talon Output Voltage", rightTalon1.getMotorOutputVoltage());
+        // SmartDashboard.putNumber("Left Talon Output Voltage",
+        // leftTalon1.getMotorOutputVoltage());
+        // SmartDashboard.putNumber("Right Talon Output Voltage",
+        // rightTalon1.getMotorOutputVoltage());
 
-        SmartDashboard.putNumber("LT Falcon Supply Current", leftTalon1.getSupplyCurrent());
-        SmartDashboard.putNumber("LF Falcon Supply Current", leftTalon2.getSupplyCurrent());
-        SmartDashboard.putNumber("LB Falcon Supply Current", leftTalon3.getSupplyCurrent());
-        SmartDashboard.putNumber("RT Falcon Supply Current", rightTalon1.getSupplyCurrent());
-        SmartDashboard.putNumber("RF Falcon Supply Current", rightTalon2.getSupplyCurrent());
-        SmartDashboard.putNumber("RB Falcon Supply Current", rightTalon3.getSupplyCurrent());
+        // SmartDashboard.putNumber("LT Falcon Supply Current",
+        // leftTalon1.getSupplyCurrent());
+        // SmartDashboard.putNumber("LF Falcon Supply Current",
+        // leftTalon2.getSupplyCurrent());
+        // SmartDashboard.putNumber("LB Falcon Supply Current",
+        // leftTalon3.getSupplyCurrent());
+        // SmartDashboard.putNumber("RT Falcon Supply Current",
+        // rightTalon1.getSupplyCurrent());
+        // SmartDashboard.putNumber("RF Falcon Supply Current",
+        // rightTalon2.getSupplyCurrent());
+        // SmartDashboard.putNumber("RB Falcon Supply Current",
+        // rightTalon3.getSupplyCurrent());
 
-        SmartDashboard.putBoolean("Closed Loop Mode", m_closedLoopMode);
+        // SmartDashboard.putBoolean("Closed Loop Mode", m_closedLoopMode);
     }
 
     private static final double CAMERA_LAG = 0.150; // was .200; changing to .150 at CMP
@@ -391,7 +444,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
         final double now = Timer.getFPGATimestamp();
         headingHistory.add(now, headingCorrection.getHeading());
 
-        SmartDashboard.putNumber("Drive: History", historyCount++);
+        // SmartDashboard.putNumber("Drive: History", historyCount++);
     }
 
     public double getHeading() {
@@ -464,18 +517,20 @@ public class DriveBaseSubsystem extends SubsystemBase {
     }
 
     public void setBrake(boolean b) {
+        System.out.println("Drive: set brake " + b);
+
         if (b) {
             // brake mode in the motors
             leftTalon1.setNeutralMode(NeutralMode.Brake);
             rightTalon1.setNeutralMode(NeutralMode.Brake);
 
-            // set the encoder position to 0.0
-            leftTalon1.setSelectedSensorPosition(0.0);
-            rightTalon1.setSelectedSensorPosition(0.0);
+            // // set the encoder position to 0.0
+            // leftTalon1.setSelectedSensorPosition(0.0);
+            // rightTalon1.setSelectedSensorPosition(0.0);
 
-            // set to position stay at 0.
-            leftTalon1.set(ControlMode.Position, 0.0);
-            rightTalon1.set(ControlMode.Position, 0.0);
+            // // set to position stay at 0.
+            // leftTalon1.set(ControlMode.Position, 0.0);
+            // rightTalon1.set(ControlMode.Position, 0.0);
         } else {
             leftTalon1.setNeutralMode(NeutralMode.Coast);
             rightTalon1.setNeutralMode(NeutralMode.Coast);

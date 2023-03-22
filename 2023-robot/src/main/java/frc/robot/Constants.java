@@ -18,12 +18,12 @@ package frc.robot;
  */
 public final class Constants {
     public final class Talon {
-        public static final int DRIVE_LEFT_TOP = 1; // falcons FX
-        public static final int DRIVE_LEFT_FRONT = 2; // falcons FX
-        public static final int DRIVE_LEFT_BOTTOM = 3; // falcons FX
-        public static final int DRIVE_RIGHT_TOP = 4; // falcons FX
-        public static final int DRIVE_RIGHT_FRONT = 5; // falcons FX
-        public static final int DRIVE_RIGHT_BOTTOM = 6; // falcons FX
+        public static final int DRIVE_LEFT_TOP = 4; // falcons FX
+        public static final int DRIVE_LEFT_FRONT = 5; // falcons FX
+        public static final int DRIVE_LEFT_BOTTOM = 6; // falcons FX
+        public static final int DRIVE_RIGHT_TOP = 1; // falcons FX
+        public static final int DRIVE_RIGHT_FRONT = 2; // falcons FX
+        public static final int DRIVE_RIGHT_BOTTOM = 3; // falcons FX
 
         public static final int ARM_FALCON = 7; // falcons FX
 
@@ -62,7 +62,7 @@ public final class Constants {
     }
 
     public final class Lights {
-        public static final int LIGHTS_PORT = 1;
+        public static final int LIGHTS_PORT = 2;
     }
 
     public final class PdpPorts {
@@ -80,6 +80,10 @@ public final class Constants {
         public static final int ShooterRight = 13;
         public static final int DriveBaseRight1 = 14;
         public static final int DriveBaseRight2 = 15;
+    }
+
+    public enum Color {
+        RED, BLUE
     }
 
     public static double ConvertFeetToMeters(double ft) {

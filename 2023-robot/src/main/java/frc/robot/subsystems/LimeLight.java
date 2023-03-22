@@ -129,24 +129,25 @@ public class LimeLight extends SubsystemBase {
     int count = 0;
 
     public void update() {
-        SmartDashboard.putNumber("limelight x", getX());
-        SmartDashboard.putNumber("limelight y", getY());
-        SmartDashboard.putNumber("limelight area", getArea());
-        SmartDashboard.putNumber("limelight distance", getDistance());
-        SmartDashboard.putBoolean("limelight has target2", isTargetAvalible());
-        SmartDashboard.putString("limelight mode", getVisionMode());
-        SmartDashboard.putNumber("limelight count", count++);
+        // SmartDashboard.putNumber("limelight x", getX());
+        // SmartDashboard.putNumber("limelight y", getY());
+        // SmartDashboard.putNumber("limelight area", getArea());
+        // SmartDashboard.putNumber("limelight distance", getDistance());
+        // SmartDashboard.putBoolean("limelight has target2", isTargetAvalible());
+        // SmartDashboard.putString("limelight mode", getVisionMode());
+        // SmartDashboard.putNumber("limelight count", count++);
 
-        double[] d = getTargetPose();
-        SmartDashboard.putNumber("LimeLight Pose 0", d[0]);
-        SmartDashboard.putNumber("LimeLight Pose 1", d[1]);
-        SmartDashboard.putNumber("LimeLight Pose 2", d[2]); // distance from target
-        SmartDashboard.putNumber("LimeLight Pose 3", d[3]);
-        SmartDashboard.putNumber("LimeLight Pose 4", d[4]);
-        SmartDashboard.putNumber("LimeLight Pose 5", d[5]);
+        // double[] d = getTargetPose();
+        // SmartDashboard.putNumber("LimeLight Pose 0", d[0]);
+        // SmartDashboard.putNumber("LimeLight Pose 1", d[1]);
+        // SmartDashboard.putNumber("LimeLight Pose 2", d[2]); // distance from target
+        // SmartDashboard.putNumber("LimeLight Pose 3", d[3]);
+        // SmartDashboard.putNumber("LimeLight Pose 4", d[4]);
+        // SmartDashboard.putNumber("LimeLight Pose 5", d[5]);
 
-        SmartDashboard.putNumber("LimeLight Pose Id", getTargetPoseId());
-        SmartDashboard.putNumber("LimeList Distance to April", getDistanceFromAprilTag());
+        // SmartDashboard.putNumber("LimeLight Pose Id", getTargetPoseId());
+        // SmartDashboard.putNumber("LimeList Distance to April",
+        // getDistanceFromAprilTag());
     }
 
 }

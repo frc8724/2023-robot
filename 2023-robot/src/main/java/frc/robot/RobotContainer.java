@@ -56,6 +56,27 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+
+    addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Red());
+    // addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Red());
+    addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Blue());
+    // addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Blue());
+
+    addAuto(new Week3_Bump_Score2_Level_2_Color_Red());
+    // addAuto(new Week3_Bump_Score2_Level_3_Color_Red());
+    addAuto(new Week3_Bump_Score2_Level_2_Color_Blue());
+    // addAuto(new Week3_Bump_Score2_Level_3_Color_Blue());
+
+    // addAuto(new Week3_Place2_Level_2_Color_Red());
+    addAuto(new Week3_Place2_Level_3_Color_Red());
+    // addAuto(new Week3_Place2_Level_2_Color_Blue());
+    addAuto(new Week3_Place2_Level_3_Color_Blue());
+
+    addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Red());
+    // addAuto(new Week3_PlaceConeGetAnother_Charging_Level_3_Color_Red());
+    addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Blue());
+    // addAuto(new Week3_PlaceConeGetAnother_Charging_Level_3_Color_Blue());
+
     addAuto(new DriveSystemOnChargingStation());
     addAuto(new Week1_StandStill());
 
@@ -68,6 +89,8 @@ public class RobotContainer {
     addAuto(new Week1_PlaceCone_3());
     addAuto(new Week1_PlaceCone_3_DriveOut());
     addAuto(new Week1_PlaceCone_3_ChargingStation());
+
+    addAuto(new Test_Drive());
 
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
@@ -98,11 +121,22 @@ public class RobotContainer {
         () -> driverPad.DRIVER_PAD_RIGHT_UPPER_TRIGGER_BUTTON.getAsBoolean(),
         () -> driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.getAsBoolean()));
 
+    driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.onTrue(new DriveBrakeMode(true));
+    driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.onFalse(new DriveBrakeMode(false));
+
     // driverPad.DRIVER_PAD_YELLOW_BUTTON.onTrue(new DriveBrakeMode(false));
 
-    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.whileTrue(new DriveCenterTarget(() -> driverPad.driveThrottle()));
-    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onTrue(new LimelightSetPipeline(1));
-    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onFalse(new LimelightSetPipeline(0));
+    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.whileTrue(
+        new SequentialCommandGroup(
+            new LimelightSetPipeline(2),
+            new WaitCommand(0.25),
+            new DriveCenterTarget(() -> driverPad.driveThrottle())));
+    driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onFalse(new LimelightSetPipeline(3));
+
+    // driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onTrue(new
+    // LimelightSetPipeline(1));
+    // driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onFalse(new
+    // LimelightSetPipeline(0));
 
     driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerToggle());
 
@@ -115,7 +149,7 @@ public class RobotContainer {
   }
 
   private void configureOperatorPadButtons() {
-    SmartDashboard.putString("Debug", "configureOperatorPadButtons");
+    // SmartDashboard.putString("Debug", "configureOperatorPadButtons");
 
     operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
     operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
@@ -132,6 +166,8 @@ public class RobotContainer {
 
     // operatorPad.OPERATOR_PAD_D_PAD_DOWN.whileTrue(new SystemGrabAndStow());
     operatorPad.OPERATOR_PAD_D_PAD_LEFT.whileTrue(new SystemFloorPickUp());
+    operatorPad.OPERATOR_PAD_D_PAD_LEFT.onFalse(new ArmBrakeSet(ArmBrake.State.CLOSE));
+    operatorPad.OPERATOR_PAD_D_PAD_LEFT.onFalse(new ArmSetPower(0.0));
 
     // debug
     // operatorPad.OPERATOR_PAD_D_PAD_LEFT.onTrue(new
@@ -207,6 +243,8 @@ public class RobotContainer {
   public Command startTeleopCommand() {
     arm.stop();
     shoulder.stop();
+    clawRollers.set(0.0);
+    drive.setBrake(false);
 
     return new LedLightsSet(PatternID.RED);
 
