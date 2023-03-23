@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -17,6 +16,7 @@ public class ArmBrake extends SubsystemBase {
         CLOSE,
         OPEN
     };
+    public static final double OPEN_TIME_SEC = 0.2;
 
     // private final Solenoid brakeClose = new
     // Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ArmBrakeClose);

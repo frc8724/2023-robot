@@ -9,6 +9,8 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.ArmBrake.State;
 
+import java.util.Map;
+
 import org.mayheminc.util.LEDLights;
 import org.mayheminc.util.MayhemDriverPad;
 import org.mayheminc.util.MayhemOperatorPad;
@@ -17,6 +19,7 @@ import org.mayheminc.util.LEDLights.PatternID;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -43,7 +46,7 @@ public class RobotContainer {
   public static final PowerDist pdp = new PowerDist();
   public static final ClawColorSensor clawColor = new ClawColorSensor();
   public static final LEDLights ledLights = new LEDLights();
-  public static final Whacker whacker = new Whacker();
+  // public static final Whacker whacker = new Whacker();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
   MayhemOperatorPad operatorPad = new MayhemOperatorPad();
@@ -138,7 +141,7 @@ public class RobotContainer {
     // driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onFalse(new
     // LimelightSetPipeline(0));
 
-    driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerToggle());
+    // driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerToggle());
 
     driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.onTrue(new DriveBrakeMode(true));
     driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.onFalse(new DriveBrakeMode(false));
@@ -155,6 +158,18 @@ public class RobotContainer {
     operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
     operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemStowArm());
     operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
+
+    // operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new
+    // ArmSystemGoTo(Arm.ALMOST_STOW));
+    // operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new
+    // ArmSystemGoTo(Arm.LEVEL_X_SCORE[3]));
+
+    // operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new
+    // ShoulderGoto(Shoulder.FLOOR_PICKUP));
+    // operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new
+    // ShoulderGoto(Shoulder.LEVEL_X_PRESCORE[3]));
+    // operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new ShoulderGoto(190000));
+
     // operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
 
     // operatorPad.OPERATOR_PAD_BUTTON_ONE.onTrue(new ShoulderGoto(68600.));
@@ -165,7 +180,14 @@ public class RobotContainer {
     operatorPad.OPERATOR_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.COLOR_2_STROBE).withTimeout(10.0));
 
     // operatorPad.OPERATOR_PAD_D_PAD_DOWN.whileTrue(new SystemGrabAndStow());
-    operatorPad.OPERATOR_PAD_D_PAD_LEFT.whileTrue(new SystemFloorPickUp());
+    operatorPad.OPERATOR_PAD_D_PAD_LEFT.whileTrue(
+        new SequentialCommandGroup(
+            new SelectCommand(
+                Map.ofEntries(
+                    Map.entry(false, new ArmSystemGoTo(Arm.ALMOST_STOW)),
+                    Map.entry(true, new WaitCommand(0.0))),
+                () -> RobotContainer.arm.getCurrentPosition() < Arm.ALMOST_STOW + 1000),
+            new SystemFloorPickUp()));
     operatorPad.OPERATOR_PAD_D_PAD_LEFT.onFalse(new ArmBrakeSet(ArmBrake.State.CLOSE));
     operatorPad.OPERATOR_PAD_D_PAD_LEFT.onFalse(new ArmSetPower(0.0));
 
@@ -203,12 +225,12 @@ public class RobotContainer {
     // Arm manual in/out
     operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.whileTrue(
         new SequentialCommandGroup(new ArmBrakeSet(State.OPEN),
-            new WaitCommand(.2),
+            new WaitCommand(ArmBrake.OPEN_TIME_SEC),
             new ArmSetPower(0.10)));
     operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.onFalse(new ArmBrakeSet(State.CLOSE));
     operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.whileTrue(
         new SequentialCommandGroup(new ArmBrakeSet(State.OPEN),
-            new WaitCommand(.2),
+            new WaitCommand(ArmBrake.OPEN_TIME_SEC),
             new ArmSetPower(-0.10)));
     operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.onFalse(new ArmBrakeSet(State.CLOSE));
 

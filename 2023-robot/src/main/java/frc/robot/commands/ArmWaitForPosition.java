@@ -6,12 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.ArmBrake.State;
 
 public class ArmWaitForPosition extends CommandBase {
   /** Creates a new ArmWaitForPosition. */
   public ArmWaitForPosition() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.arm);
+    addRequirements(RobotContainer.armBrake);
   }
 
   // Called when the command is initially scheduled.
@@ -28,6 +30,7 @@ public class ArmWaitForPosition extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.arm.stop();
+    RobotContainer.armBrake.set(State.CLOSE);
   }
 
   // Returns true when the command should end.

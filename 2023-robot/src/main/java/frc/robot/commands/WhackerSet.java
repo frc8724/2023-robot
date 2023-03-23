@@ -15,14 +15,14 @@ public class WhackerSet extends InstantCommand {
   State state;
 
   public WhackerSet(State state) {
-    addRequirements(RobotContainer.whacker);
+    // addRequirements(RobotContainer.whacker);
     this.state = state;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.whacker.set(state);
+    // RobotContainer.whacker.set(state);
     {
       RobotContainer.drive.setBrake(state == State.DOWN);
     }

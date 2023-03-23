@@ -26,9 +26,9 @@ public class Shoulder extends SubsystemBase {
   public static final double FLOOR_PICKUP = 17000;
   public static final double CONE_STOW = 14000;
 
-  static final double POSITION_SLOP = 2500.0;
+  static final double POSITION_SLOP = 1000.0;
 
-  final double kWheelP = 0.015;
+  final double kWheelP = 0.09; // 0.015;
   final double kWheelI = 0.000;
   final double kWheelD = 0.000;
   final double kWheelF = 0.000;
@@ -96,8 +96,8 @@ public class Shoulder extends SubsystemBase {
 
     talon.configClosedLoopPeakOutput(slot, 1.0);
 
-    talon.configMotionCruiseVelocity(20000); // measured velocity of ~100K at 85%; set cruise to that
-    talon.configMotionAcceleration(20000); // acceleration of 2x velocity allows cruise to be attained in 1 second
+    talon.configMotionCruiseVelocity(40000); // measured velocity of ~100K at 85%; set cruise to that
+    talon.configMotionAcceleration(30000); // acceleration of 2x velocity allows cruise to be attained in 1 second
                                            // second
     talon.set(TalonFXControlMode.Position, 0.0);
   }
@@ -105,11 +105,11 @@ public class Shoulder extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("Shoulder Current Ticks",
-    // rightTalon.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Shoulder Current Ticks",
+        rightTalon.getSelectedSensorPosition());
     if (rightTalon.getControlMode() != ControlMode.PercentOutput) {
-      // SmartDashboard.putNumber("Shoulder Target Ticks",
-      // rightTalon.getClosedLoopTarget());
+      SmartDashboard.putNumber("Shoulder Target Ticks",
+          rightTalon.getClosedLoopTarget());
     }
 
     // wheelP = SmartDashboard.getNumber("Shoulder P", kWheelP);
@@ -121,7 +121,7 @@ public class Shoulder extends SubsystemBase {
     // // wheelF = SmartDashboard.getNumber("Shoulder F", kWheelF);
     // SmartDashboard.putNumber("Shoulder F", kWheelF);
 
-    // SmartDashboard.putBoolean("Shoulder at Position", isAtPosition());
+    SmartDashboard.putBoolean("Shoulder at Position", isAtPosition());
 
     // SmartDashboard.putNumber("Shoulder error", rightTalon.getClosedLoopError());
 
@@ -148,7 +148,7 @@ public class Shoulder extends SubsystemBase {
   }
 
   public boolean isAtPosition() {
-    return Math.abs(getCurrentPositionInTicks() - TargetPositionTicks) < 3 * POSITION_SLOP;
+    return Math.abs(getCurrentPositionInTicks() - TargetPositionTicks) < POSITION_SLOP;
   }
 
   public void stop() {
