@@ -27,7 +27,7 @@ public class Arm extends SubsystemBase {
   public static final double ALMOST_STOW = 500.0;
   public static final double FLOOR_PICKUP = 35000.0;
 
-  static final double POSITION_SLOP = 1000.0;
+  public static final double POSITION_SLOP = 1000.0;
   static final double CLOSED_LOOP_RAMP_RATE = 1.0; // todo: lower this value
 
   private final MayhemTalonFX talon = new MayhemTalonFX(Constants.Talon.ARM_FALCON, CurrentLimit.HIGH_CURRENT);
@@ -109,9 +109,9 @@ public class Arm extends SubsystemBase {
     talon.set(ControlMode.MotionMagic, p);
   }
 
-  public boolean isAtPosition() {
+  public boolean isAtPosition(double tolerance) {
     return Math.abs(getCurrentPosition() - m_targetPosition) < 5 *
-        POSITION_SLOP;
+        tolerance;
   }
 
   public void stop() {

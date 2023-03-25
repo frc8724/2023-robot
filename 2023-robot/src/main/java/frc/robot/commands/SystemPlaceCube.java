@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shoulder;
+import frc.robot.subsystems.ArmBrake.State;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,9 +23,13 @@ public class SystemPlaceCube extends SequentialCommandGroup {
     // extend the arm out
     addCommands(new ArmSystemGoTo(Arm.LEVEL_X_SCORE[level]));
     addCommands(new ParallelRaceGroup(
-      new ArmWaitForPosition(),
-      new SequentialCommandGroup(
-        new WaitCommand(0.25), 
-        new ClawRollerSet(-.5))));
+        new SequentialCommandGroup(
+            new ArmWaitForPosition(),
+            new ArmSetPower(0.0, true),
+            new ArmBrakeSet(State.CLOSE)),
+
+        new SequentialCommandGroup(
+            new WaitCommand(0.25),
+            new ClawRollerSet(-.5))));
   }
 }

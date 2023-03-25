@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shoulder;
+import frc.robot.subsystems.ArmBrake.State;
 
 public class SystemPlaceCone extends SequentialCommandGroup {
     /** Creates a new SystemPlaceCone. */
@@ -33,10 +34,13 @@ public class SystemPlaceCone extends SequentialCommandGroup {
 
                 new SequentialCommandGroup(
                         new SequentialCommandGroup(
-                                // wait for the shoulder to get close. Floor pickup is the tolerance distance
+                                // wait for the shoulder to get close. Floor pickup is
+                                // the tolerance distance
                                 new ShoulderWaitForPosition(Shoulder.SCORE_TOLERANCE),
                                 // extend the arm out
                                 new ArmSystemGoTo(Arm.LEVEL_X_SCORE[level]),
-                                new ArmWaitForPosition()))));
+                                new ArmWaitForPosition(),
+                                new ArmSetPower(0.0, true),
+                                new ArmBrakeSet(State.CLOSE)))));
     }
 }

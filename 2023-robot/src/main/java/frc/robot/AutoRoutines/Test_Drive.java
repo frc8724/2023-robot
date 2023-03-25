@@ -5,6 +5,7 @@
 package frc.robot.AutoRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DriveArcingTurn;
 import frc.robot.commands.DriveStraightOnHeading;
 import frc.robot.commands.SystemZero;
 import frc.robot.commands.DriveStraightOnHeading.DistanceUnits;
@@ -18,11 +19,11 @@ public class Test_Drive extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new SystemZero());
-    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
-    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 90));
-    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
-    addCommands(new DriveStraightOnHeading(+0.1, DistanceUnits.INCHES, 30, -90));
-    addCommands(new DriveStraightOnHeading(-0.1, DistanceUnits.INCHES, 30, 0));
-    addCommands(new DriveStraightOnHeading(0.1, DistanceUnits.INCHES, 30, 0));
+    addCommands(new DriveArcingTurn(0.1, 0.1, 100, 0.0, 0.0));
+
+    addCommands(new DriveArcingTurn(0.1, 0.1, 100, 0.0, -90.0));
+    addCommands(new DriveArcingTurn(0.1, 0.1, 100, -90.0, 0.0));
+    // addCommands(new DriveArcingTurn(0.1, 0.1, 100, 0.0, 0.0));
+
   }
 }

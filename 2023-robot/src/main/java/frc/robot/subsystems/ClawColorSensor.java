@@ -24,8 +24,8 @@ public class ClawColorSensor extends SubsystemBase {
 
   final double COLOR_SLOP = 0.03;
 
-  // I2C.Port i2cPort = I2C.Port.kOnboard;
-  // ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+  I2C.Port i2cPort = I2C.Port.kOnboard;
+  ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
   Color detectedColor = Color.kAqua;
   int proximity;
@@ -37,24 +37,28 @@ public class ClawColorSensor extends SubsystemBase {
 
   /** Creates a new ClawColorSensor. */
   public ClawColorSensor() {
-    // thread = new Thread(() -> Run());
-    // thread.start();
+    thread = new Thread(() -> Run());
+    thread.start();
   }
 
   private void Run() {
-    // m_colorSensor.configureColorSensor(ColorSensorResolution.kColorSensorRes13bit,
-    // ColorSensorMeasurementRate.kColorRate100ms, GainFactor.kGain3x);
-    // m_colorSensor.configureProximitySensor(ProximitySensorResolution.kProxRes8bit,
-    // ProximitySensorMeasurementRate.kProxRate25ms);
+    m_colorSensor.configureColorSensor(ColorSensorResolution.kColorSensorRes13bit,
+        ColorSensorMeasurementRate.kColorRate100ms, GainFactor.kGain3x);
+    m_colorSensor.configureProximitySensor(ProximitySensorResolution.kProxRes8bit,
+        ProximitySensorMeasurementRate.kProxRate25ms);
     while (true) {
       ReadColorSensor();
+      try {
+        Thread.sleep(250, 0);
+      } catch (Exception ex) {
+      }
     }
   }
 
   private void ReadColorSensor() {
-    // Color c = m_colorSensor.getColor();
-    // proximity = m_colorSensor.getProximity();
-    // setColor(c);
+    Color c = m_colorSensor.getColor();
+    proximity = m_colorSensor.getProximity();
+    setColor(c);
     // SmartDashboard.putNumber("Color x", c.red);
   }
 
@@ -62,9 +66,9 @@ public class ClawColorSensor extends SubsystemBase {
     return detectedColor;
   }
 
-  // private synchronized int getCount() {
-  // return colorCount;
-  // }
+  private synchronized int getCount() {
+    return colorCount;
+  }
 
   private synchronized void setColor(Color c) {
     detectedColor = c;
@@ -95,13 +99,13 @@ public class ClawColorSensor extends SubsystemBase {
     // ReadColorSensor();
     // detectedColor = m_colorSensor.getColor();
 
-    // SmartDashboard.putNumber("Color Red X", detectedColor.red);
+    SmartDashboard.putNumber("Color Red X", detectedColor.red);
 
     // SmartDashboard.putNumber("Color Red", getR());
     // SmartDashboard.putNumber("Color Green", getG());
     // SmartDashboard.putNumber("Color Blue", getB());
 
-    // SmartDashboard.putNumber("Color Count", getCount());
+    SmartDashboard.putNumber("Color Count", getCount());
 
     SmartDashboard.putBoolean("Is Cone", isCone());
     SmartDashboard.putBoolean("Is Cube", isCube());

@@ -21,7 +21,6 @@ public class ArmSystemGoTo extends SequentialCommandGroup {
     addCommands(new WaitCommand(0.25));
     addCommands(new ArmWaitForPosition());
     addCommands(new ArmSetPower(0.0, true));
-    // addCommands(new WaitCommand(0.25));
     addCommands(new ArmBrakeSet(State.CLOSE));
   }
 }

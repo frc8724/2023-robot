@@ -186,7 +186,8 @@ public class RobotContainer {
                 Map.ofEntries(
                     Map.entry(false, new ArmSystemGoTo(Arm.ALMOST_STOW)),
                     Map.entry(true, new WaitCommand(0.0))),
-                () -> RobotContainer.arm.getCurrentPosition() < Arm.ALMOST_STOW + 1000),
+                () -> RobotContainer.arm.getCurrentPosition() < Arm.ALMOST_STOW + 1000), // check if the shoulder is
+                                                                                         // close to position, also.
             new SystemFloorPickUp()));
     operatorPad.OPERATOR_PAD_D_PAD_LEFT.onFalse(new ArmBrakeSet(ArmBrake.State.CLOSE));
     operatorPad.OPERATOR_PAD_D_PAD_LEFT.onFalse(new ArmSetPower(0.0));

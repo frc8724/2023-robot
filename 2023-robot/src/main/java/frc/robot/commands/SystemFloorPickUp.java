@@ -26,6 +26,8 @@ public class SystemFloorPickUp extends SequentialCommandGroup {
     // extend arm
     addCommands(new ArmSystemGoTo(Arm.FLOOR_PICKUP));
     addCommands(new ArmWaitForPosition());
+    addCommands(new ArmSetPower(0.0, true));
+    addCommands(new ArmBrakeSet(State.CLOSE));
 
   }
 }

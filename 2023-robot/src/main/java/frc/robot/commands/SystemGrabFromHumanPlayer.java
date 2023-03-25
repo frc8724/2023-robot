@@ -23,5 +23,8 @@ public class SystemGrabFromHumanPlayer extends SequentialCommandGroup {
     // extend arm
     addCommands(new ArmSystemGoTo(Arm.HUMAN_PLAYER_STATION));
     addCommands(new ArmWaitForPosition());
+    addCommands(new ArmSetPower(0.0, true));
+    addCommands(new ArmBrakeSet(State.CLOSE));
+
   }
 }

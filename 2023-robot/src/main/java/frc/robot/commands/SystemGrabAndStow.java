@@ -22,6 +22,9 @@ public class SystemGrabAndStow extends SequentialCommandGroup {
     // retract the arm
     addCommands(new ArmSystemGoTo(Arm.ALMOST_STOW));
     addCommands(new ArmWaitForPosition());
+    addCommands(new ArmSetPower(0.0, true));
+    addCommands(new ArmBrakeSet(State.CLOSE));
+
     // lower the shoulder
     addCommands(new ShoulderGoto(Shoulder.STOW));
     addCommands(new ShoulderWaitForPosition());
