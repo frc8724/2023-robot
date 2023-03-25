@@ -154,8 +154,9 @@ public class RobotContainer {
   private void configureOperatorPadButtons() {
     // SmartDashboard.putString("Debug", "configureOperatorPadButtons");
 
-    operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
-    operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
+    operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceGamePiece(3));
+    operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceGamePiece(2));
+
     operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemStowArm());
     operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
 

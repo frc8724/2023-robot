@@ -22,9 +22,11 @@ public class ClawColorSensor extends SubsystemBase {
 
   final double[] CONE_COLORS_RGB = { 0.37, 0.54, 0.08 };
 
-  final double COLOR_SLOP = 0.03;
+  final double COLOR_SLOP = 0.05;
 
-  I2C.Port i2cPort = I2C.Port.kOnboard;
+  // I2C.Port i2cPort = I2C.Port.kOnboard;
+  I2C.Port i2cPort = I2C.Port.kMXP;
+
   ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
   Color detectedColor = Color.kAqua;
@@ -49,7 +51,7 @@ public class ClawColorSensor extends SubsystemBase {
     while (true) {
       ReadColorSensor();
       try {
-        Thread.sleep(250, 0);
+        Thread.sleep(100, 0);
       } catch (Exception ex) {
       }
     }
@@ -101,9 +103,9 @@ public class ClawColorSensor extends SubsystemBase {
 
     SmartDashboard.putNumber("Color Red X", detectedColor.red);
 
-    // SmartDashboard.putNumber("Color Red", getR());
-    // SmartDashboard.putNumber("Color Green", getG());
-    // SmartDashboard.putNumber("Color Blue", getB());
+    SmartDashboard.putNumber("Color Red", getR());
+    SmartDashboard.putNumber("Color Green", getG());
+    SmartDashboard.putNumber("Color Blue", getB());
 
     SmartDashboard.putNumber("Color Count", getCount());
 
