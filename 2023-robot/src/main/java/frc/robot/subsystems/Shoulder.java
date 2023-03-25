@@ -25,8 +25,9 @@ public class Shoulder extends SubsystemBase {
   public static final double STOW = 1000.0;
   public static final double FLOOR_PICKUP = 17000;
   public static final double CONE_STOW = 14000;
+  public static final double SCORE_TOLERANCE = 17000;
 
-  static final double POSITION_SLOP = 1000.0;
+  public static final double POSITION_SLOP = 1000.0;
 
   final double kWheelP = 0.09; // 0.015;
   final double kWheelI = 0.000;
@@ -147,8 +148,12 @@ public class Shoulder extends SubsystemBase {
     return 0.0;
   }
 
-  public boolean isAtPosition() {
-    return Math.abs(getCurrentPositionInTicks() - TargetPositionTicks) < POSITION_SLOP;
+  private boolean isAtPosition() {
+    return isAtPosition(POSITION_SLOP);
+  }
+
+  public boolean isAtPosition(double tolerance) {
+    return Math.abs(getCurrentPositionInTicks() - TargetPositionTicks) < tolerance;
   }
 
   public void stop() {

@@ -12,6 +12,8 @@ import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.ColorSensorMeasurementRate;
 import com.revrobotics.ColorSensorV3.ColorSensorResolution;
 import com.revrobotics.ColorSensorV3.GainFactor;
+import com.revrobotics.ColorSensorV3.ProximitySensorMeasurementRate;
+import com.revrobotics.ColorSensorV3.ProximitySensorResolution;
 
 public class ClawColorSensor extends SubsystemBase {
 
@@ -22,7 +24,11 @@ public class ClawColorSensor extends SubsystemBase {
 
   final double COLOR_SLOP = 0.03;
 
+  I2C.Port i2cPort = I2C.Port.kOnboard;
+  ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+
   Color detectedColor = Color.kAqua;
+  int proximity;
   int colorCount;
   Thread thread;
   double r;
@@ -35,18 +41,19 @@ public class ClawColorSensor extends SubsystemBase {
     // thread.start();
   }
 
-  I2C.Port i2cPort = I2C.Port.kOnboard;
-  ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
-
   private void Run() {
     m_colorSensor.configureColorSensor(ColorSensorResolution.kColorSensorRes13bit,
         ColorSensorMeasurementRate.kColorRate100ms, GainFactor.kGain3x);
+    m_colorSensor.configureProximitySensor(ProximitySensorResolution.kProxRes8bit,
+        ProximitySensorMeasurementRate.kProxRate25ms);
     while (true) {
+      ReadColorSensor();
     }
   }
 
   private void ReadColorSensor() {
     Color c = m_colorSensor.getColor();
+    proximity = m_colorSensor.getProximity();
     setColor(c);
     // SmartDashboard.putNumber("Color x", c.red);
   }
@@ -55,9 +62,9 @@ public class ClawColorSensor extends SubsystemBase {
     return detectedColor;
   }
 
-  private synchronized int getCount() {
-    return colorCount;
-  }
+  // private synchronized int getCount() {
+  // return colorCount;
+  // }
 
   private synchronized void setColor(Color c) {
     detectedColor = c;
@@ -96,8 +103,8 @@ public class ClawColorSensor extends SubsystemBase {
 
     // SmartDashboard.putNumber("Color Count", getCount());
 
-    // SmartDashboard.putBoolean("Is Cone", isCone());
-    // SmartDashboard.putBoolean("Is Cube", isCube());
+    SmartDashboard.putBoolean("Is Cone", isCone());
+    SmartDashboard.putBoolean("Is Cube", isCube());
   }
 
   public boolean isCube() {
