@@ -25,7 +25,7 @@ public class Shoulder extends SubsystemBase {
   public static final double STOW = 1000.0;
   public static final double FLOOR_PICKUP = 17000;
   public static final double CONE_STOW = 14000;
-  public static final double SCORE_TOLERANCE = 17000;
+  public static final double SCORE_TOLERANCE = 40000;
 
   public static final double POSITION_SLOP = 1000.0;
 

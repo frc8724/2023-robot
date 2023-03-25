@@ -16,7 +16,8 @@ public class ArmBrake extends SubsystemBase {
         CLOSE,
         OPEN
     };
-    public static final double OPEN_TIME_SEC = 0.2;
+
+    public static final double OPEN_TIME_SEC = 0.1;
 
     // private final Solenoid brakeClose = new
     // Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoid.ArmBrakeClose);

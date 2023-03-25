@@ -16,27 +16,27 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shoulder;
 
 public class SystemPlaceCone extends SequentialCommandGroup {
-  /** Creates a new SystemPlaceCone. */
-  public SystemPlaceCone(int level) {
-    // if the Arm is Further out, retract
-    new SelectCommand(
-        Map.ofEntries(
-            Map.entry(true, new ArmSystemGoTo(Arm.LEVEL_X_SCORE[level])),
-            Map.entry(false, new WaitCommand(0.0))),
-        () -> RobotContainer.arm.getCurrentPosition() > Arm.LEVEL_X_SCORE[level] + 1000);
+    /** Creates a new SystemPlaceCone. */
+    public SystemPlaceCone(int level) {
+        // if the Arm is Further out, retract
+        addCommands(new SelectCommand(
+                Map.ofEntries(
+                        Map.entry(true, new ArmSystemGoTo(Arm.ALMOST_STOW)),
+                        Map.entry(false, new WaitCommand(0.0))),
+                () -> RobotContainer.arm.getCurrentPosition() > Arm.FLOOR_PICKUP + 1000));
 
-    new ParallelCommandGroup(
-        new SequentialCommandGroup(
-            // rotate shoulder to the location
-            new ShoulderGoto(Shoulder.LEVEL_X_PRESCORE[level]),
-            new ShoulderWaitForPosition()),
+        addCommands(new ParallelCommandGroup(
+                new SequentialCommandGroup(
+                        // rotate shoulder to the location
+                        new ShoulderGoto(Shoulder.LEVEL_X_PRESCORE[level]),
+                        new ShoulderWaitForPosition()),
 
-        new SequentialCommandGroup(
-            new SequentialCommandGroup(
-                // wait for the shoulder to get close.  Floor pickup is the tolerance distance
-                new ShoulderWaitForPosition(Shoulder.SCORE_TOLERANCE),
-                // extend the arm out
-                new ArmSystemGoTo(Arm.LEVEL_X_SCORE[level]),
-                new ArmWaitForPosition())));
-  }
+                new SequentialCommandGroup(
+                        new SequentialCommandGroup(
+                                // wait for the shoulder to get close. Floor pickup is the tolerance distance
+                                new ShoulderWaitForPosition(Shoulder.SCORE_TOLERANCE),
+                                // extend the arm out
+                                new ArmSystemGoTo(Arm.LEVEL_X_SCORE[level]),
+                                new ArmWaitForPosition()))));
+    }
 }
