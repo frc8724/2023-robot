@@ -115,6 +115,8 @@ public class RobotContainer {
     configureDriverPadButtons();
     configureOperatorPadButtons();
     configureDriverStick();
+
+    clawColor.gamePieceTrigger.onTrue(new LedLightsSet(PatternID.BPM_LAVA_PALETTE).withTimeout(5.0));
   }
 
   private void configureDriverPadButtons() {

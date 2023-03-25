@@ -8,6 +8,11 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.LedLightsSet;
+
+import org.mayheminc.util.LEDLights.PatternID;
+
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.ColorSensorMeasurementRate;
 import com.revrobotics.ColorSensorV3.ColorSensorResolution;
@@ -36,6 +41,8 @@ public class ClawColorSensor extends SubsystemBase {
   double r;
   double g = 1.23;
   double b;
+
+  public Trigger gamePieceTrigger = new Trigger(() -> isGamePiece());
 
   /** Creates a new ClawColorSensor. */
   public ClawColorSensor() {
@@ -129,5 +136,9 @@ public class ClawColorSensor extends SubsystemBase {
     return Math.abs(c.red - CONE_COLORS_RGB[0]) < COLOR_SLOP &&
         Math.abs(c.green - CONE_COLORS_RGB[1]) < COLOR_SLOP &&
         Math.abs(c.blue - CONE_COLORS_RGB[2]) < COLOR_SLOP;
+  }
+
+  public boolean isGamePiece() {
+    return isCone() || isCube();
   }
 }
