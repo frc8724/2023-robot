@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.ClawPiston.State;
 import frc.robot.subsystems.Shoulder;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

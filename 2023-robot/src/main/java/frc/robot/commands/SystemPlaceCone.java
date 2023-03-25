@@ -20,11 +20,12 @@ public class SystemPlaceCone extends SequentialCommandGroup {
     /** Creates a new SystemPlaceCone. */
     public SystemPlaceCone(int level) {
         // if the Arm is Further out, retract
-        addCommands(new SelectCommand(
-                Map.ofEntries(
-                        Map.entry(true, new ArmSystemGoTo(Arm.ALMOST_STOW)),
-                        Map.entry(false, new WaitCommand(0.0))),
-                () -> RobotContainer.arm.getCurrentPosition() > Arm.FLOOR_PICKUP + 1000));
+        addCommands(
+                new SelectCommand(
+                        Map.ofEntries(
+                                Map.entry(true, new ArmSystemGoTo(Arm.ALMOST_STOW)),
+                                Map.entry(false, new WaitCommand(0.0))),
+                        () -> RobotContainer.arm.getCurrentPosition() > Arm.FLOOR_PICKUP + 1000));
 
         addCommands(new ParallelCommandGroup(
                 new SequentialCommandGroup(
@@ -34,8 +35,7 @@ public class SystemPlaceCone extends SequentialCommandGroup {
 
                 new SequentialCommandGroup(
                         new SequentialCommandGroup(
-                                // wait for the shoulder to get close. Floor pickup is
-                                // the tolerance distance
+                                // wait for the shoulder to get close.
                                 new ShoulderWaitForPosition(Shoulder.SCORE_TOLERANCE),
                                 // extend the arm out
                                 new ArmSystemGoTo(Arm.LEVEL_X_SCORE[level]),
