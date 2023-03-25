@@ -59,7 +59,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-
+    addAuto(new NECMP_Score2_Charging_Level_3_Color_Red());
     addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Red());
     // addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Red());
     addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Blue());
@@ -191,6 +191,8 @@ public class RobotContainer {
             new SystemFloorPickUp()));
     operatorPad.OPERATOR_PAD_D_PAD_LEFT.onFalse(new ArmBrakeSet(ArmBrake.State.CLOSE));
     operatorPad.OPERATOR_PAD_D_PAD_LEFT.onFalse(new ArmSetPower(0.0));
+
+    operatorPad.OPERATOR_PAD_D_PAD_RIGHT.whileTrue(new SystemGrabFromHumanPlayerBack());
 
     // debug
     // operatorPad.OPERATOR_PAD_D_PAD_LEFT.onTrue(new

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ClawPiston;
 import frc.robot.subsystems.Shoulder;
+import frc.robot.subsystems.ArmBrake.State;
 
 public class SystemGrabFromHumanPlayer extends SequentialCommandGroup {
   /** Creates a new SystemGrabFromHumanPlayer. */

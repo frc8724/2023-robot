@@ -22,10 +22,12 @@ public class Shoulder extends SubsystemBase {
   public static final double[] LEVEL_X_PRESCORE = { 0.0, 2000.0, 75000.0, 82500.0 };
   public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 62000.0, 74000.0 };
   public static final double HUMAN_PLAYER_STATION = 73000.0;
-  public static final double STOW = 1000.0;
+  public static final double STOW = 9000.0;
   public static final double FLOOR_PICKUP = 17000;
   public static final double CONE_STOW = 14000;
   public static final double SCORE_TOLERANCE = 40000;
+  public static final double HUMAN_PLAYER_STATION_BACK = 190000;
+  public static final double FLOOR_PICKUP_BACK = 250000;
 
   public static final double POSITION_SLOP = 1000.0;
 

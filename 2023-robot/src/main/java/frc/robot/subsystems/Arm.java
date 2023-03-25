@@ -26,6 +26,8 @@ public class Arm extends SubsystemBase {
   public static final double HUMAN_PLAYER_STATION = 20000.0;
   public static final double ALMOST_STOW = 500.0;
   public static final double FLOOR_PICKUP = 35000.0;
+  public static final double FLOOR_PICKUP_BACK = 36700;
+
 
   public static final double POSITION_SLOP = 1000.0;
   static final double CLOSED_LOOP_RAMP_RATE = 1.0; // todo: lower this value

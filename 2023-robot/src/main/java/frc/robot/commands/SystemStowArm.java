@@ -25,7 +25,10 @@ public class SystemStowArm extends SequentialCommandGroup {
                 new ArmWaitForPosition(),
                 new ArmSystemZero()),
             new SequentialCommandGroup(
-                new ArmWaitForPosition(Arm.ALMOST_STOW + 1000),
+                // new ArmWaitForPosition(Arm.ALMOST_STOW),
+                new WaitCommand(0.25),
+                new ArmWaitForPosition(450),
+
                 // lower the shoulder
                 new ShoulderGoto(Shoulder.STOW),
                 new ShoulderWaitForPosition())));
