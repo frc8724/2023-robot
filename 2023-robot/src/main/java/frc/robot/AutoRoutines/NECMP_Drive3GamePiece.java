@@ -19,13 +19,19 @@ public class NECMP_Drive3GamePiece extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new DriveStraightOnHeading(-0.05, -0.5, 20.0, 0.0 * color));
     addCommands(new DriveStraightOnHeading(-0.5, 120.0, 0.0 * color));
-    addCommands(new DriveArcingTurn(-0.5,-0.5, 65, 0.0, -75));
-    addCommands(new DriveArcingTurn(-0.5, -0.2, 25, -75, -95));
+    addCommands(new DriveArcingTurn(-0.5,-0.5, 50, 0.0* color, -75* color));
+    addCommands(new DriveArcingTurn(-0.5, -0.2, 15, -75* color, -95* color));
+    addCommands(new DriveStraightOnHeading(-0.2, 10.0, -95.0 * color));
+
     //Come back
     addCommands(new WaitCommand(.1));
-    addCommands(new DriveArcingTurn(0.1, 0.5, 20, -95, 0));
+    addCommands(new DriveArcingTurn(0.1, 0.5, 20, -95* color, 0* color));
     addCommands(new DriveStraightOnHeading(0.5, 140.0, 5.0 * color));
     addCommands(new DriveStraightOnHeading(0.5, 0.05, 20.0, 5.0 * color));
+
+    // addCommands(new DriveStraightOnHeading(0.5, 30.0, 0.0 * color));
+    // addCommands(new DriveStraightOnHeading(0.5, 0.05, 20.0, 0.0 * color));
+
 
 
     // addCommands(new DriveStraightOnHeading(-0.4,-0.3, 60.0, -45.0 * color));
