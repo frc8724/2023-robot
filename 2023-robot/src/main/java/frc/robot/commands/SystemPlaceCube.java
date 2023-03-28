@@ -18,10 +18,10 @@ public class SystemPlaceCube extends SequentialCommandGroup {
   /** Creates a new SystemPlaceCube. */
   public SystemPlaceCube(int level) {
     // rotate shoulder to the location
-    addCommands(new ShoulderGoto(Shoulder.LEVEL_X_SCORE[level]));
+    addCommands(new ShoulderGoto(Shoulder.LEVEL_X_SCORE_CUBE[level]));
     addCommands(new ShoulderWaitForPosition());
     // extend the arm out
-    addCommands(new ArmSystemGoTo(Arm.LEVEL_X_SCORE[level]));
+    addCommands(new ArmSystemGoTo(Arm.LEVEL_X_SCORE_Cube[level]));
     addCommands(new ParallelRaceGroup(
         new SequentialCommandGroup(
             new ArmWaitForPosition(),

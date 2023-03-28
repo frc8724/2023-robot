@@ -22,12 +22,13 @@ import frc.robot.subsystems.ArmBrake.State;
 public class Arm extends SubsystemBase {
 
   // static final double TICKS_PER_INCH = 3442;
-  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 45000.0, 112000.0 };
+  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 45000.0, 119000.0 };
+  public static final double[] LEVEL_X_SCORE_Cube = { 0.0, 2000.0, 32000.0, 80000.0 };
+
   public static final double HUMAN_PLAYER_STATION = 20000.0;
   public static final double ALMOST_STOW = 500.0;
   public static final double FLOOR_PICKUP = 35000.0;
   public static final double FLOOR_PICKUP_BACK = 36700;
-
 
   public static final double POSITION_SLOP = 1000.0;
   static final double CLOSED_LOOP_RAMP_RATE = 1.0; // todo: lower this value

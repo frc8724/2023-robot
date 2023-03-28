@@ -59,7 +59,13 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    addAuto(new NECMP_Score3Back_Level_3_Color_Red());
+
     addAuto(new NECMP_Score2_Charging_Level_3_Color_Red());
+    addAuto(new NECMP_Score2_Charging_Level_3_Color_Blue());
+    addAuto(new NECMP_Score2_Charging_Level_2_Color_Red());
+    addAuto(new NECMP_Score2_Charging_Level_2_Color_Blue());
+
     addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Red());
     // addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Red());
     addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Blue());
@@ -116,7 +122,7 @@ public class RobotContainer {
     configureOperatorPadButtons();
     configureDriverStick();
 
-    clawColor.gamePieceTrigger.onTrue(new LedLightsSet(PatternID.BPM_LAVA_PALETTE).withTimeout(5.0));
+    clawColor.gamePieceTrigger.onTrue(new LedLightsSet(PatternID.BPM_LAVA_PALETTE).withTimeout(1.0));
   }
 
   private void configureDriverPadButtons() {
