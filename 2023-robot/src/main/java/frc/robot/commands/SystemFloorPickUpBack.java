@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.ArmBrake.State;
 import frc.robot.subsystems.*;
@@ -17,20 +19,26 @@ public class SystemFloorPickUpBack extends SequentialCommandGroup {
   public SystemFloorPickUpBack() {
 
     addCommands(new ArmSystemGoTo(Arm.ALMOST_STOW));
-    addCommands(new ArmWaitForPosition());
 
-    // rotate shoulder
-    addCommands(new ShoulderGoto(Shoulder.FLOOR_PICKUP_BACK));
-    addCommands(new ShoulderWaitForPosition());
+    addCommands(
+        new ParallelCommandGroup(
+            new SequentialCommandGroup(
+                // rotate shoulder
+                new ShoulderGoto(Shoulder.FLOOR_PICKUP_BACK),
+                new ShoulderWaitForPosition()),
 
-    // open claw and start sucking
-    addCommands(new ClawPistonSet(ClawPiston.State.OPEN));
-    addCommands(new ClawRollerSet(0.25));
+            new SequentialCommandGroup(
+                // open claw and start sucking
+                new WaitCommand(1),
+                new ClawPistonSet(ClawPiston.State.OPEN),
+                new ClawRollerSet(0.25)),
 
-    // extend arm
-    addCommands(new ArmSystemGoTo(Arm.FLOOR_PICKUP_BACK));
-    addCommands(new ArmWaitForPosition());
-    addCommands(new ArmSetPower(0.0, true));
-    addCommands(new ArmBrakeSet(State.CLOSE));
+            new SequentialCommandGroup(
+                // extend arm
+                new ShoulderWaitForPosition(Shoulder.POSITION_SLOP * 3),
+                new ArmSystemGoTo(Arm.FLOOR_PICKUP_BACK),
+                new ArmWaitForPosition(),
+            new ArmSetPower(0.0, true),
+            new ArmBrakeSet(State.CLOSE))));
   }
 }

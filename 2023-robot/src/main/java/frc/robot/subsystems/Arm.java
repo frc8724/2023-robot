@@ -52,8 +52,8 @@ public class Arm extends SubsystemBase {
     talon.config_kD(0, 50.0);
     talon.config_kF(0, 0.0);
 
-    talon.configMotionCruiseVelocity(20000); // measured velocity of ~100K at 85%; set cruise to that
-    talon.configMotionAcceleration(1 * 20000); // acceleration of 2x velocity allows cruise to be attained in 1
+    talon.configMotionCruiseVelocity(60000); // measured velocity of ~100K at 85%; set cruise to that
+    talon.configMotionAcceleration(1 * 40000); // acceleration of 2x velocity allows cruise to be attained in 1
                                                // second
     // second
 
