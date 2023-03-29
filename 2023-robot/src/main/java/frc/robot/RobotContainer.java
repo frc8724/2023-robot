@@ -59,6 +59,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+
+    addAuto(new NECMP_Score2_Charging_Level());
     addAuto(new NECMP_Score3Back_Level_3_Color_Red());
 
     addAuto(new NECMP_Score2_Charging_Level_3_Color_Red());

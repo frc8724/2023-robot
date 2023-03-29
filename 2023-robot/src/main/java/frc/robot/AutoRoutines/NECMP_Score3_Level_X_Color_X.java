@@ -15,6 +15,7 @@ public class NECMP_Score3_Level_X_Color_X extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new NECMP_Score2GamePieceBack_Level_X_Color_X(Level,color));
-    addCommands(new NECMP_Drive3GamePiece(color));
+    // addCommands(new NECMP_Drive3GamePiece(color));
+    addCommands(new NECMP_Score2_Charging_Level());
   }
 }
