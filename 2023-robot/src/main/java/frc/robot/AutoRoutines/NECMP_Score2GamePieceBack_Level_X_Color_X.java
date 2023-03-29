@@ -9,6 +9,7 @@ import java.lang.System.Logger.Level;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.ArmSystemGoTo;
 import frc.robot.commands.ClawDropCone;
 import frc.robot.commands.ClawRollerSet;
 import frc.robot.commands.DriveStraightOnHeading;
@@ -17,6 +18,7 @@ import frc.robot.commands.SystemGrabFromHumanPlayerBack;
 import frc.robot.commands.SystemPlaceCone;
 import frc.robot.commands.SystemPlaceGamePiece;
 import frc.robot.commands.SystemZero;
+import frc.robot.subsystems.Arm;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -45,7 +47,9 @@ public class NECMP_Score2GamePieceBack_Level_X_Color_X extends SequentialCommand
             new SequentialCommandGroup(
                 new DriveStraightOnHeading(0.5, 160.0, 0.0 * color),
                 new DriveStraightOnHeading(0.5, 0.05, 20.0, 0.0 * color)),
-            new SystemPlaceGamePiece(Level)));
+            new SequentialCommandGroup(
+                new ArmSystemGoTo(Arm.ALMOST_STOW),
+                new SystemPlaceGamePiece(Level))));
     addCommands(new ClawRollerSet(-.5));
 
     // addCommands(new DriveStraightOnHeading( 0.05,0.4,30, 0));
