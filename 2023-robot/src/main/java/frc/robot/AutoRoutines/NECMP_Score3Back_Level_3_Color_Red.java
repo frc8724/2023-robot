@@ -14,7 +14,7 @@ public class NECMP_Score3Back_Level_3_Color_Red extends SequentialCommandGroup {
   public NECMP_Score3Back_Level_3_Color_Red() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new NECMP_Score3_Level_X_Color_X(3, 1));
+    addCommands(new NECMP_Score2_Charge_Level_X_Color_X(3, 1));
 
   }
 }

@@ -28,6 +28,7 @@ public class Shoulder extends SubsystemBase {
   public static final double FLOOR_PICKUP = 17000;
   public static final double CONE_STOW = 14000;
   public static final double SCORE_TOLERANCE = 40000;
+  public static final double STRAIGHT_UP = 100000;
   public static final double HUMAN_PLAYER_STATION_BACK = 190000;
   public static final double FLOOR_PICKUP_BACK = 250000;
 

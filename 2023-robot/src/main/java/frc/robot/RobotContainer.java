@@ -60,13 +60,13 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    addAuto(new NECMP_Score2_Charging_Level());
-    addAuto(new NECMP_Score3Back_Level_3_Color_Red());
+    // addAuto(new NECMP_Score2_Charging_Level());
+    // addAuto(new NECMP_Score3Back_Level_3_Color_Red());
 
-    addAuto(new NECMP_Score2_Charging_Level_3_Color_Red());
-    addAuto(new NECMP_Score2_Charging_Level_3_Color_Blue());
-    addAuto(new NECMP_Score2_Charging_Level_2_Color_Red());
-    addAuto(new NECMP_Score2_Charging_Level_2_Color_Blue());
+    addAuto(new NECMP_Score2Back_Charging_Level_3_Color_Red());
+    addAuto(new NECMP_Score2Back_Charging_Level_3_Color_Blue());
+    addAuto(new NECMP_Score2Back_Charging_Level_2_Color_Red());
+    addAuto(new NECMP_Score2Back_Charging_Level_2_Color_Blue());
 
     addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Red());
     // addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Red());
@@ -164,6 +164,8 @@ public class RobotContainer {
   private void configureOperatorPadButtons() {
     // SmartDashboard.putString("Debug", "configureOperatorPadButtons");
 
+    // operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCubeBack(3));
+
     operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceGamePiece(3));
     operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceGamePiece(2));
 
@@ -220,7 +222,7 @@ public class RobotContainer {
     // operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new SequentialCommandGroup(
     // new ArmBrakeSet(State.CLOSE), new ArmSetPower(0.0)));
 
-    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawRollerSet(-0.5));
+    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawRollerSet(-0.4));
     operatorPad.OPERATOR_PAD_BUTTON_EIGHT.onFalse(new ClawRollerSet(0.00));
 
     // Claw Pistons Right Triggers

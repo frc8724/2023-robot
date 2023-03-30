@@ -35,7 +35,7 @@ public class SystemFloorPickUpBack extends SequentialCommandGroup {
 
             new SequentialCommandGroup(
                 // extend arm
-                new ShoulderWaitForPosition(Shoulder.POSITION_SLOP * 3),
+                new ShoulderWaitForPosition(100000),
                 new ArmSystemGoTo(Arm.FLOOR_PICKUP_BACK),
                 new ArmWaitForPosition(),
             new ArmSetPower(0.0, true),

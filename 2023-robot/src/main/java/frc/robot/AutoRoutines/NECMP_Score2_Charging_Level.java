@@ -18,7 +18,7 @@ import frc.robot.commands.SystemZero;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class NECMP_Score2_Charging_Level extends SequentialCommandGroup {
   /** Creates a new NECMP_Score2_Charging_Level. */
-  public NECMP_Score2_Charging_Level() {
+  public NECMP_Score2_Charging_Level(int color) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     // addCommands(new SystemZero());
@@ -28,11 +28,11 @@ public class NECMP_Score2_Charging_Level extends SequentialCommandGroup {
             new SystemStowArm(),
             new SequentialCommandGroup(
                 new WaitCommand(1),
-                new DriveStraightOnHeading(-0.05, -0.25, 30, -70),
-                new DriveStraightOnHeading(-0.25, -0.4, 10, -70),
+                new DriveStraightOnHeading(-0.05, -0.25, 30, -70*color),
+                new DriveStraightOnHeading(-0.25, -0.3, 10, -70*color),
                 new DriveBrakeMode(true),
-                new DriveStraightOnHeading(-0.4, -0.25, 45, 0),
-                new DriveStraightOnHeading(-0.25, -0.05, 38, 0))));
+                new DriveStraightOnHeading(-0.3, -0.25, 45, 0*color),
+                new DriveStraightOnHeading(-0.25, -0.05, 38, 0*color))));
 
   }
 }
