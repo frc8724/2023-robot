@@ -12,6 +12,8 @@ public class DriveGetLevel extends CommandBase {
   static final double STOP_DRIVING_PITCH = 3.0;
   static final double DRIVE_POWER = 0.1;
   static final double PEAK_PITCH = 0.5;
+  static final double SLOP = 2;
+
 
   /** Creates a new DriveGetLevel. */
   public DriveGetLevel() {
@@ -32,11 +34,10 @@ public class DriveGetLevel extends CommandBase {
   @Override
   public void execute() {
     var pitch = RobotContainer.drive.getPitch();
-
     // if we are pitched up...
-    if (pitch > 0) {
+    if (pitch > 0+SLOP) {
       if (climbing) {
-        if (pitch < lastPitch + PEAK_PITCH) {
+        if (pitch < lastPitch  -PEAK_PITCH) {
           climbing = false;
           RobotContainer.drive.speedRacerDrive(0, 0, true);
         }
@@ -44,21 +45,23 @@ public class DriveGetLevel extends CommandBase {
         // if it is really steep, drive forward
         if (pitch > START_DRIVING_PITCH) {
           climbing = true;
-          RobotContainer.drive.speedRacerDrive(DRIVE_POWER, 0, true);
+          RobotContainer.drive.speedRacerDrive(0.1, 0, true);
         }
       }
-    } else { // else we are pitched down...
+    } else if (pitch<0-SLOP){ // else we are pitched down...
       if (climbing) {
-        if (pitch > lastPitch - PEAK_PITCH) {
+        if (pitch > lastPitch + PEAK_PITCH) {
           climbing = false;
           RobotContainer.drive.speedRacerDrive(0, 0, true);
         }
       } else {
         if (pitch < -START_DRIVING_PITCH) {
           climbing = true;
-          RobotContainer.drive.speedRacerDrive(-DRIVE_POWER, 0, true);
+          RobotContainer.drive.speedRacerDrive(-0.1, 0, true);
         }
       }
+    }else{
+      RobotContainer.drive.speedRacerDrive(0.0);
     }
 
     lastPitch = pitch;
