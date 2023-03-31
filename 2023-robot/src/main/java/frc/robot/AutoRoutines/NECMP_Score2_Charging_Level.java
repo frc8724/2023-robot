@@ -28,17 +28,18 @@ public class NECMP_Score2_Charging_Level extends SequentialCommandGroup {
         new ParallelCommandGroup(
             new SystemStowArm(),
             new SequentialCommandGroup(
-              new DriveStraightOnHeading(-0.05, -0.25, 5, 0 * color),
+                new DriveStraightOnHeading(-0.05, -0.25, 5, 0 * color),
 
-                new DriveStraightOnHeading( -0.25, 30, -90 * color),
+                new DriveStraightOnHeading(-0.25, 30, -90 * color),
 
                 // new DriveArcingTurn(-0.1, -.25,30 , 0*color, -70*color),
                 new DriveStraightOnHeading(-0.25, -0.3, 10, -90 * color),
                 new DriveBrakeMode(true),
                 new DriveStraightOnHeading(-0.3, -0.25, 40, 0 * color),
-                new DriveStraightOnHeading( -0.25, 25, 0 * color),
+                new DriveStraightOnHeading(-0.25, 25, 0 * color),
 
-                new DriveStraightOnHeading(-0.25, -0.1, 20, 0 * color))));
+                new DriveStraightOnHeading(-0.25, -0.1, 26, 0 * color))));
+    addCommands(new DriveStraightOnHeading(0.0, 100, 0 * color));
 
   }
 }

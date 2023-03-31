@@ -62,7 +62,8 @@ public class RobotContainer {
 
     // addAuto(new NECMP_Score2_Charging_Level());
     // addAuto(new NECMP_Score3Back_Level_3_Color_Red());
-
+    addAuto(new NECMP_Score2BackBump_Level_3_Color_Red());
+    addAuto(new NECMP_Score2BackBump_Level_3_Color_Blue());
     addAuto(new NECMP_Score2Back_Charging_Level_3_Color_Red());
     addAuto(new NECMP_Score2Back_Charging_Level_3_Color_Blue());
     addAuto(new NECMP_Score2Back_Charging_Level_2_Color_Red());
