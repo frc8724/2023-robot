@@ -7,6 +7,7 @@ package frc.robot.AutoRoutines;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.DriveArcingTurn;
 import frc.robot.commands.DriveBrakeMode;
 import frc.robot.commands.DriveStraightOnHeading;
 import frc.robot.commands.SystemPlaceGamePiece;
@@ -27,12 +28,17 @@ public class NECMP_Score2_Charging_Level extends SequentialCommandGroup {
         new ParallelCommandGroup(
             new SystemStowArm(),
             new SequentialCommandGroup(
-                new WaitCommand(1),
-                new DriveStraightOnHeading(-0.05, -0.25, 30, -70*color),
-                new DriveStraightOnHeading(-0.25, -0.3, 10, -70*color),
+              new DriveStraightOnHeading(-0.05, -0.25, 5, 0 * color),
+
+                new DriveStraightOnHeading( -0.25, 30, -90 * color),
+
+                // new DriveArcingTurn(-0.1, -.25,30 , 0*color, -70*color),
+                new DriveStraightOnHeading(-0.25, -0.3, 10, -90 * color),
                 new DriveBrakeMode(true),
-                new DriveStraightOnHeading(-0.3, -0.25, 45, 0*color),
-                new DriveStraightOnHeading(-0.25, -0.05, 38, 0*color))));
+                new DriveStraightOnHeading(-0.3, -0.25, 40, 0 * color),
+                new DriveStraightOnHeading( -0.25, 25, 0 * color),
+
+                new DriveStraightOnHeading(-0.25, -0.1, 20, 0 * color))));
 
   }
 }

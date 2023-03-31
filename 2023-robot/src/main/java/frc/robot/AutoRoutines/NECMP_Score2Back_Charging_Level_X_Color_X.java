@@ -40,12 +40,12 @@ public class NECMP_Score2Back_Charging_Level_X_Color_X extends SequentialCommand
                         new SequentialCommandGroup(
                                 new DriveStraightOnHeading(-0.05, -0.45, 20.0, 0.0 * color),
                                 new DriveStraightOnHeading(-0.45, 158.0, -10.0 * color),
-                                new DriveStraightOnHeading(-0.45, -0.05, 20.0, -10.0 * color)),
+                                new DriveStraightOnHeading(-0.45, -0.05, 24.0, -10.0 * color)),
                         new SystemFloorPickUpBack()));
 
         // Drive Back
         // addCommands(new WaitCommand(0.25));
-        addCommands(new DriveStraightOnHeading(0.05, 0.5, 20.0, 0.0 * color));
+        addCommands(new DriveStraightOnHeading(0.05, 0.5, 24.0, 0.0 * color));
         addCommands(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(

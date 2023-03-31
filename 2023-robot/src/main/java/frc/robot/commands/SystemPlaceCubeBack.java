@@ -20,7 +20,7 @@ public class SystemPlaceCubeBack extends SequentialCommandGroup {
         // move the shoulder and the arm. The shoulder will cause the race to end
         new ParallelRaceGroup(
             new SequentialCommandGroup(
-                new ShoulderGoto(Shoulder.HUMAN_PLAYER_STATION_BACK),
+                new ShoulderGoto(Shoulder.BACK_ISH),
                 new ShoulderWaitForPosition()),
             new SequentialCommandGroup(
                 new ArmSystemGoTo(Arm.ALMOST_STOW)
@@ -33,8 +33,8 @@ public class SystemPlaceCubeBack extends SequentialCommandGroup {
         // new ArmBrakeSet(State.CLOSE),
 
         // move the should to straight up
-        new ShoulderGoto(Shoulder.STRAIGHT_UP),
-        new ShoulderWaitForPosition(),
+        // new ShoulderGoto(Shoulder.STRAIGHT_UP),
+        // new ShoulderWaitForPosition(),
 
         // move teh shoulder and arm to score
         new ParallelCommandGroup(
@@ -44,8 +44,7 @@ public class SystemPlaceCubeBack extends SequentialCommandGroup {
             new SequentialCommandGroup(
                 new ArmSystemGoTo(Arm.LEVEL_X_SCORE_Cube[level]))),
 
-        new WaitCommand(0.25),
-        new ClawRollerSet(-.5));
+        new ClawRollerSet(-.3));
 
   }
 }
