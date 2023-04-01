@@ -62,48 +62,48 @@ public class RobotContainer {
 
     // addAuto(new NECMP_Score2_Charging_Level());
     // addAuto(new NECMP_Score3Back_Level_3_Color_Red());
+
+
     addAuto(new NECMP_Score2BackBump_Level_3_Color_Red());
     addAuto(new NECMP_Score2BackBump_Level_3_Color_Blue());
+
+
+
+
+    addAuto(new NECMP_Score2BackGrabAnother_Level_3_Color_Red());
+    addAuto(new NECMP_Score2BackGrabAnother_Level_3_Color_Blue());
+    // addAuto(new NECMP_Score2BackGrabAnother_Level_2_Color_Red());
+    // addAuto(new NECMP_Score2BackGrabAnother_Level_2_Color_Blue());
+
+    // addAuto(new NECMP_Score2Back_Charging_Level_2_Color_Red());
+    // addAuto(new NECMP_Score2Back_Charging_Level_2_Color_Blue());
     addAuto(new NECMP_Score2Back_Charging_Level_3_Color_Red());
     addAuto(new NECMP_Score2Back_Charging_Level_3_Color_Blue());
-    addAuto(new NECMP_Score2Back_Charging_Level_2_Color_Red());
-    addAuto(new NECMP_Score2Back_Charging_Level_2_Color_Blue());
 
-    addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Red());
-    // addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Red());
-    addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Blue());
-    // addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Blue());
 
-    addAuto(new Week3_Bump_Score2_Level_2_Color_Red());
-    // addAuto(new Week3_Bump_Score2_Level_3_Color_Red());
-    addAuto(new Week3_Bump_Score2_Level_2_Color_Blue());
-    // addAuto(new Week3_Bump_Score2_Level_3_Color_Blue());
 
-    // addAuto(new Week3_Place2_Level_2_Color_Red());
-    addAuto(new Week3_Place2_Level_3_Color_Red());
-    // addAuto(new Week3_Place2_Level_2_Color_Blue());
-    addAuto(new Week3_Place2_Level_3_Color_Blue());
-
-    addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Red());
-    // addAuto(new Week3_PlaceConeGetAnother_Charging_Level_3_Color_Red());
-    addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Blue());
-    // addAuto(new Week3_PlaceConeGetAnother_Charging_Level_3_Color_Blue());
-
-    addAuto(new DriveSystemOnChargingStation());
+    addAuto(new Week1_PlaceCone_3_ChargingStation());
+    // addAuto(new Week1_PlaceCone_2_ChargingStation());
+    addAuto(new Week1_PlaceCone_3_DriveOut());
+    // addAuto(new Week1_PlaceCone_2_DriveOut());
+    addAuto(new Week1_PlaceCone_3());
+    // addAuto(new Week1_PlaceCone_2());
+    addAuto(new Week1_DriveOut());
     addAuto(new Week1_StandStill());
 
-    addAuto(new Week1_DriveOut());
+    // addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Red());
+    // addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Blue());
 
-    addAuto(new Week1_PlaceCone_2());
-    addAuto(new Week1_PlaceCone_2_DriveOut());
-    addAuto(new Week1_PlaceCone_2_ChargingStation());
+// addAuto(new Week3_Bump_Score2_Level_2_Color_Red());
+    // addAuto(new Week3_Bump_Score2_Level_2_Color_Blue());
 
-    addAuto(new Week1_PlaceCone_3());
-    addAuto(new Week1_PlaceCone_3_DriveOut());
-    addAuto(new Week1_PlaceCone_3_ChargingStation());
+    // addAuto(new Week3_Place2_Level_3_Color_Red());
+    // addAuto(new Week3_Place2_Level_3_Color_Blue());
 
-    addAuto(new Test_Drive());
+    // addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Red());
+    // addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Blue());
 
+    // addAuto(new DriveSystemOnChargingStation());
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
 

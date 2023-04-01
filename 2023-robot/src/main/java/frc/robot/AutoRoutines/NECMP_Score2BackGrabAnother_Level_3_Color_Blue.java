@@ -9,13 +9,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class NECMP_Score2Back_Charging_Level_2_Color_Blue extends SequentialCommandGroup {
-  /** Creates a new NECMP_Score2_Charging_Level_2_Color_Blue. */
-  public NECMP_Score2Back_Charging_Level_2_Color_Blue() {
+public class NECMP_Score2BackGrabAnother_Level_3_Color_Blue extends SequentialCommandGroup {
+  /** Creates a new NECMP_Score2BackGrabAnother_Level_3_Color_Blue. */
+  public NECMP_Score2BackGrabAnother_Level_3_Color_Blue() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    // addCommands(new NECMP_Score2Back_Charging_Level_X_Color_X(2, -1));
-    addCommands(new NECMP_Score2_Charge_Level_X_Color_X(2,-1));
-
+    addCommands(new NECMP_Score2BackGrabAnother_Level_X_Color_X(3,-1));
   }
 }

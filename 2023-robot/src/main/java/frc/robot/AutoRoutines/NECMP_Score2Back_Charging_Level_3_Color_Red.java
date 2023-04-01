@@ -4,7 +4,10 @@
 
 package frc.robot.AutoRoutines;
 
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DriveStraight;
+import frc.robot.commands.DriveStraightOnHeading;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -14,6 +17,10 @@ public class NECMP_Score2Back_Charging_Level_3_Color_Red extends SequentialComma
   public NECMP_Score2Back_Charging_Level_3_Color_Red() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new NECMP_Score2Back_Charging_Level_X_Color_X(3,1));
+    addCommands(new NECMP_Score2_Charge_Level_X_Color_X(3,1));
+
+    // addCommands(new NECMP_Score2Back_Charging_Level_X_Color_X(3, 1));
+    // addCommands(new NECMP_DriveToThirdGamePiece(1));
+    
   }
 }

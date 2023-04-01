@@ -31,7 +31,7 @@ public class SystemPlaceCone_X_DriveOut extends SequentialCommandGroup {
         new SystemStowArm(),
         new SequentialCommandGroup(
             new DriveStraightOnHeading(-0.05, -.2, 20.0, 0.0),
-            new DriveStraightOnHeading(-0.2, 80.0, 0.0),
+            new DriveStraightOnHeading(-0.2, 150.0, 0.0),
             new DriveStraightOnHeading(-0.2, -0.05, 20.0, 0.0))));
   }
 }

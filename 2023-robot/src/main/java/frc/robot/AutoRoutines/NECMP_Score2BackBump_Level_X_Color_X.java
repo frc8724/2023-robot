@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArmGoto;
+import frc.robot.commands.ArmSystemGoTo;
 import frc.robot.commands.ClawDropCone;
 import frc.robot.commands.ClawRollerSet;
 import frc.robot.commands.DriveStraightOnHeading;
@@ -34,7 +35,7 @@ public class NECMP_Score2BackBump_Level_X_Color_X extends SequentialCommandGroup
                 new DriveStraightOnHeading(-0.4, 33, 0 * color),//Go straight
                 new DriveStraightOnHeading(-0.4, -0.15, 10, 0 * color),//Slow down
                 new DriveStraightOnHeading(-0.15, 15, 5 * color)), // Go over bump
-            new ArmGoto(Arm.ALMOST_STOW)));//Arm comes in
+            new ArmSystemGoTo(Arm.ALMOST_STOW)));//Arm comes in
     addCommands(
         new ParallelCommandGroup(
             new SequentialCommandGroup(

@@ -39,12 +39,12 @@ public class SystemPlaceCubeBack extends SequentialCommandGroup {
         // move teh shoulder and arm to score
         new ParallelCommandGroup(
             new SequentialCommandGroup(
-                new ShoulderGoto(Shoulder.LEVEL_X_PRESCORE[level]),
+                new ShoulderGoto(Shoulder.LEVEL_X_SCORE_CUBE[level]),
                 new ShoulderWaitForPosition()),
             new SequentialCommandGroup(
                 new ArmSystemGoTo(Arm.LEVEL_X_SCORE_Cube[level]))),
 
-        new ClawRollerSet(-.3));
+        new ClawRollerSet(-.45));
 
   }
 }

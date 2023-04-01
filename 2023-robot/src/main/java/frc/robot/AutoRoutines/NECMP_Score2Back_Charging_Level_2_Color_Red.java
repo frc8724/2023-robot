@@ -15,6 +15,7 @@ public class NECMP_Score2Back_Charging_Level_2_Color_Red extends SequentialComma
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     // addCommands(new NECMP_Score2Back_Charging_Level_X_Color_X(2, 1));
+
     addCommands(new NECMP_Score2_Charge_Level_X_Color_X(2,1));
   }
 }

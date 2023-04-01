@@ -16,5 +16,6 @@ public class NECMP_Score2Back_Charging_Level_3_Color_Blue extends SequentialComm
     // addCommands(new FooCommand(), new BarCommand());
     // addCommands(new NECMP_Score2Back_Charging_Level_X_Color_X(3, -1));
     addCommands(new NECMP_Score2_Charge_Level_X_Color_X(3,-1));
+    // addCommands(new NECMP_DriveToThirdGamePiece(-1));
   }
 }
