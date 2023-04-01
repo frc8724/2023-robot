@@ -63,12 +63,8 @@ public class RobotContainer {
     // addAuto(new NECMP_Score2_Charging_Level());
     // addAuto(new NECMP_Score3Back_Level_3_Color_Red());
 
-
     addAuto(new NECMP_Score2BackBump_Level_3_Color_Red());
     addAuto(new NECMP_Score2BackBump_Level_3_Color_Blue());
-
-
-
 
     addAuto(new NECMP_Score2BackGrabAnother_Level_3_Color_Red());
     addAuto(new NECMP_Score2BackGrabAnother_Level_3_Color_Blue());
@@ -79,8 +75,6 @@ public class RobotContainer {
     // addAuto(new NECMP_Score2Back_Charging_Level_2_Color_Blue());
     addAuto(new NECMP_Score2Back_Charging_Level_3_Color_Red());
     addAuto(new NECMP_Score2Back_Charging_Level_3_Color_Blue());
-
-
 
     addAuto(new Week1_PlaceCone_3_ChargingStation());
     // addAuto(new Week1_PlaceCone_2_ChargingStation());
@@ -94,7 +88,7 @@ public class RobotContainer {
     // addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Red());
     // addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Blue());
 
-// addAuto(new Week3_Bump_Score2_Level_2_Color_Red());
+    // addAuto(new Week3_Bump_Score2_Level_2_Color_Red());
     // addAuto(new Week3_Bump_Score2_Level_2_Color_Blue());
 
     // addAuto(new Week3_Place2_Level_3_Color_Red());
@@ -169,9 +163,23 @@ public class RobotContainer {
     // operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCubeBack(3));
 
     operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceGamePiece(3));
+    operatorPad.OPERATOR_PAD_BUTTON_FOUR.onFalse(
+        new SequentialCommandGroup(
+            new ArmSetPower(0.0, true),
+            new ArmBrakeSet(State.CLOSE)));
+
     operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceGamePiece(2));
+    operatorPad.OPERATOR_PAD_BUTTON_THREE.onFalse(
+        new SequentialCommandGroup(
+            new ArmSetPower(0.0, true),
+            new ArmBrakeSet(State.CLOSE)));
 
     operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemStowArm());
+    operatorPad.OPERATOR_PAD_BUTTON_TWO.onFalse(
+        new SequentialCommandGroup(
+            new ArmSetPower(0.0, true),
+            new ArmBrakeSet(State.CLOSE)));
+
     operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
 
     // operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new
