@@ -28,36 +28,39 @@ import frc.robot.subsystems.Shoulder;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class NECMP_Score2Back_Charging_Level_X_Color_X extends SequentialCommandGroup {
-    /** Creates a new Disricts_Score2_Charging_Color_X. */
-    public NECMP_Score2Back_Charging_Level_X_Color_X(int Level, int color) {
+        /** Creates a new Disricts_Score2_Charging_Color_X. */
+        public NECMP_Score2Back_Charging_Level_X_Color_X(int Level, int color) {
 
-        addCommands(new SystemZero());
-        addCommands(new SystemPlaceCone(Level));
+                addCommands(new SystemZero());
+                addCommands(new SystemPlaceCone(Level));
 
-        addCommands(new ClawDropCone());
-        addCommands(
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new DriveStraightOnHeading(-0.05, -0.45, 20.0, 0.0 * color),
-                                new DriveStraightOnHeading(-0.45, 158.0, -5.0 * color),
-                                new DriveStraightOnHeading(-0.45, -0.05, 24.0, -5.0 * color)),
-                        new SystemFloorPickUpBack()));
+                addCommands(new ClawDropCone());
+                addCommands(
+                                new ParallelCommandGroup(
+                                                new SequentialCommandGroup(
+                                                                new DriveStraightOnHeading(-0.05, -0.45, 20.0,
+                                                                                0.0 * color),
+                                                                new DriveStraightOnHeading(-0.45, 158.0, -10.0 * color),
+                                                                new DriveStraightOnHeading(-0.45, -0.05, 24.0,
+                                                                                -10.0 * color)),
+                                                new SystemFloorPickUpBack()));
 
-        // Drive Back
-        // addCommands(new WaitCommand(0.25));
-        addCommands(new DriveStraightOnHeading(0.05, 0.5, 24.0, 0.0 * color));
-        addCommands(
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new DriveStraightOnHeading(0.5, 160.0, 0.0 * color),
-                                new DriveStraightOnHeading(0.5, 0.05, 20.0, 0.0 * color)),
-                        new SequentialCommandGroup(
-                                new SystemPlaceCubeBack(Level))));
-        // addCommands(new ClawRollerSet(-.5));
+                // Drive Back
+                // addCommands(new WaitCommand(0.25));
+                addCommands(new DriveStraightOnHeading(0.05, 0.5, 24.0, 0.0 * color));
+                addCommands(
+                                new ParallelCommandGroup(
+                                                new SequentialCommandGroup(
+                                                                new DriveStraightOnHeading(0.5, 160.0, 0.0 * color),
+                                                                new DriveStraightOnHeading(0.5, 0.05, 20.0,
+                                                                                0.0 * color)),
+                                                new SequentialCommandGroup(
+                                                                new SystemPlaceCubeBack(Level))));
+                // addCommands(new ClawRollerSet(-.5));
 
-        // addCommands(new DriveStraightOnHeading( 0.05,0.4,30, 0));
-        // addCommands(new DriveStraightOnHeading( 0.4,120, 0));
-        // addCommands(new DriveStraightOnHeading( 0.4,0.05,30, 0));
+                // addCommands(new DriveStraightOnHeading( 0.05,0.4,30, 0));
+                // addCommands(new DriveStraightOnHeading( 0.4,120, 0));
+                // addCommands(new DriveStraightOnHeading( 0.4,0.05,30, 0));
 
-    }
+        }
 }

@@ -22,8 +22,8 @@ public class NECMP_DriveToThirdGamePiece extends SequentialCommandGroup {
             new SystemStowArm(),
             new SequentialCommandGroup(
                 new DriveStraightOnHeading(-0.05, -0.5, 20, 0 * color),
-                new DriveStraightOnHeading(-0.5, 150, 0 * color),
-                new DriveStraightOnHeading(-0.5, -0.1, 20, 0 * color))),
+                new DriveStraightOnHeading(-0.5, 150, 10 * color),
+                new DriveStraightOnHeading(-0.5, -0.1, 20, 10 * color))),
         new DriveStraightOnHeading(-0.01, 20, 90 * color)
 
     );

@@ -29,9 +29,9 @@ public class SystemFloorPickUpBack extends SequentialCommandGroup {
 
             new SequentialCommandGroup(
                 // open claw and start sucking
-                new WaitCommand(1),
+                new WaitCommand(.5),
                 new ClawPistonSet(ClawPiston.State.OPEN),
-                new ClawRollerSet(0.25)),
+                new ClawRollerSet(0.35)),
 
             new SequentialCommandGroup(
                 // extend arm
