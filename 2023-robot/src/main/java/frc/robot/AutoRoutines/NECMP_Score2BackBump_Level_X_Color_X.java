@@ -40,13 +40,13 @@ public class NECMP_Score2BackBump_Level_X_Color_X extends SequentialCommandGroup
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 // Go to cube
-                                new DriveStraightOnHeading(-0.15, -0.35, 21, 5 * color), // Speed up
-                                new DriveStraightOnHeading(-0.35, 95, 5 * color)), // Go straight
+                                new DriveStraightOnHeading(-0.15, -0.35, 21, 8 * color), // Speed up
+                                new DriveStraightOnHeading(-0.35, 95, 8 * color)), // Go straight
                         new SystemFloorPickUpBack()));// Arm flip over
         addCommands(
-                new DriveStraightOnHeading(-0.35, -0.1, 15, 0 * color),
+                new DriveStraightOnHeading(-0.35, -0.1, 15, 8 * color),
                 new ClawRollerSet(ClawRollers.SUCK_IN),
-                new DriveStraightOnHeading(-0.1, 5, 0 * color));
+                new DriveStraightOnHeading(-0.1, 5, 8 * color));
 
         addCommands(new DriveStraightOnHeading(0.05, 0.4, 20, 0 * color));
         addCommands(new DriveStraightOnHeading(0.4, 65, 0 * color));
