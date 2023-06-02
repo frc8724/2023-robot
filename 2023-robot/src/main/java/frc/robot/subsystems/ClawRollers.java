@@ -18,6 +18,9 @@ import frc.robot.Constants;
 
 /** Add your docs here. */
 public class ClawRollers extends SubsystemBase {
+    public static final double SUCK_IN = 0.25;
+    public static final double SPIT = -0.3;
+
     private final VictorSPX talon = new VictorSPX(Constants.Talon.ROLLER_TALON);
 
     /** Creates a new Arm. */

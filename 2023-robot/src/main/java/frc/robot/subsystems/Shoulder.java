@@ -20,15 +20,22 @@ import frc.robot.Constants;
 
 public class Shoulder extends SubsystemBase {
   public static final double[] LEVEL_X_PRESCORE = { 0.0, 2000.0, 75000.0, 82500.0 };
-  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 62000.0, 74000.0 };
-  public static final double HUMAN_PLAYER_STATION = 73000.0;
-  public static final double STOW = 1000.0;
+  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 53000.0, 74000.0 };
+  public static final double[] LEVEL_X_SCORE_CUBE = { 0.0, 2000.0, 57000.0, 76000.0 };
+
+  public static final double HUMAN_PLAYER_STATION = 74000.0;
+  public static final double STOW = 9000.0;
   public static final double FLOOR_PICKUP = 17000;
   public static final double CONE_STOW = 14000;
+  public static final double SCORE_TOLERANCE = 40000;
+  public static final double STRAIGHT_UP = 100000;
+  public static final double HUMAN_PLAYER_STATION_BACK = 190000;
+  public static final double BACK_ISH = 140000;
+  public static final double FLOOR_PICKUP_BACK = 250000;
 
-  static final double POSITION_SLOP = 2500.0;
+  public static final double POSITION_SLOP = 1000.0;
 
-  final double kWheelP = 0.015;
+  final double kWheelP = 0.09; // 0.015;
   final double kWheelI = 0.000;
   final double kWheelD = 0.000;
   final double kWheelF = 0.000;
@@ -96,8 +103,8 @@ public class Shoulder extends SubsystemBase {
 
     talon.configClosedLoopPeakOutput(slot, 1.0);
 
-    talon.configMotionCruiseVelocity(20000); // measured velocity of ~100K at 85%; set cruise to that
-    talon.configMotionAcceleration(20000); // acceleration of 2x velocity allows cruise to be attained in 1 second
+    talon.configMotionCruiseVelocity(40000); // measured velocity of ~100K at 85%; set cruise to that
+    talon.configMotionAcceleration(30000); // acceleration of 2x velocity allows cruise to be attained in 1 second
                                            // second
     talon.set(TalonFXControlMode.Position, 0.0);
   }
@@ -105,11 +112,11 @@ public class Shoulder extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("Shoulder Current Ticks",
-    // rightTalon.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Shoulder Current Ticks",
+        rightTalon.getSelectedSensorPosition());
     if (rightTalon.getControlMode() != ControlMode.PercentOutput) {
-      // SmartDashboard.putNumber("Shoulder Target Ticks",
-      // rightTalon.getClosedLoopTarget());
+      SmartDashboard.putNumber("Shoulder Target Ticks",
+          rightTalon.getClosedLoopTarget());
     }
 
     // wheelP = SmartDashboard.getNumber("Shoulder P", kWheelP);
@@ -121,7 +128,7 @@ public class Shoulder extends SubsystemBase {
     // // wheelF = SmartDashboard.getNumber("Shoulder F", kWheelF);
     // SmartDashboard.putNumber("Shoulder F", kWheelF);
 
-    // SmartDashboard.putBoolean("Shoulder at Position", isAtPosition());
+    SmartDashboard.putBoolean("Shoulder at Position", isAtPosition());
 
     // SmartDashboard.putNumber("Shoulder error", rightTalon.getClosedLoopError());
 
@@ -147,8 +154,12 @@ public class Shoulder extends SubsystemBase {
     return 0.0;
   }
 
-  public boolean isAtPosition() {
-    return Math.abs(getCurrentPositionInTicks() - TargetPositionTicks) < 3 * POSITION_SLOP;
+  private boolean isAtPosition() {
+    return isAtPosition(POSITION_SLOP);
+  }
+
+  public boolean isAtPosition(double tolerance) {
+    return Math.abs(getCurrentPositionInTicks() - TargetPositionTicks) < tolerance;
   }
 
   public void stop() {

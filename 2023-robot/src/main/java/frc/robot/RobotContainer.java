@@ -9,6 +9,8 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.ArmBrake.State;
 
+import java.util.Map;
+
 import org.mayheminc.util.LEDLights;
 import org.mayheminc.util.MayhemDriverPad;
 import org.mayheminc.util.MayhemOperatorPad;
@@ -17,6 +19,7 @@ import org.mayheminc.util.LEDLights.PatternID;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -43,7 +46,7 @@ public class RobotContainer {
   public static final PowerDist pdp = new PowerDist();
   public static final ClawColorSensor clawColor = new ClawColorSensor();
   public static final LEDLights ledLights = new LEDLights();
-  public static final Whacker whacker = new Whacker();
+  // public static final Whacker whacker = new Whacker();
 
   MayhemDriverPad driverPad = new MayhemDriverPad();
   MayhemOperatorPad operatorPad = new MayhemOperatorPad();
@@ -57,41 +60,44 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Red());
-    // addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Red());
-    addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Blue());
-    // addAuto(new Week3_Bump_Score1_Charging_Level_3_Color_Blue());
+    // addAuto(new NECMP_Score2_Charging_Level());
+    // addAuto(new NECMP_Score3Back_Level_3_Color_Red());
 
-    addAuto(new Week3_Bump_Score2_Level_2_Color_Red());
-    // addAuto(new Week3_Bump_Score2_Level_3_Color_Red());
-    addAuto(new Week3_Bump_Score2_Level_2_Color_Blue());
-    // addAuto(new Week3_Bump_Score2_Level_3_Color_Blue());
+    addAuto(new NECMP_Score2BackBump_Level_3_Color_Red());
+    addAuto(new NECMP_Score2BackBump_Level_3_Color_Blue());
 
-    // addAuto(new Week3_Place2_Level_2_Color_Red());
-    addAuto(new Week3_Place2_Level_3_Color_Red());
-    // addAuto(new Week3_Place2_Level_2_Color_Blue());
-    addAuto(new Week3_Place2_Level_3_Color_Blue());
+    addAuto(new NECMP_Score2BackGrabAnother_Level_3_Color_Red());
+    addAuto(new NECMP_Score2BackGrabAnother_Level_3_Color_Blue());
+    // addAuto(new NECMP_Score2BackGrabAnother_Level_2_Color_Red());
+    // addAuto(new NECMP_Score2BackGrabAnother_Level_2_Color_Blue());
 
-    addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Red());
-    // addAuto(new Week3_PlaceConeGetAnother_Charging_Level_3_Color_Red());
-    addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Blue());
-    // addAuto(new Week3_PlaceConeGetAnother_Charging_Level_3_Color_Blue());
+    // addAuto(new NECMP_Score2Back_Charging_Level_2_Color_Red());
+    // addAuto(new NECMP_Score2Back_Charging_Level_2_Color_Blue());
+    addAuto(new NECMP_Score2Back_Charging_Level_3_Color_Red());
+    addAuto(new NECMP_Score2Back_Charging_Level_3_Color_Blue());
 
-    addAuto(new DriveSystemOnChargingStation());
+    addAuto(new Week1_PlaceCone_3_ChargingStation());
+    // addAuto(new Week1_PlaceCone_2_ChargingStation());
+    addAuto(new Week1_PlaceCone_3_DriveOut());
+    // addAuto(new Week1_PlaceCone_2_DriveOut());
+    addAuto(new Week1_PlaceCone_3());
+    // addAuto(new Week1_PlaceCone_2());
+    addAuto(new Week1_DriveOut());
     addAuto(new Week1_StandStill());
 
-    addAuto(new Week1_DriveOut());
+    // addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Red());
+    // addAuto(new Week3_Bump_Score1_Charging_Level_2_Color_Blue());
 
-    addAuto(new Week1_PlaceCone_2());
-    addAuto(new Week1_PlaceCone_2_DriveOut());
-    addAuto(new Week1_PlaceCone_2_ChargingStation());
+    // addAuto(new Week3_Bump_Score2_Level_2_Color_Red());
+    // addAuto(new Week3_Bump_Score2_Level_2_Color_Blue());
 
-    addAuto(new Week1_PlaceCone_3());
-    addAuto(new Week1_PlaceCone_3_DriveOut());
-    addAuto(new Week1_PlaceCone_3_ChargingStation());
+    // addAuto(new Week3_Place2_Level_3_Color_Red());
+    // addAuto(new Week3_Place2_Level_3_Color_Blue());
 
-    addAuto(new Test_Drive());
+    // addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Red());
+    // addAuto(new Week3_PlaceConeGetAnother_Charging_Level_2_Color_Blue());
 
+    // addAuto(new DriveSystemOnChargingStation());
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
 
@@ -112,6 +118,8 @@ public class RobotContainer {
     configureDriverPadButtons();
     configureOperatorPadButtons();
     configureDriverStick();
+
+    clawColor.gamePieceTrigger.onTrue(new LedLightsSet(PatternID.BPM_LAVA_PALETTE).withTimeout(1.0));
   }
 
   private void configureDriverPadButtons() {
@@ -138,10 +146,11 @@ public class RobotContainer {
     // driverPad.DRIVER_PAD_LEFT_UPPER_TRIGGER_BUTTON.onFalse(new
     // LimelightSetPipeline(0));
 
-    driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerToggle());
+    // driverPad.DRIVER_PAD_LEFT_LOWER_TRIGGER_BUTTON.onTrue(new WhackerToggle());
 
     driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.onTrue(new DriveBrakeMode(true));
     driverPad.DRIVER_PAD_RIGHT_LOWER_TRIGGER_BUTTON.onFalse(new DriveBrakeMode(false));
+    // driverPad.DRIVER_PAD_D_PAD_UP.whileTrue(new DriveGetLevel());
 
   }
 
@@ -151,10 +160,39 @@ public class RobotContainer {
   private void configureOperatorPadButtons() {
     // SmartDashboard.putString("Debug", "configureOperatorPadButtons");
 
-    operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCone(3));
-    operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceCone(2));
+    // operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceCubeBack(3));
+
+    operatorPad.OPERATOR_PAD_BUTTON_FOUR.whileTrue(new SystemPlaceGamePiece(3));
+    operatorPad.OPERATOR_PAD_BUTTON_FOUR.onFalse(
+        new SequentialCommandGroup(
+            new ArmSetPower(0.0, true),
+            new ArmBrakeSet(State.CLOSE)));
+
+    operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new SystemPlaceGamePiece(2));
+    operatorPad.OPERATOR_PAD_BUTTON_THREE.onFalse(
+        new SequentialCommandGroup(
+            new ArmSetPower(0.0, true),
+            new ArmBrakeSet(State.CLOSE)));
+
     operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new SystemStowArm());
+    operatorPad.OPERATOR_PAD_BUTTON_TWO.onFalse(
+        new SequentialCommandGroup(
+            new ArmSetPower(0.0, true),
+            new ArmBrakeSet(State.CLOSE)));
+
     operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new SystemGrabFromHumanPlayer());
+
+    // operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new
+    // ArmSystemGoTo(Arm.ALMOST_STOW));
+    // operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new
+    // ArmSystemGoTo(Arm.LEVEL_X_SCORE[3]));
+
+    // operatorPad.OPERATOR_PAD_BUTTON_TWO.whileTrue(new
+    // ShoulderGoto(Shoulder.FLOOR_PICKUP));
+    // operatorPad.OPERATOR_PAD_BUTTON_ONE.whileTrue(new
+    // ShoulderGoto(Shoulder.LEVEL_X_PRESCORE[3]));
+    // operatorPad.OPERATOR_PAD_BUTTON_THREE.whileTrue(new ShoulderGoto(190000));
+
     // operatorPad.OPERATOR_PAD_BUTTON_ONE.onFalse(new SystemStowArm());
 
     // operatorPad.OPERATOR_PAD_BUTTON_ONE.onTrue(new ShoulderGoto(68600.));
@@ -165,9 +203,19 @@ public class RobotContainer {
     operatorPad.OPERATOR_PAD_D_PAD_DOWN.onTrue(new LedLightsSet(PatternID.COLOR_2_STROBE).withTimeout(10.0));
 
     // operatorPad.OPERATOR_PAD_D_PAD_DOWN.whileTrue(new SystemGrabAndStow());
-    operatorPad.OPERATOR_PAD_D_PAD_LEFT.whileTrue(new SystemFloorPickUp());
+    operatorPad.OPERATOR_PAD_D_PAD_LEFT.whileTrue(
+        new SequentialCommandGroup(
+            new SelectCommand(
+                Map.ofEntries(
+                    Map.entry(false, new ArmSystemGoTo(Arm.ALMOST_STOW)),
+                    Map.entry(true, new WaitCommand(0.0))),
+                () -> RobotContainer.arm.getCurrentPosition() < Arm.ALMOST_STOW + 1000), // check if the shoulder is
+                                                                                         // close to position, also.
+            new SystemFloorPickUp()));
     operatorPad.OPERATOR_PAD_D_PAD_LEFT.onFalse(new ArmBrakeSet(ArmBrake.State.CLOSE));
     operatorPad.OPERATOR_PAD_D_PAD_LEFT.onFalse(new ArmSetPower(0.0));
+
+    operatorPad.OPERATOR_PAD_D_PAD_RIGHT.whileTrue(new SystemGrabFromHumanPlayerBack());
 
     // debug
     // operatorPad.OPERATOR_PAD_D_PAD_LEFT.onTrue(new
@@ -184,7 +232,7 @@ public class RobotContainer {
     // operatorPad.OPERATOR_PAD_BUTTON_FIVE.onFalse(new SequentialCommandGroup(
     // new ArmBrakeSet(State.CLOSE), new ArmSetPower(0.0)));
 
-    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawRollerSet(-0.5));
+    operatorPad.OPERATOR_PAD_BUTTON_EIGHT.whileTrue(new ClawRollerSet(-0.4));
     operatorPad.OPERATOR_PAD_BUTTON_EIGHT.onFalse(new ClawRollerSet(0.00));
 
     // Claw Pistons Right Triggers
@@ -203,12 +251,12 @@ public class RobotContainer {
     // Arm manual in/out
     operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.whileTrue(
         new SequentialCommandGroup(new ArmBrakeSet(State.OPEN),
-            new WaitCommand(.2),
+            new WaitCommand(ArmBrake.OPEN_TIME_SEC),
             new ArmSetPower(0.10)));
     operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_UP.onFalse(new ArmBrakeSet(State.CLOSE));
     operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.whileTrue(
         new SequentialCommandGroup(new ArmBrakeSet(State.OPEN),
-            new WaitCommand(.2),
+            new WaitCommand(ArmBrake.OPEN_TIME_SEC),
             new ArmSetPower(-0.10)));
     operatorPad.OPERATOR_PAD_LEFT_Y_AXIS_DOWN.onFalse(new ArmBrakeSet(State.CLOSE));
 

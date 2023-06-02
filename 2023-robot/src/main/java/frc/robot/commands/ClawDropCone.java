@@ -12,7 +12,6 @@ public class ClawDropCone extends SequentialCommandGroup {
   /** Creates a new ClawDropCone. */
   public ClawDropCone() {
     addCommands(new ClawPistonSet(State.OPEN));
-    addCommands(new WaitCommand(0.5));
     // addCommands(new Shoul);
   }
 }

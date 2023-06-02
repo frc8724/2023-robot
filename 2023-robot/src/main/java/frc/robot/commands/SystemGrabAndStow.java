@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ClawPiston.State;
 import frc.robot.subsystems.Shoulder;
+import frc.robot.subsystems.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,6 +23,9 @@ public class SystemGrabAndStow extends SequentialCommandGroup {
     // retract the arm
     addCommands(new ArmSystemGoTo(Arm.ALMOST_STOW));
     addCommands(new ArmWaitForPosition());
+    addCommands(new ArmSetPower(0.0, true));
+    addCommands(new ArmBrakeSet(ArmBrake.State.CLOSE));
+
     // lower the shoulder
     addCommands(new ShoulderGoto(Shoulder.STOW));
     addCommands(new ShoulderWaitForPosition());

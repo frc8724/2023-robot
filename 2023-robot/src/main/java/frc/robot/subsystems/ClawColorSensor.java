@@ -8,10 +8,17 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.LedLightsSet;
+
+import org.mayheminc.util.LEDLights.PatternID;
+
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.ColorSensorMeasurementRate;
 import com.revrobotics.ColorSensorV3.ColorSensorResolution;
 import com.revrobotics.ColorSensorV3.GainFactor;
+import com.revrobotics.ColorSensorV3.ProximitySensorMeasurementRate;
+import com.revrobotics.ColorSensorV3.ProximitySensorResolution;
 
 public class ClawColorSensor extends SubsystemBase {
 
@@ -20,33 +27,46 @@ public class ClawColorSensor extends SubsystemBase {
 
   final double[] CONE_COLORS_RGB = { 0.37, 0.54, 0.08 };
 
-  final double COLOR_SLOP = 0.03;
+  final double COLOR_SLOP = 0.05;
+
+  // I2C.Port i2cPort = I2C.Port.kOnboard;
+  I2C.Port i2cPort = I2C.Port.kMXP;
+
+  ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
   Color detectedColor = Color.kAqua;
+  int proximity;
   int colorCount;
   Thread thread;
   double r;
   double g = 1.23;
   double b;
 
+  public Trigger gamePieceTrigger = new Trigger(() -> isGamePiece());
+
   /** Creates a new ClawColorSensor. */
   public ClawColorSensor() {
-    // thread = new Thread(() -> Run());
-    // thread.start();
+    thread = new Thread(() -> Run());
+    thread.start();
   }
-
-  I2C.Port i2cPort = I2C.Port.kOnboard;
-  ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
   private void Run() {
     m_colorSensor.configureColorSensor(ColorSensorResolution.kColorSensorRes13bit,
         ColorSensorMeasurementRate.kColorRate100ms, GainFactor.kGain3x);
+    m_colorSensor.configureProximitySensor(ProximitySensorResolution.kProxRes8bit,
+        ProximitySensorMeasurementRate.kProxRate25ms);
     while (true) {
+      ReadColorSensor();
+      try {
+        Thread.sleep(100, 0);
+      } catch (Exception ex) {
+      }
     }
   }
 
   private void ReadColorSensor() {
     Color c = m_colorSensor.getColor();
+    proximity = m_colorSensor.getProximity();
     setColor(c);
     // SmartDashboard.putNumber("Color x", c.red);
   }
@@ -88,16 +108,16 @@ public class ClawColorSensor extends SubsystemBase {
     // ReadColorSensor();
     // detectedColor = m_colorSensor.getColor();
 
-    // SmartDashboard.putNumber("Color Red X", detectedColor.red);
+    SmartDashboard.putNumber("Color Red X", detectedColor.red);
 
-    // SmartDashboard.putNumber("Color Red", getR());
-    // SmartDashboard.putNumber("Color Green", getG());
-    // SmartDashboard.putNumber("Color Blue", getB());
+    SmartDashboard.putNumber("Color Red", getR());
+    SmartDashboard.putNumber("Color Green", getG());
+    SmartDashboard.putNumber("Color Blue", getB());
 
-    // SmartDashboard.putNumber("Color Count", getCount());
+    SmartDashboard.putNumber("Color Count", getCount());
 
-    // SmartDashboard.putBoolean("Is Cone", isCone());
-    // SmartDashboard.putBoolean("Is Cube", isCube());
+    SmartDashboard.putBoolean("Is Cone", isCone());
+    SmartDashboard.putBoolean("Is Cube", isCube());
   }
 
   public boolean isCube() {
@@ -116,5 +136,9 @@ public class ClawColorSensor extends SubsystemBase {
     return Math.abs(c.red - CONE_COLORS_RGB[0]) < COLOR_SLOP &&
         Math.abs(c.green - CONE_COLORS_RGB[1]) < COLOR_SLOP &&
         Math.abs(c.blue - CONE_COLORS_RGB[2]) < COLOR_SLOP;
+  }
+
+  public boolean isGamePiece() {
+    return isCone() || isCube();
   }
 }

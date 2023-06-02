@@ -9,12 +9,12 @@ import frc.robot.RobotContainer;
 
 public class WhackerToggle extends InstantCommand {
   public WhackerToggle() {
-    addRequirements(RobotContainer.whacker);
+    // addRequirements(RobotContainer.whacker);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.whacker.toggle();
+    // RobotContainer.whacker.toggle();
   }
 }

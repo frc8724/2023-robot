@@ -251,7 +251,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
                     rotation = 0.0;
                     // System.out.println("Drive: drive straight");
                 } else if (m_iterationsSinceRotationCommanded > LOOPS_GYRO_DELAY
-                        && DriverStation.isAutonomous()) {
+                        // && DriverStation.isAutonomous()
+                        ) {
                     // after more then LOOPS_GYRO_DELAY iterations since commanded turn,
                     // maintain the target heading
                     rotation = headingCorrection.maintainHeading();

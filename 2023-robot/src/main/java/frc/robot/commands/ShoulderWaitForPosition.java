@@ -6,11 +6,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Shoulder;
 
 public class ShoulderWaitForPosition extends CommandBase {
+  double tolerance;
+
   /** Creates a new ShoulderWaitForPosition. */
   public ShoulderWaitForPosition() {
-    addRequirements(RobotContainer.shoulder);
+    this(Shoulder.POSITION_SLOP);
+  }
+
+  public ShoulderWaitForPosition(double t) {
+    // addRequirements(RobotContainer.shoulder); // Don't require because we are
+    // only reading, not controlling
+    tolerance = t;
   }
 
   // Called when the command is initially scheduled.
@@ -34,6 +43,6 @@ public class ShoulderWaitForPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.shoulder.isAtPosition();
+    return RobotContainer.shoulder.isAtPosition(tolerance);
   }
 }

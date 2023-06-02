@@ -22,12 +22,15 @@ import frc.robot.subsystems.ArmBrake.State;
 public class Arm extends SubsystemBase {
 
   // static final double TICKS_PER_INCH = 3442;
-  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 45000.0, 112000.0 };
+  public static final double[] LEVEL_X_SCORE = { 0.0, 2000.0, 45000.0, 119000.0 };
+  public static final double[] LEVEL_X_SCORE_Cube = { 0.0, 2000.0, 32000.0, 80000.0 };
+
   public static final double HUMAN_PLAYER_STATION = 20000.0;
   public static final double ALMOST_STOW = 500.0;
   public static final double FLOOR_PICKUP = 35000.0;
+  public static final double FLOOR_PICKUP_BACK = 36700;
 
-  static final double POSITION_SLOP = 1000.0;
+  public static final double POSITION_SLOP = 1000.0;
   static final double CLOSED_LOOP_RAMP_RATE = 1.0; // todo: lower this value
 
   private final MayhemTalonFX talon = new MayhemTalonFX(Constants.Talon.ARM_FALCON, CurrentLimit.HIGH_CURRENT);
@@ -49,9 +52,9 @@ public class Arm extends SubsystemBase {
     talon.config_kD(0, 50.0);
     talon.config_kF(0, 0.0);
 
-    talon.configMotionCruiseVelocity(1000); // measured velocity of ~100K at 85%; set cruise to that
-    talon.configMotionAcceleration(1 * 3400); // acceleration of 2x velocity allows cruise to be attained in 1
-                                              // second
+    talon.configMotionCruiseVelocity(60000); // measured velocity of ~100K at 85%; set cruise to that
+    talon.configMotionAcceleration(1 * 40000); // acceleration of 2x velocity allows cruise to be attained in 1
+                                               // second
     // second
 
     talon.configAllowableClosedloopError(0, POSITION_SLOP, 0);
@@ -69,8 +72,8 @@ public class Arm extends SubsystemBase {
     }
 
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("Arm Position", getCurrentPosition());
-    // SmartDashboard.putNumber("Arm Target", getTargetPosition());
+    SmartDashboard.putNumber("Arm Position", getCurrentPosition());
+    SmartDashboard.putNumber("Arm Target", getTargetPosition());
     // SmartDashboard.putNumber("Arm Error", talon.getClosedLoopError());
     // SmartDashboard.putNumber("Arm Error 2", Math.abs(getCurrentPosition() -
     // getTargetPosition()));
@@ -106,12 +109,12 @@ public class Arm extends SubsystemBase {
   public void setInTicks(double p) {
     m_targetPosition = p;
     manualMode = false;
-    talon.set(ControlMode.Position, p);
+    talon.set(ControlMode.MotionMagic, p);
   }
 
-  public boolean isAtPosition() {
+  public boolean isAtPosition(double tolerance) {
     return Math.abs(getCurrentPosition() - m_targetPosition) < 5 *
-        POSITION_SLOP;
+        tolerance;
   }
 
   public void stop() {
