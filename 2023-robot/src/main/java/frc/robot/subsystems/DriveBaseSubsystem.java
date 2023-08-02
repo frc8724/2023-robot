@@ -26,14 +26,16 @@ public class DriveBaseSubsystem extends SubsystemBase {
     HeadingCorrection headingCorrection = new HeadingCorrection();
 
     // Talons
-    private final MayhemTalonFX leftTalon1 = new MayhemTalonFX(Constants.Talon.DRIVE_LEFT_TOP,
-            CurrentLimit.HIGH_CURRENT);
+    // private final MayhemTalonFX leftTalon1 = new
+    // MayhemTalonFX(Constants.Talon.DRIVE_LEFT_TOP,
+    // CurrentLimit.HIGH_CURRENT);
     private final MayhemTalonFX leftTalon2 = new MayhemTalonFX(Constants.Talon.DRIVE_LEFT_FRONT,
             CurrentLimit.HIGH_CURRENT);
     private final MayhemTalonFX leftTalon3 = new MayhemTalonFX(Constants.Talon.DRIVE_LEFT_BOTTOM,
             CurrentLimit.HIGH_CURRENT);
-    private final MayhemTalonFX rightTalon1 = new MayhemTalonFX(Constants.Talon.DRIVE_RIGHT_TOP,
-            CurrentLimit.HIGH_CURRENT);
+    // private final MayhemTalonFX rightTalon1 = new
+    // MayhemTalonFX(Constants.Talon.DRIVE_RIGHT_TOP,
+    // CurrentLimit.HIGH_CURRENT);
     private final MayhemTalonFX rightTalon2 = new MayhemTalonFX(Constants.Talon.DRIVE_RIGHT_FRONT,
             CurrentLimit.HIGH_CURRENT);
     private final MayhemTalonFX rightTalon3 = new MayhemTalonFX(Constants.Talon.DRIVE_RIGHT_BOTTOM,
@@ -71,23 +73,23 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     public DriveBaseSubsystem() {
         // set rear talons to follow their respective front talons
-        leftTalon2.follow(leftTalon1);
-        leftTalon3.follow(leftTalon1);
-        rightTalon2.follow(rightTalon1);
-        rightTalon3.follow(rightTalon1);
+        // leftTalon2.follow(leftTalon1);
+        leftTalon3.follow(leftTalon2);
+        // rightTalon2.follow(rightTalon1);
+        rightTalon3.follow(rightTalon2);
 
         // the left motors move the robot forwards with positive power
         // but the right motors are backwards.
-        leftTalon1.setInverted(false);
+        // leftTalon1.setInverted(false);
         leftTalon2.setInverted(false);
         leftTalon3.setInverted(false);
-        rightTalon1.setInverted(true);
+        // rightTalon1.setInverted(true);
         rightTalon2.setInverted(true);
         rightTalon3.setInverted(true);
 
         // talon closed loop config
-        configureDriveTalon(leftTalon1);
-        configureDriveTalon(rightTalon1);
+        configureDriveTalon(leftTalon2);
+        configureDriveTalon(rightTalon2);
 
         headingCorrection.zeroHeadingGyro(0.0);
     }
@@ -142,11 +144,11 @@ public class DriveBaseSubsystem extends SubsystemBase {
     // ********************* ENCODER-GETTERS ************************************
 
     private double getRightEncoder() {
-        return rightTalon1.getSelectedSensorPosition(0);
+        return rightTalon2.getSelectedSensorPosition(0);
     }
 
     private double getLeftEncoder() {
-        return leftTalon1.getSelectedSensorPosition(0);
+        return leftTalon2.getSelectedSensorPosition(0);
     }
 
     static private final double STATIONARY = 0.1;
@@ -181,11 +183,11 @@ public class DriveBaseSubsystem extends SubsystemBase {
             leftPower = -1.0;
 
         if (m_closedLoopMode) {
-            rightTalon1.set(ControlMode.Velocity, rightPower * m_maxWheelSpeed);
-            leftTalon1.set(ControlMode.Velocity, leftPower * m_maxWheelSpeed);
+            rightTalon2.set(ControlMode.Velocity, rightPower * m_maxWheelSpeed);
+            leftTalon2.set(ControlMode.Velocity, leftPower * m_maxWheelSpeed);
         } else {
-            rightTalon1.set(ControlMode.PercentOutput, rightPower);
-            leftTalon1.set(ControlMode.PercentOutput, leftPower);
+            rightTalon2.set(ControlMode.PercentOutput, rightPower);
+            leftTalon2.set(ControlMode.PercentOutput, leftPower);
         }
     }
 
@@ -251,8 +253,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
                     rotation = 0.0;
                     // System.out.println("Drive: drive straight");
                 } else if (m_iterationsSinceRotationCommanded > LOOPS_GYRO_DELAY
-                        // && DriverStation.isAutonomous()
-                        ) {
+                // && DriverStation.isAutonomous()
+                ) {
                     // after more then LOOPS_GYRO_DELAY iterations since commanded turn,
                     // maintain the target heading
                     rotation = headingCorrection.maintainHeading();
@@ -341,10 +343,9 @@ public class DriveBaseSubsystem extends SubsystemBase {
         headingCorrection.periodic();
         updateHistory();
         updateSmartDashboard();
-        m_odometry.update(
-                Rotation2d.fromDegrees(headingCorrection.getHeading()),
-                convertTicksToMeters(leftTalon1.getSelectedSensorPosition()),
-                convertTicksToMeters(rightTalon1.getSelectedSensorPosition()));
+        m_odometry.update(Rotation2d.fromDegrees(headingCorrection.getHeading()),
+                convertTicksToMeters(leftTalon2.getSelectedSensorPosition()),
+                convertTicksToMeters(rightTalon2.getSelectedSensorPosition()));
     }
 
     double driveCount;
@@ -484,8 +485,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
         m_lastLeftPercent = leftVolts;
         m_lastRightPercent = rightVolts;
 
-        leftTalon1.set(TalonFXControlMode.PercentOutput, leftVolts);
-        rightTalon1.set(TalonFXControlMode.PercentOutput, rightVolts);
+        leftTalon2.set(TalonFXControlMode.PercentOutput, leftVolts);
+        rightTalon2.set(TalonFXControlMode.PercentOutput, rightVolts);
     }
 
     /**
@@ -503,18 +504,20 @@ public class DriveBaseSubsystem extends SubsystemBase {
      * @return The current wheel speeds.
      */
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-        return new DifferentialDriveWheelSpeeds(
-                convertTicksToMeters(leftTalon1.getSelectedSensorVelocity() * 10), // *10 because it returns ticks per
-                                                                                   // 100ms
-                convertTicksToMeters(rightTalon1.getSelectedSensorVelocity() * 10));
+        return new DifferentialDriveWheelSpeeds(convertTicksToMeters(leftTalon2.getSelectedSensorVelocity() * 10), // *10
+                                                                                                                   // because
+                                                                                                                   // it
+                                                                                                                   // returns
+                                                                                                                   // ticks
+                                                                                                                   // per
+                                                                                                                   // 100ms
+                convertTicksToMeters(rightTalon2.getSelectedSensorVelocity() * 10));
     }
 
     public void resetOdometry(Pose2d pose) {
-        leftTalon1.setSelectedSensorPosition(0.0);
-        rightTalon1.setSelectedSensorPosition(0.0);
-        m_odometry.resetPosition(
-                Rotation2d.fromDegrees(headingCorrection.getHeading()), 0.0,
-                0.0, pose);
+        leftTalon2.setSelectedSensorPosition(0.0);
+        rightTalon2.setSelectedSensorPosition(0.0);
+        m_odometry.resetPosition(Rotation2d.fromDegrees(headingCorrection.getHeading()), 0.0, 0.0, pose);
     }
 
     public void setBrake(boolean b) {
@@ -522,8 +525,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
         if (b) {
             // brake mode in the motors
-            leftTalon1.setNeutralMode(NeutralMode.Brake);
-            rightTalon1.setNeutralMode(NeutralMode.Brake);
+            rightTalon2.setNeutralMode(NeutralMode.Brake);
+            leftTalon2.setNeutralMode(NeutralMode.Brake);
 
             // // set the encoder position to 0.0
             // leftTalon1.setSelectedSensorPosition(0.0);
@@ -533,8 +536,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
             // leftTalon1.set(ControlMode.Position, 0.0);
             // rightTalon1.set(ControlMode.Position, 0.0);
         } else {
-            leftTalon1.setNeutralMode(NeutralMode.Coast);
-            rightTalon1.setNeutralMode(NeutralMode.Coast);
+            leftTalon2.setNeutralMode(NeutralMode.Coast);
+            rightTalon2.setNeutralMode(NeutralMode.Coast);
         }
     }
 }
